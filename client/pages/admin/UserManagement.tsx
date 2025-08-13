@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useRBACStore } from '@/stores/rbacStore';
-import { Role, RBACUser } from '@shared/rbac';
+import { Role, RBACUser, ROLE_PERMISSIONS } from '@shared/rbac';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
