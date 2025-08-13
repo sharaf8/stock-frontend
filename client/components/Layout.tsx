@@ -61,6 +61,7 @@ export default function Layout({ children }: LayoutProps) {
     { name: t('navigation.sales'), href: "/sales", icon: ShoppingCart },
     { name: t('navigation.finance'), href: "/finance", icon: DollarSign },
     { name: t('navigation.employees'), href: "/employees", icon: UserPlus },
+    { name: 'User Management', href: "/admin/users", icon: Shield },
     { name: t('navigation.settings'), href: "/settings", icon: Settings },
   ];
 
