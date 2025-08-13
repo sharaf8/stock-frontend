@@ -2,6 +2,16 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import { handleDemo } from "./routes/demo";
+import {
+  getUsers,
+  getUserById,
+  updateUserRole,
+  updateUserStatus,
+  getRolePermissions,
+  getAllRoles,
+  checkPermissions,
+  getAuditLogs
+} from "./routes/rbac";
 
 export function createServer() {
   const app = express();
