@@ -17,7 +17,6 @@ interface AuthState {
   accessToken: string | null;
   refreshToken: string | null;
   login: (email: string, password: string) => Promise<boolean>;
-  register: (name: string, email: string, password: string) => Promise<boolean>;
   logout: () => void;
   forgotPassword: (email: string) => Promise<boolean>;
   updateUserRole: (newRole: Role) => void;
