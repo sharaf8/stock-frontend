@@ -115,59 +115,6 @@ export const useAuthStore = create<AuthState>()(
         }
       },
 
-      register: async (name: string, email: string, password: string) => {
-        try {
-          set({ isLoading: true });
-
-          // Mock registration - simulate API delay
-          await new Promise(resolve => setTimeout(resolve, 1000));
-
-          // Check if email already exists (mock validation)
-          const existingEmails = ['admin@example.com', 'manager@example.com', 'employee@example.com', 'viewer@example.com'];
-
-          if (existingEmails.includes(email)) {
-            set({ isLoading: false });
-            return false; // Email already exists
-          }
-
-          // Create new user with default role
-          const newUserId = Date.now().toString();
-          const user: User = {
-            id: newUserId,
-            email,
-            name,
-            role: 'employee' as Role, // Default role for new registrations
-            avatar: undefined,
-          };
-
-          // Create mock access token
-          const mockAccessToken = btoa(JSON.stringify({
-            sub: user.id,
-            email: user.email,
-            name: user.name,
-            role: user.role,
-            exp: Date.now() + 3600000 // 1 hour
-          }));
-
-          set({
-            user,
-            accessToken: mockAccessToken,
-            refreshToken: 'mock_refresh_token',
-            isAuthenticated: true,
-            isLoading: false,
-          });
-
-          // Initialize RBAC store
-          const { useRBACStore } = await import('./rbacStore');
-          useRBACStore.getState().initializeFromAuth(user);
-
-          return true;
-        } catch (error) {
-          console.error('Register error:', error);
-          set({ isLoading: false });
-          return false;
-        }
-      },
 
       logout: () => {
         set({
