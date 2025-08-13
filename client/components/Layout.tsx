@@ -18,6 +18,7 @@ import {
   UserPlus,
   Settings,
   Shield,
+  UserCheck,
   Menu,
   Moon,
   Sun,
