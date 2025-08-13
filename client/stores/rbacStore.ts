@@ -316,12 +316,15 @@ export const useRBACStore = create<RBACState>()(
           return;
         }
 
+        const userRole = user.role as Role;
+        const validRole = ROLE_PERMISSIONS[userRole] ? userRole : 'viewer';
+
         const rbacUser: RBACUser = {
           id: user.id,
           email: user.email,
           name: user.name,
-          role: user.role as Role,
-          permissions: ROLE_PERMISSIONS[user.role as Role] || [],
+          role: validRole,
+          permissions: ROLE_PERMISSIONS[validRole] || [],
           avatar: user.avatar,
           status: 'active',
           createdAt: new Date(),
