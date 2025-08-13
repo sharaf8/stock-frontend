@@ -36,47 +36,79 @@ export const useAuthStore = create<AuthState>()(
         try {
           set({ isLoading: true });
 
-          const response = await fetch('http://localhost:5002/api/auth/sign-in', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
+          // Mock authentication - simulate API delay
+          await new Promise(resolve => setTimeout(resolve, 1000));
+
+          // Mock users for demonstration
+          const mockUsers = [
+            {
+              id: '1',
+              email: 'admin@example.com',
+              name: 'System Admin',
+              role: 'super_admin' as Role,
+              password: 'admin123'
             },
-            body: JSON.stringify({ email, password })
-          });
+            {
+              id: '2',
+              email: 'manager@example.com',
+              name: 'Department Manager',
+              role: 'manager' as Role,
+              password: 'manager123'
+            },
+            {
+              id: '3',
+              email: 'employee@example.com',
+              name: 'Team Member',
+              role: 'employee' as Role,
+              password: 'employee123'
+            },
+            {
+              id: '4',
+              email: 'viewer@example.com',
+              name: 'System Viewer',
+              role: 'viewer' as Role,
+              password: 'viewer123'
+            }
+          ];
 
-          const data = await response.json();
+          // Find user by email and validate password
+          const foundUser = mockUsers.find(u => u.email === email);
 
-          if (data.ok && data.result) {
-            const { accessToken, refreshToken } = data.result;
-
-            // Decode JWT
-            const decoded: any = JSON.parse(atob(accessToken.split('.')[1]));
-
-            const user: User = {
-              id: decoded.sub,
-              email: decoded.email,
-              name: decoded.name || '',
-              role: decoded.role,
-              avatar: decoded.avatar || undefined
-            };
-
-            set({
-              user,
-              accessToken,
-              refreshToken,
-              isAuthenticated: true,
-              isLoading: false
-            });
-
-            // Initialize RBAC store
-            const { useRBACStore } = await import('./rbacStore');
-            useRBACStore.getState().initializeFromAuth(user);
-
-            return true;
-          } else {
+          if (!foundUser || foundUser.password !== password) {
             set({ isLoading: false });
             return false;
           }
+
+          // Create mock tokens (in real app, these would come from server)
+          const mockAccessToken = btoa(JSON.stringify({
+            sub: foundUser.id,
+            email: foundUser.email,
+            name: foundUser.name,
+            role: foundUser.role,
+            exp: Date.now() + 3600000 // 1 hour
+          }));
+
+          const user: User = {
+            id: foundUser.id,
+            email: foundUser.email,
+            name: foundUser.name,
+            role: foundUser.role,
+            avatar: undefined
+          };
+
+          set({
+            user,
+            accessToken: mockAccessToken,
+            refreshToken: 'mock_refresh_token',
+            isAuthenticated: true,
+            isLoading: false
+          });
+
+          // Initialize RBAC store
+          const { useRBACStore } = await import('./rbacStore');
+          useRBACStore.getState().initializeFromAuth(user);
+
+          return true;
         } catch (error) {
           console.error('Login error:', error);
           set({ isLoading: false });
