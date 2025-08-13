@@ -69,14 +69,21 @@ const roleConfig: Record<Role, {
   }
 };
 
-export default function RoleBadge({ 
-  role, 
-  showIcon = true, 
+export default function RoleBadge({
+  role,
+  showIcon = true,
   variant = 'default',
   size = 'default',
-  className 
+  className
 }: RoleBadgeProps) {
-  const config = roleConfig[role];
+  const config = roleConfig[role] || {
+    label: role ? role.replace('_', ' ').split(' ').map(word =>
+      word.charAt(0).toUpperCase() + word.slice(1)
+    ).join(' ') : 'Unknown Role',
+    icon: User,
+    color: 'text-gray-700',
+    bgColor: 'bg-gray-100 hover:bg-gray-200 border-gray-300'
+  };
   const Icon = config.icon;
 
   if (variant === 'outline') {
