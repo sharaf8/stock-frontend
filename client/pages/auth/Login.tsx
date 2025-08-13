@@ -69,8 +69,9 @@ export default function Login() {
           </div>
         </div>
 
-        {/* Login Form */}
-        <Card className="shadow-xl border-0">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Login Form */}
+          <Card className="shadow-xl border-0">
           <CardHeader className="space-y-1 text-center">
             <CardTitle className="text-2xl font-bold">Welcome back</CardTitle>
             <CardDescription>
@@ -174,12 +175,14 @@ export default function Login() {
               </div>
             </div>
 
-            {/* Demo Credentials */}
-            <div className="mt-6">
-              <DemoCredentials onCredentialSelect={handleCredentialSelect} />
-            </div>
           </CardContent>
         </Card>
+
+        {/* Demo Credentials */}
+        <div className="">
+          <DemoCredentials onCredentialSelect={handleCredentialSelect} />
+        </div>
+      </div>
       </div>
     </div>
   );
