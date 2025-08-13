@@ -78,13 +78,38 @@ const App = () => {
                 <ProtectedRoute>
                   <Layout>
                     <Routes>
-                      <Route path="/" element={<Dashboard />} />
+                      <Route path="/" element={<Navigate to="/dashboard" replace />} />
+                      <Route path="/dashboard" element={<Dashboard />} />
                       <Route path="/warehouse" element={<Warehouse />} />
                       <Route path="/clients" element={<Clients />} />
                       <Route path="/sales" element={<Sales />} />
                       <Route path="/finance" element={<Finance />} />
                       <Route path="/employees" element={<Employees />} />
                       <Route path="/settings" element={<Settings />} />
+
+                      {/* Admin-only routes */}
+                      <Route
+                        path="/admin/users"
+                        element={
+                          <RoleProtectedRoute
+                            requiredRoles={['super_admin', 'admin']}
+                            requiredPermission={{ resource: 'users', action: 'read' }}
+                          >
+                            <UserManagement />
+                          </RoleProtectedRoute>
+                        }
+                      />
+                      <Route
+                        path="/admin/roles"
+                        element={
+                          <RoleProtectedRoute
+                            requiredRoles={['super_admin', 'admin']}
+                          >
+                            <RoleManagement />
+                          </RoleProtectedRoute>
+                        }
+                      />
+
                       <Route path="*" element={<NotFound />} />
                     </Routes>
                   </Layout>
