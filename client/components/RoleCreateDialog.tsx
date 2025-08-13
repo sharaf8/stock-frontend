@@ -212,7 +212,7 @@ export default function RoleCreateDialog({ trigger, onRoleCreated }: RoleCreateD
     setFormData({
       name: '',
       description: '',
-      permissions: {}
+      permissions: {} as Partial<Record<Resource, Action[]>>
     });
   };
 
