@@ -123,9 +123,9 @@ export default function DemoCredentials({ onCredentialSelect }: DemoCredentialsP
         
         <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
           <p className="text-sm text-blue-800">
-            <strong>💡 Tip:</strong> Try logging in with different roles to see how the interface 
-            and available features change based on your permissions. You can also register a new 
-            account, which will be assigned the "employee" role by default.
+            <strong>💡 Tip:</strong> Try logging in with different roles to see how the interface
+            and available features change based on your permissions. Only administrators can
+            create, edit, and manage user accounts for security purposes.
           </p>
         </div>
       </CardContent>
