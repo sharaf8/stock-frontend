@@ -54,8 +54,8 @@ export default function Layout({ children }: LayoutProps) {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
-  const navigation = [
-    { name: t('navigation.dashboard'), href: "/", icon: LayoutDashboard },
+  const allNavigation = [
+    { name: t('navigation.dashboard'), href: "/dashboard", icon: LayoutDashboard },
     { name: t('navigation.warehouse'), href: "/warehouse", icon: Package },
     { name: t('navigation.clients'), href: "/clients", icon: Users },
     { name: t('navigation.sales'), href: "/sales", icon: ShoppingCart },
@@ -63,6 +63,9 @@ export default function Layout({ children }: LayoutProps) {
     { name: t('navigation.employees'), href: "/employees", icon: UserPlus },
     { name: t('navigation.settings'), href: "/settings", icon: Settings },
   ];
+
+  // Filter navigation based on user permissions
+  const navigation = allNavigation.filter(item => canAccessRoute(item.href));
 
   const handleLogout = () => {
     logout();
