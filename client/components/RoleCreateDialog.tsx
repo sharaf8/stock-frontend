@@ -98,7 +98,7 @@ export default function RoleCreateDialog({ trigger, onRoleCreated }: RoleCreateD
   const [formData, setFormData] = useState({
     name: '',
     description: '',
-    permissions: {} as Record<Resource, Action[]>
+    permissions: {} as Partial<Record<Resource, Action[]>>
   });
 
   const { toast } = useToast();
