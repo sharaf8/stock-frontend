@@ -163,15 +163,30 @@ export default function UserManagement() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-bold">User Management</h1>
-          <p className="text-muted-foreground">
-            Manage user roles, permissions, and access control
-          </p>
-        </div>
-        <UserCreateDialog onUserCreated={() => loadUsers()} />
+      <div>
+        <h1 className="text-3xl font-bold">User & Role Management</h1>
+        <p className="text-muted-foreground">
+          Comprehensive user administration and role-based access control
+        </p>
       </div>
+
+      <Tabs defaultValue="users" className="w-full">
+        <TabsList className="grid w-full grid-cols-2">
+          <TabsTrigger value="users">User Management</TabsTrigger>
+          <TabsTrigger value="roles">Role Management</TabsTrigger>
+        </TabsList>
+
+        {/* Users Tab */}
+        <TabsContent value="users" className="space-y-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div>
+              <h2 className="text-xl font-semibold">Users</h2>
+              <p className="text-muted-foreground">
+                Manage user accounts, roles, and access permissions
+              </p>
+            </div>
+            <UserCreateDialog onUserCreated={() => loadUsers()} />
+          </div>
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -427,7 +442,7 @@ export default function UserManagement() {
               Detailed permissions for {selectedUser?.name}
             </DialogDescription>
           </DialogHeader>
-          
+
           {selectedUser && (
             <div className="space-y-6">
               <div className="flex items-center gap-3 p-4 bg-muted rounded-lg">
@@ -451,6 +466,80 @@ export default function UserManagement() {
           )}
         </DialogContent>
       </Dialog>
+        </TabsContent>
+
+        {/* Roles Tab */}
+        <TabsContent value="roles" className="space-y-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div>
+              <h2 className="text-xl font-semibold">Roles</h2>
+              <p className="text-muted-foreground">
+                Manage system roles and their permissions
+              </p>
+            </div>
+            <RoleCreateDialog onRoleCreated={() => {}} />
+          </div>
+
+          {/* Role Statistics */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Total Roles</CardTitle>
+                <Shield className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">{Object.keys(ROLE_PERMISSIONS).length}</div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Admin Roles</CardTitle>
+                <UserCheck className="h-4 w-4 text-red-600" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold text-red-600">2</div>
+                <p className="text-xs text-muted-foreground">Super Admin + Admin</p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Management Roles</CardTitle>
+                <Users className="h-4 w-4 text-blue-600" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold text-blue-600">2</div>
+                <p className="text-xs text-muted-foreground">Manager + Team Lead</p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">User Roles</CardTitle>
+                <UserCheck className="h-4 w-4 text-green-600" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold text-green-600">3</div>
+                <p className="text-xs text-muted-foreground">Employee + Intern + Viewer</p>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Role Comparison */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Role Comparison Matrix</CardTitle>
+              <CardDescription>
+                Compare permissions across different roles to understand access levels
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <RoleComparison roles={Object.keys(ROLE_PERMISSIONS) as Role[]} />
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }
