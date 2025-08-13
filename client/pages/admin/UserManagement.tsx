@@ -162,10 +162,7 @@ export default function UserManagement() {
             Manage user roles, permissions, and access control
           </p>
         </div>
-        <Button className="flex items-center gap-2">
-          <Plus className="h-4 w-4" />
-          Add User
-        </Button>
+        <UserCreateDialog onUserCreated={() => loadUsers()} />
       </div>
 
       {/* Stats Cards */}
