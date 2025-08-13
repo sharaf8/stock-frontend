@@ -29,5 +29,15 @@ export function createServer() {
 
   app.get("/api/demo", handleDemo);
 
+  // RBAC API routes
+  app.get("/api/admin/users", ...getUsers);
+  app.get("/api/admin/users/:id", ...getUserById);
+  app.put("/api/admin/users/:id/role", ...updateUserRole);
+  app.put("/api/admin/users/:id/status", ...updateUserStatus);
+  app.get("/api/admin/roles", ...getAllRoles);
+  app.get("/api/admin/roles/:role/permissions", ...getRolePermissions);
+  app.get("/api/permissions/check", ...checkPermissions);
+  app.get("/api/admin/audit-logs", ...getAuditLogs);
+
   return app;
 }
