@@ -120,44 +120,49 @@ export const useAuthStore = create<AuthState>()(
         try {
           set({ isLoading: true });
 
-          const response = await fetch('http://localhost:5002/api/users', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              firstName: name,
-              email,
-              password
-            }),
+          // Mock registration - simulate API delay
+          await new Promise(resolve => setTimeout(resolve, 1000));
+
+          // Check if email already exists (mock validation)
+          const existingEmails = ['admin@example.com', 'manager@example.com', 'employee@example.com', 'viewer@example.com'];
+
+          if (existingEmails.includes(email)) {
+            set({ isLoading: false });
+            return false; // Email already exists
+          }
+
+          // Create new user with default role
+          const newUserId = Date.now().toString();
+          const user: User = {
+            id: newUserId,
+            email,
+            name,
+            role: 'employee' as Role, // Default role for new registrations
+            avatar: undefined,
+          };
+
+          // Create mock access token
+          const mockAccessToken = btoa(JSON.stringify({
+            sub: user.id,
+            email: user.email,
+            name: user.name,
+            role: user.role,
+            exp: Date.now() + 3600000 // 1 hour
+          }));
+
+          set({
+            user,
+            accessToken: mockAccessToken,
+            refreshToken: 'mock_refresh_token',
+            isAuthenticated: true,
+            isLoading: false,
           });
 
-          const data = await response.json();
+          // Initialize RBAC store
+          const { useRBACStore } = await import('./rbacStore');
+          useRBACStore.getState().initializeFromAuth(user);
 
-          if (data.ok && data.result) {
-            const userFromApi = data.result;
-
-            const user: User = {
-              id: userFromApi.id,
-              email: userFromApi.email,
-              name: userFromApi.firstName,
-              role: userFromApi.role,
-              avatar: undefined,
-            };
-
-            set({
-              user,
-              isAuthenticated: true,
-              isLoading: false,
-            });
-
-            // Initialize RBAC store
-            const { useRBACStore } = await import('./rbacStore');
-            useRBACStore.getState().initializeFromAuth(user);
-
-            return true;
-          } else {
-            set({ isLoading: false });
-            return false;
-          }
+          return true;
         } catch (error) {
           console.error('Register error:', error);
           set({ isLoading: false });
