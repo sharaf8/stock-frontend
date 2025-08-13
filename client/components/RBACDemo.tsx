@@ -54,7 +54,7 @@ export default function RBACDemo() {
       <div className="text-center">
         <h2 className="text-2xl font-bold mb-2">RBAC System Demo</h2>
         <p className="text-muted-foreground mb-4">
-          This demo shows how the Role-Based Access Control system works in real-time
+          This demo shows how the Role-Based Access Control system works in real-time. User accounts are managed exclusively by administrators for enhanced security.
         </p>
       </div>
 
