@@ -210,39 +210,24 @@ export const useRBACStore = create<RBACState>()(
           return false;
         }
 
-        try {
-          const response = await fetch(`/api/admin/users/${userId}/role`, {
-            method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
-            },
-            body: JSON.stringify({ role: newRole })
-          });
+        // Simulate API delay
+        await new Promise(resolve => setTimeout(resolve, 500));
 
-          if (response.ok) {
-            // Update local state
-            const updatedUsers = users.map(user => 
-              user.id === userId 
-                ? { 
-                    ...user, 
-                    role: newRole, 
-                    permissions: ROLE_PERMISSIONS[newRole],
-                    updatedAt: new Date()
-                  }
-                : user
-            );
-            
-            set({ users: updatedUsers });
-            get().logAction('update_user_role', 'users', { userId, newRole });
-            return true;
-          }
-          
-          return false;
-        } catch (error) {
-          console.error('Error updating user role:', error);
-          return false;
-        }
+        // Update local state (mock implementation)
+        const updatedUsers = users.map(user =>
+          user.id === userId
+            ? {
+                ...user,
+                role: newRole,
+                permissions: ROLE_PERMISSIONS[newRole],
+                updatedAt: new Date()
+              }
+            : user
+        );
+
+        set({ users: updatedUsers });
+        get().logAction('update_user_role', 'users', { userId, newRole });
+        return true;
       },
 
       updateUserStatus: async (userId: string, status: 'active' | 'inactive' | 'suspended') => {
