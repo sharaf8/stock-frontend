@@ -236,33 +236,24 @@ export const useRBACStore = create<RBACState>()(
           return false;
         }
 
-        try {
-          const response = await fetch(`/api/admin/users/${userId}/status`, {
-            method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
-            },
-            body: JSON.stringify({ status })
-          });
-
-          if (response.ok) {
-            const updatedUsers = users.map(user => 
-              user.id === userId 
-                ? { ...user, status, updatedAt: new Date() }
-                : user
-            );
-            
-            set({ users: updatedUsers });
-            get().logAction('update_user_status', 'users', { userId, status });
-            return true;
-          }
-          
-          return false;
-        } catch (error) {
-          console.error('Error updating user status:', error);
+        // Can't change your own status
+        if (currentUser.id === userId) {
           return false;
         }
+
+        // Simulate API delay
+        await new Promise(resolve => setTimeout(resolve, 500));
+
+        // Update local state (mock implementation)
+        const updatedUsers = users.map(user =>
+          user.id === userId
+            ? { ...user, status, updatedAt: new Date() }
+            : user
+        );
+
+        set({ users: updatedUsers });
+        get().logAction('update_user_status', 'users', { userId, status });
+        return true;
       },
 
       // Audit logging
