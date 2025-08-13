@@ -149,63 +149,59 @@ export const useRBACStore = create<RBACState>()(
         }
 
         set({ isLoadingUsers: true });
-        
-        try {
-          // This would be an actual API call
-          const response = await fetch('/api/admin/users', {
-            headers: {
-              'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
-            }
-          });
-          
-          if (response.ok) {
-            const users = await response.json();
-            set({ users, isLoadingUsers: false });
-            get().logAction('load_users', 'users');
-          } else {
-            throw new Error('Failed to load users');
+
+        // For demo purposes, use mock data directly
+        // In a real application, this would make an API call
+        await new Promise(resolve => setTimeout(resolve, 500)); // Simulate loading delay
+
+        const mockUsers: RBACUser[] = [
+          {
+            id: '1',
+            email: 'admin@example.com',
+            name: 'System Admin',
+            role: 'super_admin',
+            permissions: ROLE_PERMISSIONS.super_admin,
+            status: 'active',
+            createdAt: new Date('2024-01-01'),
+            updatedAt: new Date('2024-01-15'),
+          },
+          {
+            id: '2',
+            email: 'manager@example.com',
+            name: 'Department Manager',
+            role: 'manager',
+            permissions: ROLE_PERMISSIONS.manager,
+            department: 'Sales',
+            status: 'active',
+            createdAt: new Date('2024-01-05'),
+            updatedAt: new Date('2024-01-20'),
+          },
+          {
+            id: '3',
+            email: 'employee@example.com',
+            name: 'Team Member',
+            role: 'employee',
+            permissions: ROLE_PERMISSIONS.employee,
+            department: 'Sales',
+            status: 'active',
+            createdAt: new Date('2024-01-10'),
+            updatedAt: new Date('2024-01-25'),
+          },
+          {
+            id: '4',
+            email: 'viewer@example.com',
+            name: 'System Viewer',
+            role: 'viewer',
+            permissions: ROLE_PERMISSIONS.viewer,
+            department: 'Operations',
+            status: 'active',
+            createdAt: new Date('2024-01-12'),
+            updatedAt: new Date('2024-01-28'),
           }
-        } catch (error) {
-          console.error('Error loading users:', error);
-          
-          // Mock data for demo purposes
-          const mockUsers: RBACUser[] = [
-            {
-              id: '1',
-              email: 'admin@example.com',
-              name: 'System Admin',
-              role: 'super_admin',
-              permissions: ROLE_PERMISSIONS.super_admin,
-              status: 'active',
-              createdAt: new Date('2024-01-01'),
-              updatedAt: new Date('2024-01-15'),
-            },
-            {
-              id: '2',
-              email: 'manager@example.com',
-              name: 'Department Manager',
-              role: 'manager',
-              permissions: ROLE_PERMISSIONS.manager,
-              department: 'Sales',
-              status: 'active',
-              createdAt: new Date('2024-01-05'),
-              updatedAt: new Date('2024-01-20'),
-            },
-            {
-              id: '3',
-              email: 'employee@example.com',
-              name: 'Team Member',
-              role: 'employee',
-              permissions: ROLE_PERMISSIONS.employee,
-              department: 'Sales',
-              status: 'active',
-              createdAt: new Date('2024-01-10'),
-              updatedAt: new Date('2024-01-25'),
-            }
-          ];
-          
-          set({ users: mockUsers, isLoadingUsers: false });
-        }
+        ];
+
+        set({ users: mockUsers, isLoadingUsers: false });
+        get().logAction('load_users', 'users');
       },
 
       updateUserRole: async (userId: string, newRole: Role) => {
