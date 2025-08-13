@@ -5,7 +5,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useThemeStore } from "@/stores/themeStore";
 import { useAuthStore } from "@/stores/authStore";
+import { useRBACStore } from "@/stores/rbacStore";
 import { useLanguageStore } from "@/stores/languageStore";
+import RoleBadge from "@/components/ui/role-badge";
+import PermissionGate, { AdminOnly } from "@/components/PermissionGate";
 import {
   LayoutDashboard,
   Package,
