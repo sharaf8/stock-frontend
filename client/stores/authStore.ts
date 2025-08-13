@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { Role } from '@shared/rbac';
 
 interface User {
   id: string;
