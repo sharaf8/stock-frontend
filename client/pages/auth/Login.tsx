@@ -155,23 +155,11 @@ export default function Login() {
             </form>
 
             <div className="mt-6">
-              <div className="relative">
-                <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-gray-300" />
-                </div>
-                <div className="relative flex justify-center text-sm">
-                  <span className="px-2 bg-white text-gray-500">
-                    Don't have an account?
-                  </span>
-                </div>
-              </div>
-              
-              <div className="mt-4">
-                <Link to="/auth/register">
-                  <Button variant="outline" className="w-full h-11">
-                    Create account
-                  </Button>
-                </Link>
+              <div className="p-4 bg-amber-50 border border-amber-200 rounded-lg">
+                <p className="text-sm text-amber-800">
+                  <strong>🔒 Secure Access:</strong> User accounts are managed by administrators only.
+                  Contact your system administrator to request access.
+                </p>
               </div>
             </div>
 
