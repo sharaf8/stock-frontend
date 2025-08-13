@@ -68,6 +68,10 @@ export const useAuthStore = create<AuthState>()(
               isLoading: false
             });
 
+            // Initialize RBAC store
+            const { useRBACStore } = await import('./rbacStore');
+            useRBACStore.getState().initializeFromAuth(user);
+
             return true;
           } else {
             set({ isLoading: false });
