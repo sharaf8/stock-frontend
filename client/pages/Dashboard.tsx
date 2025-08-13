@@ -635,6 +635,19 @@ ${data.recentActivities.map((activity: any) => `${activity.time} - ${activity.de
         </CardContent>
       </Card>
 
+      {/* RBAC Demo Section */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-xl">🔐 Role-Based Access Control Demo</CardTitle>
+          <CardDescription>
+            See the RBAC system in action - change roles and watch permissions update in real-time
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <RBACDemo />
+        </CardContent>
+      </Card>
+
       {/* AI Assistant */}
       <AIAssistant context="dashboard" />
     </div>
