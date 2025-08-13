@@ -140,6 +140,24 @@ export const useAuthStore = create<AuthState>()(
           accessToken: null,
           refreshToken: null
         });
+
+        // Reset RBAC store
+        import('./rbacStore').then(({ useRBACStore }) => {
+          useRBACStore.getState().reset();
+        });
+      },
+
+      updateUserRole: (newRole: Role) => {
+        const { user } = get();
+        if (user) {
+          const updatedUser = { ...user, role: newRole };
+          set({ user: updatedUser });
+
+          // Update RBAC store
+          import('./rbacStore').then(({ useRBACStore }) => {
+            useRBACStore.getState().initializeFromAuth(updatedUser);
+          });
+        }
       },
 
       forgotPassword: async (email: string) => {
