@@ -142,6 +142,11 @@ export default function Layout({ children }: LayoutProps) {
                     <div className="flex-1 min-w-0 text-left">
                       <p className="text-sm font-medium truncate">{user?.name || 'User'}</p>
                       <p className="text-xs text-muted-foreground truncate">{user?.email}</p>
+                      {currentUser && (
+                        <div className="mt-1">
+                          <RoleBadge role={currentUser.role} size="sm" />
+                        </div>
+                      )}
                     </div>
                     <ChevronDown className="h-4 w-4 text-muted-foreground" />
                   </div>
