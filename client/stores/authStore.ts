@@ -20,6 +20,7 @@ interface AuthState {
   register: (name: string, email: string, password: string) => Promise<boolean>;
   logout: () => void;
   forgotPassword: (email: string) => Promise<boolean>;
+  updateUserRole: (newRole: Role) => void;
 }
 
 export const useAuthStore = create<AuthState>()(
