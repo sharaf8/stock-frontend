@@ -12,7 +12,6 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import RoleProtectedRoute from "./components/RoleProtectedRoute";
 import Dashboard from "./pages/Dashboard";
 import UserManagement from "./pages/admin/UserManagement";
-import RoleManagement from "./pages/admin/RoleManagement";
 import Warehouse from "./pages/Warehouse";
 import Clients from "./pages/Clients";
 import Sales from "./pages/Sales";
