@@ -9,6 +9,8 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import RoleBadge, { RoleSelector } from '@/components/ui/role-badge';
 import PermissionDisplay from '@/components/ui/permission-display';
 import UserCreateDialog from '@/components/UserCreateDialog';
+import RoleCreateDialog from '@/components/RoleCreateDialog';
+import { RoleComparison } from '@/components/ui/permission-display';
 import {
   Dialog,
   DialogContent,
