@@ -166,10 +166,11 @@ export const useAuthStore = create<AuthState>()(
         // Simulate API call
         await new Promise(resolve => setTimeout(resolve, 1000));
 
-        const user = mockUsers.find(u => u.email === email);
+        // Mock implementation - in real app, this would make an API call
         set({ isLoading: false });
 
-        return !!user; // Return true if user exists
+        // For demo purposes, always return true
+        return true;
       },
     }),
     {
