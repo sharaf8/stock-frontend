@@ -19,7 +19,7 @@ export default function Login() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!email || !password) {
       toast({
         title: "Error",
@@ -30,7 +30,7 @@ export default function Login() {
     }
 
     const success = await login(email, password);
-    
+
     if (success) {
       toast({
         title: "Welcome back!",
@@ -44,6 +44,15 @@ export default function Login() {
         variant: "destructive",
       });
     }
+  };
+
+  const handleCredentialSelect = (selectedEmail: string, selectedPassword: string) => {
+    setEmail(selectedEmail);
+    setPassword(selectedPassword);
+    toast({
+      title: "Credentials Filled",
+      description: "Demo credentials have been filled in the form",
+    });
   };
 
   return (
