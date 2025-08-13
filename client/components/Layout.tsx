@@ -48,6 +48,7 @@ export default function Layout({ children }: LayoutProps) {
   const location = useLocation();
   const { theme, toggleTheme } = useThemeStore();
   const { user, logout } = useAuthStore();
+  const { currentUser, canAccessRoute } = useRBACStore();
   const { language, setLanguage } = useLanguageStore();
   const { toast } = useToast();
   const navigate = useNavigate();
