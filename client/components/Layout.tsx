@@ -17,6 +17,7 @@ import {
   DollarSign,
   UserPlus,
   Settings,
+  Shield,
   Menu,
   Moon,
   Sun,
