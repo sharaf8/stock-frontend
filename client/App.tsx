@@ -33,16 +33,22 @@ const queryClient = new QueryClient();
 
 const App = () => {
   const { theme, setTheme } = useThemeStore();
-  const { isAuthenticated } = useAuthStore();
+  const { isAuthenticated, user } = useAuthStore();
+  const { initializeFromAuth } = useRBACStore();
 
   useEffect(() => {
     // Initialize theme on app load
     setTheme(theme);
 
+    // Initialize RBAC when user is available
+    if (user) {
+      initializeFromAuth(user);
+    }
+
     // Suppress React defaultProps warnings from recharts library
     // This is a temporary fix until the library fully migrates to JavaScript default parameters
     suppressDefaultPropsWarnings();
-  }, []);
+  }, [user, initializeFromAuth]);
 
   return (
     <QueryClientProvider client={queryClient}>
