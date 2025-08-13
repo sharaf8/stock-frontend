@@ -164,6 +164,16 @@ export default function Layout({ children }: LayoutProps) {
                   <Settings className="mr-2 h-4 w-4" />
                   {t('navigation.settings')}
                 </DropdownMenuItem>
+                <AdminOnly>
+                  <DropdownMenuItem onClick={() => navigate('/admin/users')}>
+                    <Users className="mr-2 h-4 w-4" />
+                    User Management
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate('/admin/roles')}>
+                    <UserPlus className="mr-2 h-4 w-4" />
+                    Role Management
+                  </DropdownMenuItem>
+                </AdminOnly>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={handleLogout} className="text-red-600">
                   <LogOut className="mr-2 h-4 w-4" />
