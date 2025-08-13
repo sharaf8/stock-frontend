@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAuthStore } from "@/stores/authStore";
 import { useToast } from "@/hooks/use-toast";
+import DemoCredentials from "@/components/DemoCredentials";
 import { Eye, EyeOff, Package, Loader2 } from "lucide-react";
 
 export default function Login() {
