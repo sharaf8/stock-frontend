@@ -25,6 +25,7 @@ import ForgotPassword from "./pages/auth/ForgotPassword";
 import NotFound from "./pages/NotFound";
 import { useThemeStore } from "./stores/themeStore";
 import { useAuthStore } from "./stores/authStore";
+import { useRBACStore } from "./stores/rbacStore";
 import { useEffect } from "react";
 import { suppressDefaultPropsWarnings } from "./lib/suppressWarnings";
 
