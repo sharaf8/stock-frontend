@@ -175,12 +175,8 @@ export default function Login() {
             </div>
 
             {/* Demo Credentials */}
-            <div className="mt-6 p-4 bg-blue-50 rounded-lg">
-              <p className="text-sm font-medium text-blue-900 mb-2">Demo Credentials:</p>
-              <div className="text-xs text-blue-700 space-y-1">
-                <div>Admin: admin@businesspro.com / admin123</div>
-                <div>Manager: manager@businesspro.com / manager123</div>
-              </div>
+            <div className="mt-6">
+              <DemoCredentials onCredentialSelect={handleCredentialSelect} />
             </div>
           </CardContent>
         </Card>
