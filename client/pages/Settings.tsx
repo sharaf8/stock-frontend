@@ -491,13 +491,13 @@ export default function Settings() {
                 <Avatar className="h-20 w-20">
                   <AvatarImage src={user?.avatar} />
                   <AvatarFallback className="text-lg">
-                    {user?.firstName?.[0]}{user?.lastName?.[0]}
+                    {user?.name.split(' ').map(n => n[0]).join('').toUpperCase() || 'U'}
                   </AvatarFallback>
                 </Avatar>
                 <div className="space-y-1">
-                  <h3 className="text-lg font-semibold">{user?.firstName} {user?.lastName}</h3>
+                  <h3 className="text-lg font-semibold">{user?.name}</h3>
                   <p className="text-sm text-muted-foreground">{user?.email}</p>
-                  <p className="text-sm text-muted-foreground">{user?.role} • {user?.department}</p>
+                  <p className="text-sm text-muted-foreground">{user?.role.replace('_', ' ')}</p>
                 </div>
               </div>
               
