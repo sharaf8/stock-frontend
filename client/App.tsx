@@ -20,7 +20,6 @@ import Finance from "./pages/Finance";
 import Employees from "./pages/Employees";
 import Settings from "./pages/Settings";
 import Login from "./pages/auth/Login";
-import Register from "./pages/auth/Register";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import NotFound from "./pages/NotFound";
 import { useThemeStore } from "./stores/themeStore";
