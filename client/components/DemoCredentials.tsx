@@ -69,7 +69,7 @@ export default function DemoCredentials({ onCredentialSelect }: DemoCredentialsP
           Demo Credentials
         </CardTitle>
         <CardDescription>
-          Use these test accounts to explore different permission levels in the RBAC system
+          Use these test accounts to explore different permission levels. Only admins can create, edit, and manage user accounts.
         </CardDescription>
       </CardHeader>
       <CardContent>
