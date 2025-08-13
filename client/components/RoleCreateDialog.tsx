@@ -134,17 +134,17 @@ export default function RoleCreateDialog({ trigger, onRoleCreated }: RoleCreateD
 
   const copyFromExistingRole = (role: Role) => {
     const rolePermissions = ROLE_PERMISSIONS[role];
-    const permissionMap: Record<Resource, Action[]> = {};
-    
+    const permissionMap: Partial<Record<Resource, Action[]>> = {};
+
     rolePermissions.forEach(permission => {
       permissionMap[permission.resource] = permission.actions;
     });
-    
+
     setFormData(prev => ({
       ...prev,
       permissions: permissionMap
     }));
-    
+
     toast({
       title: 'Permissions Copied',
       description: `Copied permissions from ${role.replace('_', ' ')} role`,
