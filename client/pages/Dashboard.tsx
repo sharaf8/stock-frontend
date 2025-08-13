@@ -18,6 +18,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import AIAssistant from "@/components/AIAssistant";
+import RBACDemo from "@/components/RBACDemo";
 
 const salesData = [
   { name: 'Jan', sales: 4000, profit: 2400 },
