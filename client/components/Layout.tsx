@@ -5,7 +5,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useThemeStore } from "@/stores/themeStore";
 import { useAuthStore } from "@/stores/authStore";
+import { useRBACStore } from "@/stores/rbacStore";
 import { useLanguageStore } from "@/stores/languageStore";
+import RoleBadge from "@/components/ui/role-badge";
+import PermissionGate, { AdminOnly } from "@/components/PermissionGate";
 import {
   LayoutDashboard,
   Package,
@@ -14,6 +17,8 @@ import {
   DollarSign,
   UserPlus,
   Settings,
+  Shield,
+  UserCheck,
   Menu,
   Moon,
   Sun,
@@ -45,20 +50,25 @@ export default function Layout({ children }: LayoutProps) {
   const location = useLocation();
   const { theme, toggleTheme } = useThemeStore();
   const { user, logout } = useAuthStore();
+  const { currentUser, canAccessRoute } = useRBACStore();
   const { language, setLanguage } = useLanguageStore();
   const { toast } = useToast();
   const navigate = useNavigate();
   const { t } = useTranslation();
 
-  const navigation = [
-    { name: t('navigation.dashboard'), href: "/", icon: LayoutDashboard },
+  const allNavigation = [
+    { name: t('navigation.dashboard'), href: "/dashboard", icon: LayoutDashboard },
     { name: t('navigation.warehouse'), href: "/warehouse", icon: Package },
     { name: t('navigation.clients'), href: "/clients", icon: Users },
     { name: t('navigation.sales'), href: "/sales", icon: ShoppingCart },
     { name: t('navigation.finance'), href: "/finance", icon: DollarSign },
     { name: t('navigation.employees'), href: "/employees", icon: UserPlus },
+    { name: 'User Management', href: "/admin/users", icon: Shield },
     { name: t('navigation.settings'), href: "/settings", icon: Settings },
   ];
+
+  // Filter navigation based on user permissions
+  const navigation = allNavigation.filter(item => canAccessRoute(item.href));
 
   const handleLogout = () => {
     logout();
@@ -135,6 +145,11 @@ export default function Layout({ children }: LayoutProps) {
                     <div className="flex-1 min-w-0 text-left">
                       <p className="text-sm font-medium truncate">{user?.name || 'User'}</p>
                       <p className="text-xs text-muted-foreground truncate">{user?.email}</p>
+                      {currentUser && (
+                        <div className="mt-1">
+                          <RoleBadge role={currentUser.role} size="sm" />
+                        </div>
+                      )}
                     </div>
                     <ChevronDown className="h-4 w-4 text-muted-foreground" />
                   </div>

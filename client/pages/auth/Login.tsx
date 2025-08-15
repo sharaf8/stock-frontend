@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAuthStore } from "@/stores/authStore";
 import { useToast } from "@/hooks/use-toast";
+import DemoCredentials from "@/components/DemoCredentials";
 import { Eye, EyeOff, Package, Loader2 } from "lucide-react";
 
 export default function Login() {
@@ -18,7 +19,7 @@ export default function Login() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!email || !password) {
       toast({
         title: "Error",
@@ -29,7 +30,7 @@ export default function Login() {
     }
 
     const success = await login(email, password);
-    
+
     if (success) {
       toast({
         title: "Welcome back!",
@@ -45,9 +46,18 @@ export default function Login() {
     }
   };
 
+  const handleCredentialSelect = (selectedEmail: string, selectedPassword: string) => {
+    setEmail(selectedEmail);
+    setPassword(selectedPassword);
+    toast({
+      title: "Credentials Filled",
+      description: "Demo credentials have been filled in the form",
+    });
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-blue-50 p-4">
-      <div className="w-full max-w-md">
+      <div className="w-full max-w-4xl">
         {/* Logo and Brand */}
         <div className="flex items-center justify-center gap-2 mb-8">
           <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl flex items-center justify-center">
@@ -59,8 +69,9 @@ export default function Login() {
           </div>
         </div>
 
-        {/* Login Form */}
-        <Card className="shadow-xl border-0">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Login Form */}
+          <Card className="shadow-xl border-0">
           <CardHeader className="space-y-1 text-center">
             <CardTitle className="text-2xl font-bold">Welcome back</CardTitle>
             <CardDescription>
@@ -144,36 +155,22 @@ export default function Login() {
             </form>
 
             <div className="mt-6">
-              <div className="relative">
-                <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-gray-300" />
-                </div>
-                <div className="relative flex justify-center text-sm">
-                  <span className="px-2 bg-white text-gray-500">
-                    Don't have an account?
-                  </span>
-                </div>
-              </div>
-              
-              <div className="mt-4">
-                <Link to="/auth/register">
-                  <Button variant="outline" className="w-full h-11">
-                    Create account
-                  </Button>
-                </Link>
+              <div className="p-4 bg-amber-50 border border-amber-200 rounded-lg">
+                <p className="text-sm text-amber-800">
+                  <strong>🔒 Secure Access:</strong> User accounts are managed by administrators only.
+                  Contact your system administrator to request access.
+                </p>
               </div>
             </div>
 
-            {/* Demo Credentials */}
-            <div className="mt-6 p-4 bg-blue-50 rounded-lg">
-              <p className="text-sm font-medium text-blue-900 mb-2">Demo Credentials:</p>
-              <div className="text-xs text-blue-700 space-y-1">
-                <div>Admin: admin@businesspro.com / admin123</div>
-                <div>Manager: manager@businesspro.com / manager123</div>
-              </div>
-            </div>
           </CardContent>
         </Card>
+
+        {/* Demo Credentials */}
+        <div className="">
+          <DemoCredentials onCredentialSelect={handleCredentialSelect} />
+        </div>
+      </div>
       </div>
     </div>
   );

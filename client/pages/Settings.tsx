@@ -491,33 +491,33 @@ export default function Settings() {
                 <Avatar className="h-20 w-20">
                   <AvatarImage src={user?.avatar} />
                   <AvatarFallback className="text-lg">
-                    {user?.firstName?.[0]}{user?.lastName?.[0]}
+                    {user?.name.split(' ').map(n => n[0]).join('').toUpperCase() || 'U'}
                   </AvatarFallback>
                 </Avatar>
                 <div className="space-y-1">
-                  <h3 className="text-lg font-semibold">{user?.firstName} {user?.lastName}</h3>
+                  <h3 className="text-lg font-semibold">{user?.name}</h3>
                   <p className="text-sm text-muted-foreground">{user?.email}</p>
-                  <p className="text-sm text-muted-foreground">{user?.role} • {user?.department}</p>
+                  <p className="text-sm text-muted-foreground">{user?.role.replace('_', ' ')}</p>
                 </div>
               </div>
               
               <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-4 text-sm">
                   <div>
-                    <Label className="text-muted-foreground">Employee ID</Label>
-                    <p className="font-medium">{user?.employeeId || 'N/A'}</p>
+                    <Label className="text-muted-foreground">User ID</Label>
+                    <p className="font-medium">{user?.id || 'N/A'}</p>
                   </div>
                   <div>
-                    <Label className="text-muted-foreground">Hire Date</Label>
-                    <p className="font-medium">{user?.hireDate || 'N/A'}</p>
+                    <Label className="text-muted-foreground">Role</Label>
+                    <p className="font-medium capitalize">{user?.role.replace('_', ' ') || 'N/A'}</p>
                   </div>
                   <div>
-                    <Label className="text-muted-foreground">Phone</Label>
-                    <p className="font-medium">{user?.phone || 'N/A'}</p>
+                    <Label className="text-muted-foreground">Email</Label>
+                    <p className="font-medium">{user?.email || 'N/A'}</p>
                   </div>
                   <div>
                     <Label className="text-muted-foreground">Status</Label>
-                    <p className="font-medium">{user?.status || 'Active'}</p>
+                    <p className="font-medium">Active</p>
                   </div>
                 </div>
               </div>

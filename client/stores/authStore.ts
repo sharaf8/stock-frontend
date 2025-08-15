@@ -1,12 +1,18 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { Role } from '@shared/rbac';
+import { mockUsers, MockUser } from './mockAccounts';
 
 interface User {
   id: string;
   email: string;
   name: string;
-  role: 'admin' | 'manager' | 'employee';
+  role: Role;
   avatar?: string;
+  department?: string;
+  title?: string;
+  phone?: string;
+  location?: string;
 }
 
 interface AuthState {
@@ -16,9 +22,9 @@ interface AuthState {
   accessToken: string | null;
   refreshToken: string | null;
   login: (email: string, password: string) => Promise<boolean>;
-  register: (name: string, email: string, password: string) => Promise<boolean>;
   logout: () => void;
   forgotPassword: (email: string) => Promise<boolean>;
+  updateUserRole: (newRole: Role) => void;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -34,43 +40,53 @@ export const useAuthStore = create<AuthState>()(
         try {
           set({ isLoading: true });
 
-          const response = await fetch('http://localhost:5002/api/auth/sign-in', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ email, password })
-          });
+          // Mock authentication - simulate API delay
+          await new Promise(resolve => setTimeout(resolve, 1000));
 
-          const data = await response.json();
+          // Find user in mock users database
 
-          if (data.ok && data.result) {
-            const { accessToken, refreshToken } = data.result;
+          // Find user by email and validate password
+          const foundUser = mockUsers.find(u => u.email === email);
 
-            // Decode JWT
-            const decoded: any = JSON.parse(atob(accessToken.split('.')[1]));
-
-            const user: User = {
-              id: decoded.sub,
-              email: decoded.email,
-              name: decoded.name || '',
-              role: decoded.role,
-              avatar: decoded.avatar || undefined
-            };
-
-            set({
-              user,
-              accessToken,
-              refreshToken,
-              isAuthenticated: true,
-              isLoading: false
-            });
-
-            return true;
-          } else {
+          if (!foundUser || foundUser.password !== password) {
             set({ isLoading: false });
             return false;
           }
+
+          // Create mock tokens (in real app, these would come from server)
+          const mockAccessToken = btoa(JSON.stringify({
+            sub: foundUser.id,
+            email: foundUser.email,
+            name: foundUser.name,
+            role: foundUser.role,
+            exp: Date.now() + 3600000 // 1 hour
+          }));
+
+          const user: User = {
+            id: foundUser.id,
+            email: foundUser.email,
+            name: foundUser.name,
+            role: foundUser.role,
+            avatar: foundUser.avatar,
+            department: foundUser.department,
+            title: foundUser.title,
+            phone: foundUser.phone,
+            location: foundUser.location
+          };
+
+          set({
+            user,
+            accessToken: mockAccessToken,
+            refreshToken: 'mock_refresh_token',
+            isAuthenticated: true,
+            isLoading: false
+          });
+
+          // Initialize RBAC store
+          const { useRBACStore } = await import('./rbacStore');
+          useRBACStore.getState().initializeFromAuth(user);
+
+          return true;
         } catch (error) {
           console.error('Login error:', error);
           set({ isLoading: false });
@@ -78,50 +94,6 @@ export const useAuthStore = create<AuthState>()(
         }
       },
 
-      register: async (name: string, email: string, password: string) => {
-        try {
-          set({ isLoading: true });
-
-          const response = await fetch('http://localhost:5002/api/users', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              firstName: name,
-              email,
-              password
-            }),
-          });
-
-          const data = await response.json();
-
-          if (data.ok && data.result) {
-            const userFromApi = data.result;
-
-            const user: User = {
-              id: userFromApi.id,
-              email: userFromApi.email,
-              name: userFromApi.firstName,
-              role: userFromApi.role,
-              avatar: undefined,
-            };
-
-            set({
-              user,
-              isAuthenticated: true,
-              isLoading: false,
-            });
-
-            return true;
-          } else {
-            set({ isLoading: false });
-            return false;
-          }
-        } catch (error) {
-          console.error('Register error:', error);
-          set({ isLoading: false });
-          return false;
-        }
-      },
 
       logout: () => {
         set({
@@ -130,6 +102,24 @@ export const useAuthStore = create<AuthState>()(
           accessToken: null,
           refreshToken: null
         });
+
+        // Reset RBAC store
+        import('./rbacStore').then(({ useRBACStore }) => {
+          useRBACStore.getState().reset();
+        });
+      },
+
+      updateUserRole: (newRole: Role) => {
+        const { user } = get();
+        if (user) {
+          const updatedUser = { ...user, role: newRole };
+          set({ user: updatedUser });
+
+          // Update RBAC store
+          import('./rbacStore').then(({ useRBACStore }) => {
+            useRBACStore.getState().initializeFromAuth(updatedUser);
+          });
+        }
       },
 
       forgotPassword: async (email: string) => {
@@ -138,10 +128,11 @@ export const useAuthStore = create<AuthState>()(
         // Simulate API call
         await new Promise(resolve => setTimeout(resolve, 1000));
 
-        const user = mockUsers.find(u => u.email === email);
+        // Mock implementation - in real app, this would make an API call
         set({ isLoading: false });
 
-        return !!user; // Return true if user exists
+        // For demo purposes, always return true
+        return true;
       },
     }),
     {

@@ -18,6 +18,9 @@ import { useToast } from "@/hooks/use-toast";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import AIAssistant from "@/components/AIAssistant";
+import RBACDemo from "@/components/RBACDemo";
+import UserCredentials from "@/components/UserCredentials";
+import { useAuthStore } from "@/stores/authStore";
 
 const salesData = [
   { name: 'Jan', sales: 4000, profit: 2400 },
@@ -97,6 +100,7 @@ export default function Dashboard() {
   const [activityFilter, setActivityFilter] = useState("all");
   const { toast } = useToast();
   const { t } = useTranslation();
+  const { user } = useAuthStore();
 
   const filteredActivities = recentActivities.filter(activity => {
     const matchesSearch = activity.description.toLowerCase().includes(searchTerm.toLowerCase());
@@ -631,6 +635,34 @@ ${data.recentActivities.map((activity: any) => `${activity.time} - ${activity.de
               </TableRow>
             </TableBody>
           </Table>
+        </CardContent>
+      </Card>
+
+      {/* User Accounts Section - Only show for demo purposes */}
+      {user?.email?.includes('example.com') && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-xl">👥 Available User Accounts</CardTitle>
+            <CardDescription>
+              Try different user accounts to see how permissions and interface change based on roles
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <UserCredentials />
+          </CardContent>
+        </Card>
+      )}
+
+      {/* RBAC Demo Section */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-xl">🔐 Role-Based Access Control</CardTitle>
+          <CardDescription>
+            Your current permissions and access level based on your organizational role
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <RBACDemo />
         </CardContent>
       </Card>
 
