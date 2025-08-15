@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { Role } from '@shared/rbac';
+import { mockUsers, MockUser } from './mockAccounts';
 
 interface User {
   id: string;
@@ -8,6 +9,10 @@ interface User {
   name: string;
   role: Role;
   avatar?: string;
+  department?: string;
+  title?: string;
+  phone?: string;
+  location?: string;
 }
 
 interface AuthState {
@@ -38,37 +43,7 @@ export const useAuthStore = create<AuthState>()(
           // Mock authentication - simulate API delay
           await new Promise(resolve => setTimeout(resolve, 1000));
 
-          // Mock users for demonstration
-          const mockUsers = [
-            {
-              id: '1',
-              email: 'admin@example.com',
-              name: 'System Admin',
-              role: 'super_admin' as Role,
-              password: 'admin123'
-            },
-            {
-              id: '2',
-              email: 'manager@example.com',
-              name: 'Department Manager',
-              role: 'manager' as Role,
-              password: 'manager123'
-            },
-            {
-              id: '3',
-              email: 'employee@example.com',
-              name: 'Team Member',
-              role: 'employee' as Role,
-              password: 'employee123'
-            },
-            {
-              id: '4',
-              email: 'viewer@example.com',
-              name: 'System Viewer',
-              role: 'viewer' as Role,
-              password: 'viewer123'
-            }
-          ];
+          // Find user in mock users database
 
           // Find user by email and validate password
           const foundUser = mockUsers.find(u => u.email === email);
@@ -92,7 +67,11 @@ export const useAuthStore = create<AuthState>()(
             email: foundUser.email,
             name: foundUser.name,
             role: foundUser.role,
-            avatar: undefined
+            avatar: foundUser.avatar,
+            department: foundUser.department,
+            title: foundUser.title,
+            phone: foundUser.phone,
+            location: foundUser.location
           };
 
           set({
