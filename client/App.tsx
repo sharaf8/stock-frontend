@@ -26,6 +26,7 @@ import { useAuthStore } from "./stores/authStore";
 import { useRBACStore } from "./stores/rbacStore";
 import { useEffect } from "react";
 import { suppressDefaultPropsWarnings } from "./lib/suppressWarnings";
+import PWAInstallPrompt from "./components/PWAInstallPrompt";
 
 const queryClient = new QueryClient();
 
@@ -53,6 +54,7 @@ const App = () => {
       <TooltipProvider>
         <Toaster />
         <Sonner />
+        <PWAInstallPrompt />
         <BrowserRouter>
           <Routes>
             {/* Public routes */}
