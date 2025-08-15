@@ -19,15 +19,23 @@ export function createServer() {
 
   app.get("/api/demo", handleDemo);
 
-  // RBAC API routes
-  app.get("/api/admin/users", ...getUsers);
-  app.get("/api/admin/users/:id", ...getUserById);
-  app.put("/api/admin/users/:id/role", ...updateUserRole);
-  app.put("/api/admin/users/:id/status", ...updateUserStatus);
-  app.get("/api/admin/roles", ...getAllRoles);
-  app.get("/api/admin/roles/:role/permissions", ...getRolePermissions);
-  app.get("/api/permissions/check", ...checkPermissions);
-  app.get("/api/admin/audit-logs", ...getAuditLogs);
+  // RBAC API routes - loaded dynamically to avoid import issues during config loading
+  try {
+    const rbacRoutes = require("./routes/rbac");
+    app.get("/api/admin/users", ...rbacRoutes.getUsers);
+    app.get("/api/admin/users/:id", ...rbacRoutes.getUserById);
+    app.put("/api/admin/users/:id/role", ...rbacRoutes.updateUserRole);
+    app.put("/api/admin/users/:id/status", ...rbacRoutes.updateUserStatus);
+    app.get("/api/admin/roles", ...rbacRoutes.getAllRoles);
+    app.get("/api/admin/roles/:role/permissions", ...rbacRoutes.getRolePermissions);
+    app.get("/api/permissions/check", ...rbacRoutes.checkPermissions);
+    app.get("/api/admin/audit-logs", ...rbacRoutes.getAuditLogs);
+  } catch (error) {
+    console.warn("RBAC routes not loaded:", error.message);
+    // Provide fallback routes for development
+    app.get("/api/admin/users", (_req, res) => res.json({ users: [] }));
+    app.get("/api/admin/roles", (_req, res) => res.json({ roles: [] }));
+  }
 
   return app;
 }
