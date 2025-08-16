@@ -11,6 +11,7 @@ import PermissionDisplay from '@/components/ui/permission-display';
 import UserCreateDialog from '@/components/UserCreateDialog';
 import RoleCreateDialog from '@/components/RoleCreateDialog';
 import { RoleComparison } from '@/components/ui/permission-display';
+import EnhancedRoleManagement from '@/components/EnhancedRoleManagement';
 import {
   Dialog,
   DialogContent,
@@ -470,68 +471,14 @@ export default function UserManagement() {
 
         {/* Roles Tab */}
         <TabsContent value="roles" className="space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <div>
-              <h2 className="text-xl font-semibold">Roles</h2>
-              <p className="text-muted-foreground">
-                Manage system roles and their permissions
-              </p>
-            </div>
-            <RoleCreateDialog onRoleCreated={() => {}} />
-          </div>
+          <EnhancedRoleManagement onRoleChange={() => loadUsers()} />
 
-          {/* Role Statistics */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Total Roles</CardTitle>
-                <Shield className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">{Object.keys(ROLE_PERMISSIONS).length}</div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Admin Roles</CardTitle>
-                <UserCheck className="h-4 w-4 text-red-600" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold text-red-600">2</div>
-                <p className="text-xs text-muted-foreground">Super Admin + Admin</p>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Management Roles</CardTitle>
-                <Users className="h-4 w-4 text-blue-600" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold text-blue-600">2</div>
-                <p className="text-xs text-muted-foreground">Manager + Team Lead</p>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">User Roles</CardTitle>
-                <UserCheck className="h-4 w-4 text-green-600" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold text-green-600">3</div>
-                <p className="text-xs text-muted-foreground">Employee + Intern + Viewer</p>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Role Comparison */}
+          {/* Role Comparison - Keep this for reference */}
           <Card>
             <CardHeader>
-              <CardTitle>Role Comparison Matrix</CardTitle>
+              <CardTitle>Framework Role Comparison</CardTitle>
               <CardDescription>
-                Compare permissions across different roles to understand access levels
+                Compare permissions across system-defined roles
               </CardDescription>
             </CardHeader>
             <CardContent>
