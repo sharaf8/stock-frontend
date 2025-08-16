@@ -56,11 +56,19 @@ const App = () => {
             {/* Public routes */}
             <Route
               path="/auth/login"
-              element={isAuthenticated ? <Navigate to="/" replace /> : <Login />}
+              element={
+                isAuthenticated ? <Navigate to="/" replace /> : <Login />
+              }
             />
             <Route
               path="/auth/forgot-password"
-              element={isAuthenticated ? <Navigate to="/" replace /> : <ForgotPassword />}
+              element={
+                isAuthenticated ? (
+                  <Navigate to="/" replace />
+                ) : (
+                  <ForgotPassword />
+                )
+              }
             />
 
             {/* Protected routes */}
@@ -70,7 +78,10 @@ const App = () => {
                 <ProtectedRoute>
                   <Layout>
                     <Routes>
-                      <Route path="/" element={<Navigate to="/dashboard" replace />} />
+                      <Route
+                        path="/"
+                        element={<Navigate to="/dashboard" replace />}
+                      />
                       <Route path="/dashboard" element={<Dashboard />} />
                       <Route path="/warehouse" element={<Warehouse />} />
                       <Route path="/clients" element={<Clients />} />
@@ -84,8 +95,11 @@ const App = () => {
                         path="/admin/users"
                         element={
                           <RoleProtectedRoute
-                            requiredRoles={['super_admin', 'admin']}
-                            requiredPermission={{ resource: 'users', action: 'read' }}
+                            requiredRoles={["super_admin", "admin"]}
+                            requiredPermission={{
+                              resource: "users",
+                              action: "read",
+                            }}
                           >
                             <UserManagement />
                           </RoleProtectedRoute>
