@@ -26,6 +26,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import AIAssistant from "@/components/AIAssistant";
+import MobileEmployeeCard from "@/components/MobileEmployeeCard";
 import {
   Plus,
   Search,
@@ -1571,19 +1572,20 @@ ${data.timeEntries.map((entry: any) => {
       </div>
 
       <Tabs defaultValue="directory" className="space-y-4">
-        <TabsList>
-          <TabsTrigger value="directory">Employee Directory</TabsTrigger>
-          <TabsTrigger value="sales">Daily Sales</TabsTrigger>
-          <TabsTrigger value="attendance">Attendance</TabsTrigger>
-          <TabsTrigger value="analytics">Analytics</TabsTrigger>
+        <TabsList className="grid w-full grid-cols-2 md:grid-cols-4">
+          <TabsTrigger value="directory" className="text-xs md:text-sm">Directory</TabsTrigger>
+          <TabsTrigger value="sales" className="text-xs md:text-sm">Sales</TabsTrigger>
+          <TabsTrigger value="attendance" className="text-xs md:text-sm">Attendance</TabsTrigger>
+          <TabsTrigger value="analytics" className="text-xs md:text-sm">Analytics</TabsTrigger>
         </TabsList>
 
         <TabsContent value="directory" className="space-y-4">
           {/* Employee Directory */}
           <Card>
             <CardHeader>
-              <CardTitle>Employee Directory</CardTitle>
-              <div className="flex gap-4">
+              <CardTitle className="text-lg md:text-xl">Employee Directory</CardTitle>
+              {/* Mobile-optimized filters */}
+              <div className="flex flex-col gap-3 md:flex-row md:gap-4">
                 <div className="relative flex-1">
                   <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                   <Input
@@ -1593,32 +1595,34 @@ ${data.timeEntries.map((entry: any) => {
                     className="pl-8"
                   />
                 </div>
-                <Select value={departmentFilter} onValueChange={setDepartmentFilter}>
-                  <SelectTrigger className="w-[150px]">
-                    <Filter className="mr-2 h-4 w-4" />
-                    <SelectValue placeholder="Department" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Departments</SelectItem>
-                    <SelectItem value="Sales">Sales</SelectItem>
-                    <SelectItem value="Marketing">Marketing</SelectItem>
-                    <SelectItem value="IT">IT</SelectItem>
-                    <SelectItem value="Finance">Finance</SelectItem>
-                    <SelectItem value="HR">HR</SelectItem>
-                  </SelectContent>
-                </Select>
-                <Select value={statusFilter} onValueChange={setStatusFilter}>
-                  <SelectTrigger className="w-[130px]">
-                    <SelectValue placeholder="Status" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Status</SelectItem>
-                    <SelectItem value="active">Active</SelectItem>
-                    <SelectItem value="inactive">Inactive</SelectItem>
-                    <SelectItem value="on_leave">On Leave</SelectItem>
-                    <SelectItem value="terminated">Terminated</SelectItem>
-                  </SelectContent>
-                </Select>
+                <div className="flex gap-2">
+                  <Select value={departmentFilter} onValueChange={setDepartmentFilter}>
+                    <SelectTrigger className="flex-1 md:w-[150px]">
+                      <Filter className="mr-2 h-4 w-4" />
+                      <SelectValue placeholder="Department" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">All Departments</SelectItem>
+                      <SelectItem value="Sales">Sales</SelectItem>
+                      <SelectItem value="Marketing">Marketing</SelectItem>
+                      <SelectItem value="IT">IT</SelectItem>
+                      <SelectItem value="Finance">Finance</SelectItem>
+                      <SelectItem value="HR">HR</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <Select value={statusFilter} onValueChange={setStatusFilter}>
+                    <SelectTrigger className="flex-1 md:w-[130px]">
+                      <SelectValue placeholder="Status" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">All Status</SelectItem>
+                      <SelectItem value="active">Active</SelectItem>
+                      <SelectItem value="inactive">Inactive</SelectItem>
+                      <SelectItem value="on_leave">On Leave</SelectItem>
+                      <SelectItem value="terminated">Terminated</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
             </CardHeader>
             <CardContent>
