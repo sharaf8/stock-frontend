@@ -1012,9 +1012,10 @@ ${data.timeEntries.map((entry: any) => {
         <div className="flex flex-col gap-2 sm:flex-row">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline">
+              <Button variant="outline" className="w-full sm:w-auto justify-center">
                 <Download className="mr-2 h-4 w-4" />
-                Export Report
+                <span className="hidden sm:inline">Export Report</span>
+                <span className="sm:hidden">Export</span>
                 <ChevronDown className="ml-2 h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
@@ -1073,9 +1074,10 @@ ${data.timeEntries.map((entry: any) => {
           </DropdownMenu>
           <Dialog open={isAttendanceOpen} onOpenChange={setIsAttendanceOpen}>
             <DialogTrigger asChild>
-              <Button variant="outline">
+              <Button variant="outline" className="w-full sm:w-auto justify-center">
                 <Clock className="mr-2 h-4 w-4" />
-                Mark Attendance
+                <span className="hidden sm:inline">Mark Attendance</span>
+                <span className="sm:hidden">Attendance</span>
               </Button>
             </DialogTrigger>
             <DialogContent className="max-w-md">
@@ -1179,9 +1181,10 @@ ${data.timeEntries.map((entry: any) => {
           </Dialog>
           <Dialog open={isAddSaleOpen} onOpenChange={setIsAddSaleOpen}>
             <DialogTrigger asChild>
-              <Button variant="outline">
+              <Button variant="outline" className="w-full sm:w-auto justify-center">
                 <ShoppingCart className="mr-2 h-4 w-4" />
-                Record Sale
+                <span className="hidden sm:inline">Record Sale</span>
+                <span className="sm:hidden">Sale</span>
               </Button>
             </DialogTrigger>
             <DialogContent className="max-w-md">
@@ -1278,9 +1281,10 @@ ${data.timeEntries.map((entry: any) => {
           </Dialog>
           <Dialog open={isAddEmployeeOpen} onOpenChange={setIsAddEmployeeOpen}>
             <DialogTrigger asChild>
-              <Button>
+              <Button className="w-full sm:w-auto justify-center">
                 <Plus className="mr-2 h-4 w-4" />
-                Add Employee
+                <span className="hidden sm:inline">Add Employee</span>
+                <span className="sm:hidden">Add</span>
               </Button>
             </DialogTrigger>
             <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
