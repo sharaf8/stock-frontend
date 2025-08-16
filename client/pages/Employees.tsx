@@ -1000,13 +1000,16 @@ ${data.timeEntries.map((entry: any) => {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="space-y-4 md:space-y-6">
+      {/* Mobile-optimized header */}
+      <div className="flex flex-col space-y-4 md:flex-row md:items-center md:justify-between md:space-y-0">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Employee Management</h1>
-          <p className="text-muted-foreground">Manage staff, roles, performance, and sales tracking</p>
+          <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Employee Management</h1>
+          <p className="text-sm md:text-base text-muted-foreground">Manage staff, roles, performance, and sales tracking</p>
         </div>
-        <div className="flex gap-2">
+
+        {/* Mobile-first action buttons */}
+        <div className="flex flex-col gap-2 sm:flex-row">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline">
@@ -1489,16 +1492,16 @@ ${data.timeEntries.map((entry: any) => {
         </div>
       </div>
 
-      {/* HR Overview Cards */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
+      {/* Mobile-optimized overview cards */}
+      <div className="grid gap-3 grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Employees</CardTitle>
+            <CardTitle className="text-xs sm:text-sm font-medium">Total Employees</CardTitle>
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{employees.length}</div>
-            <p className="text-xs text-muted-foreground">
+            <div className="text-xl sm:text-2xl font-bold">{employees.length}</div>
+            <p className="text-xs text-muted-foreground hidden sm:block">
               {employees.filter(e => e.status === 'active').length} active
             </p>
           </CardContent>
