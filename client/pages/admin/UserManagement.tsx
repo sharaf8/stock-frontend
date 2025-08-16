@@ -9,9 +9,6 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import RoleBadge, { RoleSelector } from '@/components/ui/role-badge';
 import PermissionDisplay from '@/components/ui/permission-display';
 import UserCreateDialog from '@/components/UserCreateDialog';
-import RoleCreateDialog from '@/components/RoleCreateDialog';
-import { RoleComparison } from '@/components/ui/permission-display';
-import EnhancedRoleManagement from '@/components/EnhancedRoleManagement';
 import {
   Dialog,
   DialogContent,
@@ -36,12 +33,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
 import { 
   Search, 
@@ -171,14 +162,9 @@ export default function UserManagement() {
         </p>
       </div>
 
-      <Tabs defaultValue="users" className="w-full">
-        <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="users">User Management</TabsTrigger>
-          <TabsTrigger value="roles">Role Management</TabsTrigger>
-        </TabsList>
+      <div className="w-full">
 
-        {/* Users Tab */}
-        <TabsContent value="users" className="space-y-6">
+        <div className="space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
               <h2 className="text-xl font-semibold">Users</h2>
@@ -467,26 +453,8 @@ export default function UserManagement() {
           )}
         </DialogContent>
       </Dialog>
-        </TabsContent>
-
-        {/* Roles Tab */}
-        <TabsContent value="roles" className="space-y-6">
-          <EnhancedRoleManagement onRoleChange={() => loadUsers()} />
-
-          {/* Role Comparison - Keep this for reference */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Framework Role Comparison</CardTitle>
-              <CardDescription>
-                Compare permissions across system-defined roles
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <RoleComparison roles={Object.keys(ROLE_PERMISSIONS) as Role[]} />
-            </CardContent>
-          </Card>
-        </TabsContent>
-      </Tabs>
+        </div>
+      </div>
     </div>
   );
 }
