@@ -311,65 +311,150 @@ export default function Employees() {
   });
 
   useEffect(() => {
-    const fetchEmployees = async () => {
+    const loadMockEmployees = async () => {
       setLoading(true);
-      setError(null);
-      try {
-        const res = await fetch("http://localhost:5002/api/workers");
-        if (!res.ok) {
-          const errorText = await res.text();
-          throw new Error(`HTTP error! Status: ${res.status}, Message: ${errorText}`);
-        }
+      setError("");
 
-        const data = await res.json();
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 500));
 
-        if (data.ok) {
-          const employeesWithHireDate = data.result.map((emp: any) => ({
-            ...emp,
-            hireDate: emp.createdAt,
-          }));
-          setEmployees(employeesWithHireDate);
-        } else {
-          let message = "Unknown backend error";
-          if (data.message) message = data.message;
-          else if (data.error) message = data.error;
-          throw new Error(message);
+      // Mock employee data
+      const mockEmployees: Employee[] = [
+        {
+          id: "1",
+          employeeId: "EMP001",
+          firstName: "John",
+          lastName: "Smith",
+          email: "john.smith@company.com",
+          phone: "+1 (555) 123-4567",
+          address: "123 Main St, New York, NY 10001",
+          department: "Sales",
+          position: "Senior Sales Manager",
+          role: "manager",
+          salary: 85000,
+          commission: 5,
+          hireDate: "2023-01-15",
+          status: "active",
+          skills: ["Sales", "Team Leadership", "CRM"],
+          notes: "Top performer in Q4 2023",
+          salesTarget: 50000
+        },
+        {
+          id: "2",
+          employeeId: "EMP002",
+          firstName: "Sarah",
+          lastName: "Johnson",
+          email: "sarah.johnson@company.com",
+          phone: "+1 (555) 234-5678",
+          address: "456 Oak Ave, Boston, MA 02101",
+          department: "Marketing",
+          position: "Marketing Specialist",
+          role: "worker",
+          salary: 65000,
+          commission: 2,
+          hireDate: "2023-03-20",
+          status: "active",
+          skills: ["Digital Marketing", "Content Creation", "Analytics"],
+          notes: "Excellent content creator",
+        },
+        {
+          id: "3",
+          employeeId: "EMP003",
+          firstName: "Michael",
+          lastName: "Brown",
+          email: "michael.brown@company.com",
+          phone: "+1 (555) 345-6789",
+          address: "789 Pine St, Chicago, IL 60601",
+          department: "IT",
+          position: "Software Developer",
+          role: "worker",
+          salary: 75000,
+          commission: 0,
+          hireDate: "2022-11-10",
+          status: "active",
+          skills: ["React", "Node.js", "TypeScript"],
+          notes: "Full-stack developer"
+        },
+        {
+          id: "4",
+          employeeId: "EMP004",
+          firstName: "Lisa",
+          lastName: "Davis",
+          email: "lisa.davis@company.com",
+          phone: "+1 (555) 456-7890",
+          address: "321 Elm St, Los Angeles, CA 90210",
+          department: "Sales",
+          position: "Sales Representative",
+          role: "worker",
+          salary: 55000,
+          commission: 3.5,
+          hireDate: "2023-06-01",
+          status: "active",
+          skills: ["Customer Service", "Product Knowledge"],
+          notes: "Rising star in sales team",
+          salesTarget: 35000
         }
-      } catch (err: any) {
-        setError(err.message || "An unknown error occurred");
-      } finally {
-        setLoading(false);
-      }
+      ];
+
+      setEmployees(mockEmployees);
+      setLoading(false);
     };
 
-    fetchEmployees();
+    loadMockEmployees();
   }, []);
 
-  // --- Fetch Attendance for Selected Date ---
-  const fetchAttendanceForDate = async (date: string) => {
-    try {
-      const res = await fetch(`http://localhost:5002/api/workers-attendance/${date}?date=${date}`);
-      const data = await res.json();
-      if (data.ok) {
-        setAttendanceEntries(data.result);
-      } else {
-        toast({
-          title: "Error",
-          description: data.message || "Failed to fetch attendance",
-          variant: "destructive",
-        });
+  // --- Load Mock Attendance for Selected Date ---
+  const loadMockAttendanceForDate = async (date: string) => {
+    // Simulate API delay
+    await new Promise(resolve => setTimeout(resolve, 300));
+
+    // Mock attendance data for the selected date
+    const mockAttendance: AttendanceEntry[] = [
+      {
+        id: "att1",
+        employeeId: "1",
+        date: date,
+        clockIn: "08:30",
+        clockOut: "17:15",
+        totalHours: 8.75,
+        status: "present",
+        notes: "Regular day"
+      },
+      {
+        id: "att2",
+        employeeId: "2",
+        date: date,
+        clockIn: "09:00",
+        clockOut: "18:00",
+        totalHours: 8.0,
+        status: "present"
+      },
+      {
+        id: "att3",
+        employeeId: "3",
+        date: date,
+        clockIn: "08:45",
+        clockOut: "17:30",
+        totalHours: 8.75,
+        status: "present"
+      },
+      {
+        id: "att4",
+        employeeId: "4",
+        date: date,
+        clockIn: "09:15",
+        clockOut: "17:45",
+        totalHours: 8.5,
+        status: "late",
+        notes: "Traffic delay"
       }
-    } catch (err) {
-      toast({
-        title: "Error",
-        description: "Network error or server not reachable",
-        variant: "destructive",
-      });
-    }
+    ];
+
+    setAttendanceEntries(mockAttendance);
   };
 
   useEffect(() => {
-    fetchAttendanceForDate(selectedDate);
+    loadMockAttendanceForDate(selectedDate);
   }, [selectedDate]);
 
   const getSalesEmployees = () => employees.filter(emp => emp.department === "Sales" && emp.status === "active");
