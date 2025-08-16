@@ -192,8 +192,8 @@ export default function Layout({ children }: LayoutProps) {
               <Menu className="h-4 w-4" />
             </Button>
 
-            {/* Search */}
-            <div className="relative flex-1 max-w-sm">
+            {/* Search - hidden on small screens */}
+            <div className="relative flex-1 max-w-sm hidden md:block">
               <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
                 placeholder={t('common.search') + '...'}
@@ -201,12 +201,12 @@ export default function Layout({ children }: LayoutProps) {
               />
             </div>
 
-            <div className="flex items-center gap-2">
-              {/* Language switcher */}
+            <div className="flex items-center gap-1 md:gap-2">
+              {/* Language switcher - smaller on mobile */}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="sm">
-                    <Globe className="h-4 w-4" />
+                  <Button variant="ghost" size="sm" className="h-8 w-8 md:h-9 md:w-9">
+                    <Globe className="h-3 w-3 md:h-4 md:w-4" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
@@ -233,29 +233,30 @@ export default function Layout({ children }: LayoutProps) {
                 </DropdownMenuContent>
               </DropdownMenu>
 
-              {/* Theme toggle */}
+              {/* Theme toggle - smaller on mobile */}
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={toggleTheme}
+                className="h-8 w-8 md:h-9 md:w-9"
               >
                 {theme === 'light' ? (
-                  <Moon className="h-4 w-4" />
+                  <Moon className="h-3 w-3 md:h-4 md:w-4" />
                 ) : (
-                  <Sun className="h-4 w-4" />
+                  <Sun className="h-3 w-3 md:h-4 md:w-4" />
                 )}
               </Button>
 
-              {/* Notifications */}
-              <Button variant="ghost" size="sm">
-                <Bell className="h-4 w-4" />
+              {/* Notifications - smaller on mobile */}
+              <Button variant="ghost" size="sm" className="h-8 w-8 md:h-9 md:w-9">
+                <Bell className="h-3 w-3 md:h-4 md:w-4" />
               </Button>
             </div>
           </div>
         </header>
 
-        {/* Page content */}
-        <main className="p-6">
+        {/* Page content - mobile-optimized padding */}
+        <main className="p-4 md:p-6">
           {children}
         </main>
       </div>
