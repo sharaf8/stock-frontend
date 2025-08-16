@@ -1081,7 +1081,7 @@ ${data.timeEntries.map((entry: any) => {
                 <span className="sm:hidden">Attendance</span>
               </Button>
             </DialogTrigger>
-            <DialogContent className="max-w-md">
+            <DialogContent className="max-w-md mx-4 max-h-[90vh] overflow-y-auto">
               <DialogHeader>
                 <DialogTitle>Mark Employee Attendance</DialogTitle>
                 <DialogDescription>
@@ -1188,7 +1188,7 @@ ${data.timeEntries.map((entry: any) => {
                 <span className="sm:hidden">Sale</span>
               </Button>
             </DialogTrigger>
-            <DialogContent className="max-w-md">
+            <DialogContent className="max-w-md mx-4 max-h-[90vh] overflow-y-auto">
               <DialogHeader>
                 <DialogTitle>Record Daily Sale</DialogTitle>
                 <DialogDescription>
@@ -1288,7 +1288,7 @@ ${data.timeEntries.map((entry: any) => {
                 <span className="sm:hidden">Add</span>
               </Button>
             </DialogTrigger>
-            <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+            <DialogContent className="max-w-2xl mx-4 max-h-[90vh] overflow-y-auto">
               <DialogHeader>
                 <DialogTitle>Add New Employee</DialogTitle>
                 <DialogDescription>
