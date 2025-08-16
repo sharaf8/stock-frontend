@@ -558,46 +558,37 @@ export default function Employees() {
       return;
     }
 
-    const attendancePayload = {
+    // Simulate API delay
+    await new Promise(resolve => setTimeout(resolve, 500));
+
+    // Calculate total hours if both clock in and out are provided
+    let totalHours = 0;
+    if (newAttendance.clockIn && newAttendance.clockOut) {
+      const clockIn = new Date(`2000-01-01T${newAttendance.clockIn}:00`);
+      const clockOut = new Date(`2000-01-01T${newAttendance.clockOut}:00`);
+      totalHours = (clockOut.getTime() - clockIn.getTime()) / (1000 * 60 * 60);
+    }
+
+    const attendanceEntry: AttendanceEntry = {
+      id: Date.now().toString(),
+      employeeId: newAttendance.employeeId!,
+      date: newAttendance.date!,
       clockIn: newAttendance.clockIn,
       clockOut: newAttendance.clockOut,
+      totalHours: totalHours,
       status: newAttendance.status || 'present',
-      note: newAttendance.notes || "",
+      notes: newAttendance.notes || ""
     };
 
-    try {
-      const response = await fetch(`http://localhost:5002/api/workers-attendance/${newAttendance.employeeId}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(attendancePayload),
-      });
+    setAttendanceEntries([...attendanceEntries, attendanceEntry]);
+    clearNewAttendance();
+    setIsAttendanceOpen(false);
 
-      const data = await response.json();
-
-      if (data.ok) {
-        setAttendanceEntries([...attendanceEntries, data.result]);
-        clearNewAttendance();
-        setIsAttendanceOpen(false);
-
-        const employee = employees.find(emp => emp.id === newAttendance.employeeId);
-        toast({
-          title: "Attendance recorded",
-          description: `Attendance recorded for ${employee?.firstName} ${employee?.lastName}.`,
-        });
-      } else {
-        toast({
-          title: "Error",
-          description: data.message || "Failed to record attendance",
-          variant: "destructive",
-        });
-      }
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Network error or server not reachable",
-        variant: "destructive",
-      });
-    }
+    const employee = employees.find(emp => emp.id === newAttendance.employeeId);
+    toast({
+      title: "Attendance recorded",
+      description: `Attendance recorded for ${employee?.firstName} ${employee?.lastName}.`,
+    });
   };
 
 
@@ -643,7 +634,11 @@ export default function Employees() {
       return;
     }
 
-    const payload = {
+    // Simulate API delay
+    await new Promise(resolve => setTimeout(resolve, 500));
+
+    const employeeToAdd: Employee = {
+      id: Date.now().toString(),
       employeeId: generateEmployeeId(),
       firstName: newEmployee.firstName!,
       lastName: newEmployee.lastName!,
@@ -658,46 +653,18 @@ export default function Employees() {
       status: 'active',
       skills: newEmployee.skills || [],
       notes: newEmployee.notes || "",
-      salesTarget: newEmployee.salesTarget || 0
+      salesTarget: newEmployee.salesTarget || 0,
+      hireDate: new Date().toISOString().split('T')[0]
     };
 
-    try {
-      const res = await fetch("http://localhost:5002/api/workers", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
+    setEmployees([...employees, employeeToAdd]);
+    clearNewEmployee();
+    setIsAddEmployeeOpen(false);
 
-      const data = await res.json();
-
-      if (data.ok) {
-        const employeeFromServer: Employee = {
-          ...data.result,
-          hireDate: data.result.createdAt,
-        };
-
-        setEmployees([...employees, employeeFromServer]);
-        clearNewEmployee();
-        setIsAddEmployeeOpen(false);
-
-        toast({
-          title: "Employee added",
-          description: `${employeeFromServer.firstName} ${employeeFromServer.lastName} has been added to the team.`,
-        });
-      } else {
-        toast({
-          title: "Error",
-          description: "Failed to add employee on server",
-          variant: "destructive",
-        });
-      }
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Network error or server not reachable",
-        variant: "destructive",
-      });
-    }
+    toast({
+      title: "Employee added",
+      description: `${employeeToAdd.firstName} ${employeeToAdd.lastName} has been added to the team.`,
+    });
   };
 
 
@@ -711,7 +678,11 @@ export default function Employees() {
       return;
     }
 
-    const updatedEmployeeData = {
+    // Simulate API delay
+    await new Promise(resolve => setTimeout(resolve, 500));
+
+    const updatedEmployee: Employee = {
+      ...selectedEmployee,
       firstName: newEmployee.firstName!,
       lastName: newEmployee.lastName!,
       phone: newEmployee.phone || "",
@@ -721,55 +692,20 @@ export default function Employees() {
       role: newEmployee.role || 'worker',
       salary: newEmployee.salary || 0,
       commission: newEmployee.commission || 0,
-      status: selectedEmployee.status || 'active',
-      manager: newEmployee.manager || selectedEmployee.manager || null,
       skills: newEmployee.skills || [],
       notes: newEmployee.notes || "",
       salesTarget: newEmployee.salesTarget || 0
     };
 
-    try {
-      const res = await fetch(`http://localhost:5002/api/workers/${selectedEmployee.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updatedEmployeeData),
-      });
+    setEmployees(employees.map(emp => emp.id === selectedEmployee.id ? updatedEmployee : emp));
+    clearNewEmployee();
+    setIsEditEmployeeOpen(false);
+    setSelectedEmployee(null);
 
-      const data = await res.json();
-
-      if (res.ok && data.ok) {
-        const updatedEmployee: Employee = {
-          ...selectedEmployee,
-          ...updatedEmployeeData,
-          hireDate: selectedEmployee.hireDate,
-        };
-
-        setEmployees(employees.map(emp => emp.id === selectedEmployee.id ? updatedEmployee : emp));
-        clearNewEmployee();
-        setIsEditEmployeeOpen(false);
-        setSelectedEmployee(null);
-
-        toast({
-          title: "Employee updated",
-          description: `${updatedEmployee.firstName} ${updatedEmployee.lastName} has been updated.`,
-        });
-      } else {
-        const message = data.message || "Failed to update employee";
-        toast({
-          title: "Error",
-          description: message,
-          variant: "destructive",
-        });
-      }
-    } catch (error: any) {
-      toast({
-        title: "Error",
-        description: error.message || "Network error",
-        variant: "destructive",
-      });
-    }
+    toast({
+      title: "Employee updated",
+      description: `${updatedEmployee.firstName} ${updatedEmployee.lastName} has been updated.`,
+    });
   };
 
 
@@ -784,34 +720,14 @@ export default function Employees() {
       return;
     }
 
-    try {
-      const res = await fetch(`http://localhost:5002/api/workers/${employeeId}`, {
-        method: "DELETE",
-      });
+    // Simulate API delay
+    await new Promise(resolve => setTimeout(resolve, 300));
 
-      const data = await res.json();
-
-      if (res.ok && data.ok) {
-        setEmployees(employees.filter(emp => emp.id !== employeeId));
-        toast({
-          title: "Employee removed",
-          description: `${employee.firstName} ${employee.lastName} has been removed from the team.`,
-        });
-      } else {
-        const message = data.message || "Failed to delete employee";
-        toast({
-          title: "Error",
-          description: message,
-          variant: "destructive",
-        });
-      }
-    } catch (error: any) {
-      toast({
-        title: "Error",
-        description: error.message || "Network error",
-        variant: "destructive",
-      });
-    }
+    setEmployees(employees.filter(emp => emp.id !== employeeId));
+    toast({
+      title: "Employee removed",
+      description: `${employee.firstName} ${employee.lastName} has been removed from the team.`,
+    });
   };
 
 
