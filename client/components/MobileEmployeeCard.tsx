@@ -18,7 +18,7 @@ import {
   Eye,
   Trash2,
   DollarSign,
-  Calendar
+  Calendar,
 } from "lucide-react";
 
 interface MobileEmployeeCardProps {
@@ -34,35 +34,69 @@ export default function MobileEmployeeCard({
   onEdit,
   onView,
   onDelete,
-  onStatusChange
+  onStatusChange,
 }: MobileEmployeeCardProps) {
   const getStatusBadge = (status: string) => {
     switch (status) {
-      case 'active':
-        return <Badge className="bg-green-100 text-green-800 text-xs">Active</Badge>;
-      case 'inactive':
-        return <Badge variant="secondary" className="text-xs">Inactive</Badge>;
-      case 'terminated':
-        return <Badge variant="destructive" className="text-xs">Terminated</Badge>;
-      case 'on_leave':
-        return <Badge className="bg-yellow-100 text-yellow-800 text-xs">On Leave</Badge>;
+      case "active":
+        return (
+          <Badge className="bg-green-100 text-green-800 text-xs">Active</Badge>
+        );
+      case "inactive":
+        return (
+          <Badge variant="secondary" className="text-xs">
+            Inactive
+          </Badge>
+        );
+      case "terminated":
+        return (
+          <Badge variant="destructive" className="text-xs">
+            Terminated
+          </Badge>
+        );
+      case "on_leave":
+        return (
+          <Badge className="bg-yellow-100 text-yellow-800 text-xs">
+            On Leave
+          </Badge>
+        );
       default:
-        return <Badge variant="outline" className="text-xs">Unknown</Badge>;
+        return (
+          <Badge variant="outline" className="text-xs">
+            Unknown
+          </Badge>
+        );
     }
   };
 
   const getRoleBadge = (role: string) => {
     switch (role) {
-      case 'admin':
-        return <Badge className="bg-purple-100 text-purple-800 text-xs">Admin</Badge>;
-      case 'manager':
-        return <Badge className="bg-blue-100 text-blue-800 text-xs">Manager</Badge>;
-      case 'worker':
-        return <Badge variant="outline" className="text-xs">Employee</Badge>;
-      case 'intern':
-        return <Badge className="bg-orange-100 text-orange-800 text-xs">Intern</Badge>;
+      case "admin":
+        return (
+          <Badge className="bg-purple-100 text-purple-800 text-xs">Admin</Badge>
+        );
+      case "manager":
+        return (
+          <Badge className="bg-blue-100 text-blue-800 text-xs">Manager</Badge>
+        );
+      case "worker":
+        return (
+          <Badge variant="outline" className="text-xs">
+            Employee
+          </Badge>
+        );
+      case "intern":
+        return (
+          <Badge className="bg-orange-100 text-orange-800 text-xs">
+            Intern
+          </Badge>
+        );
       default:
-        return <Badge variant="outline" className="text-xs">Unknown</Badge>;
+        return (
+          <Badge variant="outline" className="text-xs">
+            Unknown
+          </Badge>
+        );
     }
   };
 
@@ -83,20 +117,20 @@ export default function MobileEmployeeCard({
                   {getInitials(employee.firstName, employee.lastName)}
                 </AvatarFallback>
               </Avatar>
-              
+
               <div className="flex-1 min-w-0">
                 <h3 className="font-semibold text-base truncate">
                   {employee.firstName} {employee.lastName}
                 </h3>
                 <p className="text-sm text-muted-foreground truncate">
-                  {employee.position || 'No position'}
+                  {employee.position || "No position"}
                 </p>
                 <p className="text-xs text-muted-foreground">
                   ID: {employee.employeeId}
                 </p>
               </div>
             </div>
-            
+
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
@@ -112,7 +146,7 @@ export default function MobileEmployeeCard({
                   <Edit className="mr-2 h-4 w-4" />
                   Edit
                 </DropdownMenuItem>
-                <DropdownMenuItem 
+                <DropdownMenuItem
                   onClick={() => onDelete(employee.id)}
                   className="text-red-600"
                 >
@@ -138,7 +172,7 @@ export default function MobileEmployeeCard({
               <Mail className="h-3 w-3 text-muted-foreground flex-shrink-0" />
               <span className="truncate">{employee.email}</span>
             </div>
-            
+
             {employee.phone && (
               <div className="flex items-center gap-2 text-sm">
                 <Phone className="h-3 w-3 text-muted-foreground flex-shrink-0" />
@@ -148,11 +182,13 @@ export default function MobileEmployeeCard({
           </div>
 
           {/* Financial info for sales roles */}
-          {employee.department === 'Sales' && (
+          {employee.department === "Sales" && (
             <div className="flex justify-between text-sm pt-2 border-t">
               <div className="flex items-center gap-1">
                 <DollarSign className="h-3 w-3 text-green-600" />
-                <span className="text-xs">Salary: ${employee.salary.toLocaleString()}</span>
+                <span className="text-xs">
+                  Salary: ${employee.salary.toLocaleString()}
+                </span>
               </div>
               {employee.commission > 0 && (
                 <div className="text-xs text-muted-foreground">
@@ -165,7 +201,9 @@ export default function MobileEmployeeCard({
           {/* Hire date */}
           <div className="flex items-center gap-2 text-xs text-muted-foreground pt-1">
             <Calendar className="h-3 w-3" />
-            <span>Joined {new Date(employee.hireDate).toLocaleDateString()}</span>
+            <span>
+              Joined {new Date(employee.hireDate).toLocaleDateString()}
+            </span>
           </div>
         </div>
       </CardContent>

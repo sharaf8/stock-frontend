@@ -40,7 +40,6 @@ import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-
 interface LayoutProps {
   children: React.ReactNode;
 }
@@ -57,23 +56,27 @@ export default function Layout({ children }: LayoutProps) {
   const { t } = useTranslation();
 
   const allNavigation = [
-    { name: t('navigation.dashboard'), href: "/dashboard", icon: LayoutDashboard },
-    { name: t('navigation.warehouse'), href: "/warehouse", icon: Package },
-    { name: t('navigation.clients'), href: "/clients", icon: Users },
-    { name: t('navigation.sales'), href: "/sales", icon: ShoppingCart },
-    { name: t('navigation.finance'), href: "/finance", icon: DollarSign },
-    { name: t('navigation.employees'), href: "/employees", icon: UserPlus },
-    { name: 'User Management', href: "/admin/users", icon: Shield },
-    { name: t('navigation.settings'), href: "/settings", icon: Settings },
+    {
+      name: t("navigation.dashboard"),
+      href: "/dashboard",
+      icon: LayoutDashboard,
+    },
+    { name: t("navigation.warehouse"), href: "/warehouse", icon: Package },
+    { name: t("navigation.clients"), href: "/clients", icon: Users },
+    { name: t("navigation.sales"), href: "/sales", icon: ShoppingCart },
+    { name: t("navigation.finance"), href: "/finance", icon: DollarSign },
+    { name: t("navigation.employees"), href: "/employees", icon: UserPlus },
+    { name: "User Management", href: "/admin/users", icon: Shield },
+    { name: t("navigation.settings"), href: "/settings", icon: Settings },
   ];
 
   // Filter navigation based on user permissions
-  const navigation = allNavigation.filter(item => canAccessRoute(item.href));
+  const navigation = allNavigation.filter((item) => canAccessRoute(item.href));
 
   const handleLogout = () => {
     logout();
     toast({
-      title: t('auth.logout'),
+      title: t("auth.logout"),
       description: "You have been successfully logged out.",
     });
     navigate("/auth/login");
@@ -83,7 +86,7 @@ export default function Layout({ children }: LayoutProps) {
     setLanguage(newLanguage);
     toast({
       title: "Language changed",
-      description: `Language switched to ${newLanguage === 'en' ? 'English' : newLanguage === 'tg' ? 'Тоҷикӣ' : 'Русский'}`,
+      description: `Language switched to ${newLanguage === "en" ? "English" : newLanguage === "tg" ? "Тоҷикӣ" : "Русский"}`,
     });
   };
 
@@ -94,7 +97,7 @@ export default function Layout({ children }: LayoutProps) {
         className={cn(
           "fixed inset-y-0 left-0 z-50 w-64 bg-card border-r border-border transform transition-transform duration-200 ease-in-out",
           sidebarOpen ? "translate-x-0" : "-translate-x-full",
-          "lg:translate-x-0"
+          "lg:translate-x-0",
         )}
       >
         <div className="flex flex-col h-full">
@@ -121,7 +124,7 @@ export default function Layout({ children }: LayoutProps) {
                     "flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
                     isActive
                       ? "bg-primary text-primary-foreground"
-                      : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                      : "text-muted-foreground hover:text-foreground hover:bg-muted",
                   )}
                 >
                   <item.icon className="h-4 w-4" />
@@ -135,16 +138,27 @@ export default function Layout({ children }: LayoutProps) {
           <div className="p-4 border-t">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="w-full p-2 h-auto justify-start">
+                <Button
+                  variant="ghost"
+                  className="w-full p-2 h-auto justify-start"
+                >
                   <div className="flex items-center gap-3 w-full">
                     <div className="w-8 h-8 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center">
                       <span className="text-white text-sm font-medium">
-                        {user?.name.split(' ').map(n => n[0]).join('').toUpperCase() || 'U'}
+                        {user?.name
+                          .split(" ")
+                          .map((n) => n[0])
+                          .join("")
+                          .toUpperCase() || "U"}
                       </span>
                     </div>
                     <div className="flex-1 min-w-0 text-left">
-                      <p className="text-sm font-medium truncate">{user?.name || 'User'}</p>
-                      <p className="text-xs text-muted-foreground truncate">{user?.email}</p>
+                      <p className="text-sm font-medium truncate">
+                        {user?.name || "User"}
+                      </p>
+                      <p className="text-xs text-muted-foreground truncate">
+                        {user?.email}
+                      </p>
                       {currentUser && (
                         <div className="mt-1">
                           <RoleBadge role={currentUser.role} size="sm" />
@@ -159,18 +173,23 @@ export default function Layout({ children }: LayoutProps) {
                 <DropdownMenuLabel>
                   <div>
                     <p className="font-medium">{user?.name}</p>
-                    <p className="text-xs text-muted-foreground">{user?.email}</p>
+                    <p className="text-xs text-muted-foreground">
+                      {user?.email}
+                    </p>
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => navigate('/settings')}>
+                <DropdownMenuItem onClick={() => navigate("/settings")}>
                   <Settings className="mr-2 h-4 w-4" />
-                  {t('navigation.settings')}
+                  {t("navigation.settings")}
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={handleLogout} className="text-red-600">
+                <DropdownMenuItem
+                  onClick={handleLogout}
+                  className="text-red-600"
+                >
                   <LogOut className="mr-2 h-4 w-4" />
-                  {t('auth.logout')}
+                  {t("auth.logout")}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -179,7 +198,12 @@ export default function Layout({ children }: LayoutProps) {
       </div>
 
       {/* Main content */}
-      <div className={cn("transition-all duration-200", sidebarOpen ? "lg:ml-64" : "")}>
+      <div
+        className={cn(
+          "transition-all duration-200",
+          sidebarOpen ? "lg:ml-64" : "",
+        )}
+      >
         {/* Top header */}
         <header className="sticky top-0 z-40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
           <div className="flex items-center gap-4 px-4 py-3">
@@ -196,7 +220,7 @@ export default function Layout({ children }: LayoutProps) {
             <div className="relative flex-1 max-w-sm hidden md:block">
               <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
-                placeholder={t('common.search') + '...'}
+                placeholder={t("common.search") + "..."}
                 className="pl-8"
               />
             </div>
@@ -205,7 +229,11 @@ export default function Layout({ children }: LayoutProps) {
               {/* Language switcher - smaller on mobile */}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="sm" className="h-8 w-8 md:h-9 md:w-9">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-8 w-8 md:h-9 md:w-9"
+                  >
                     <Globe className="h-3 w-3 md:h-4 md:w-4" />
                   </Button>
                 </DropdownMenuTrigger>
@@ -213,20 +241,20 @@ export default function Layout({ children }: LayoutProps) {
                   <DropdownMenuLabel>Language</DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem
-                    onClick={() => handleLanguageChange('en')}
-                    className={language === 'en' ? 'bg-accent' : ''}
+                    onClick={() => handleLanguageChange("en")}
+                    className={language === "en" ? "bg-accent" : ""}
                   >
                     🇺🇸 English
                   </DropdownMenuItem>
                   <DropdownMenuItem
-                    onClick={() => handleLanguageChange('tg')}
-                    className={language === 'tg' ? 'bg-accent' : ''}
+                    onClick={() => handleLanguageChange("tg")}
+                    className={language === "tg" ? "bg-accent" : ""}
                   >
                     🇹🇯 Тоҷикӣ
                   </DropdownMenuItem>
                   <DropdownMenuItem
-                    onClick={() => handleLanguageChange('ru')}
-                    className={language === 'ru' ? 'bg-accent' : ''}
+                    onClick={() => handleLanguageChange("ru")}
+                    className={language === "ru" ? "bg-accent" : ""}
                   >
                     🇷🇺 Русский
                   </DropdownMenuItem>
@@ -240,7 +268,7 @@ export default function Layout({ children }: LayoutProps) {
                 onClick={toggleTheme}
                 className="h-8 w-8 md:h-9 md:w-9"
               >
-                {theme === 'light' ? (
+                {theme === "light" ? (
                   <Moon className="h-3 w-3 md:h-4 md:w-4" />
                 ) : (
                   <Sun className="h-3 w-3 md:h-4 md:w-4" />
@@ -248,7 +276,11 @@ export default function Layout({ children }: LayoutProps) {
               </Button>
 
               {/* Notifications - smaller on mobile */}
-              <Button variant="ghost" size="sm" className="h-8 w-8 md:h-9 md:w-9">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-8 w-8 md:h-9 md:w-9"
+              >
                 <Bell className="h-3 w-3 md:h-4 md:w-4" />
               </Button>
             </div>
@@ -256,9 +288,7 @@ export default function Layout({ children }: LayoutProps) {
         </header>
 
         {/* Page content - mobile-optimized padding */}
-        <main className="p-4 md:p-6">
-          {children}
-        </main>
+        <main className="p-4 md:p-6">{children}</main>
       </div>
 
       {/* Mobile sidebar overlay */}

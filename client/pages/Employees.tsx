@@ -1,5 +1,11 @@
 import { useEffect, useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -20,7 +26,13 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -53,7 +65,7 @@ import {
   PieChart,
   FileSpreadsheet,
   ChevronDown,
-  X
+  X,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -63,7 +75,21 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, PieChart as RechartsPieChart, Pie, Cell } from 'recharts';
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+  PieChart as RechartsPieChart,
+  Pie,
+  Cell,
+} from "recharts";
 import { string } from "zod";
 
 interface Employee {
@@ -76,11 +102,11 @@ interface Employee {
   address: string;
   department: string;
   position: string;
-  role: 'admin' | 'manager' | 'worker' | 'intern';
+  role: "admin" | "manager" | "worker" | "intern";
   salary: number;
   commission: number;
   hireDate: string;
-  status: 'active' | 'inactive' | 'terminated' | 'on_leave';
+  status: "active" | "inactive" | "terminated" | "on_leave";
   avatar?: string;
   manager?: string;
   skills: string[];
@@ -107,7 +133,7 @@ interface TimeEntry {
   clockIn: string;
   clockOut?: string;
   totalHours: number;
-  status: 'present' | 'absent' | 'late' | 'half_day';
+  status: "present" | "absent" | "late" | "half_day";
   notes?: string;
 }
 
@@ -118,7 +144,7 @@ interface AttendanceEntry {
   clockIn?: string;
   clockOut?: string;
   totalHours: number;
-  status: 'present' | 'absent' | 'late' | 'half_day' | 'on_break';
+  status: "present" | "absent" | "late" | "half_day" | "on_break";
   breakStart?: string;
   breakEnd?: string;
   notes?: string;
@@ -134,7 +160,7 @@ const mockDailySales: DailySale[] = [
     clientName: "Tech Solutions Ltd",
     productsSold: ["iPhone 15 Pro", "MacBook Air M3"],
     commission: 275,
-    notes: "Large enterprise deal"
+    notes: "Large enterprise deal",
   },
   {
     id: "2",
@@ -145,7 +171,7 @@ const mockDailySales: DailySale[] = [
     clientName: "Startup Inc",
     productsSold: ["Samsung Galaxy S24"],
     commission: 66,
-    notes: "First time customer"
+    notes: "First time customer",
   },
   {
     id: "3",
@@ -155,7 +181,7 @@ const mockDailySales: DailySale[] = [
     quantity: 4,
     clientName: "Local Business",
     productsSold: ["Various Electronics"],
-    commission: 190
+    commission: 190,
   },
   {
     id: "4",
@@ -166,7 +192,7 @@ const mockDailySales: DailySale[] = [
     clientName: "Individual Customer",
     productsSold: ["iPad Pro"],
     commission: 52.5,
-    notes: "Retail sale"
+    notes: "Retail sale",
   },
   {
     id: "5",
@@ -176,8 +202,8 @@ const mockDailySales: DailySale[] = [
     quantity: 1,
     clientName: "Small Business",
     productsSold: ["MacBook Air"],
-    commission: 36
-  }
+    commission: 36,
+  },
 ];
 
 const mockTimeEntries: TimeEntry[] = [
@@ -188,7 +214,7 @@ const mockTimeEntries: TimeEntry[] = [
     clockIn: "08:30",
     clockOut: "17:15",
     totalHours: 8.75,
-    status: "present"
+    status: "present",
   },
   {
     id: "2",
@@ -198,7 +224,7 @@ const mockTimeEntries: TimeEntry[] = [
     clockOut: "18:00",
     totalHours: 8.75,
     status: "late",
-    notes: "Traffic delay"
+    notes: "Traffic delay",
   },
   {
     id: "3",
@@ -207,42 +233,45 @@ const mockTimeEntries: TimeEntry[] = [
     clockIn: "08:00",
     clockOut: "16:30",
     totalHours: 8.5,
-    status: "present"
-  }
+    status: "present",
+  },
 ];
 
 // Sample sales performance data
 const salesPerformanceData = [
-  { month: 'Jan', johnSales: 450, sarahSales: 280, lisaSales: 200 },
-  { month: 'Feb', johnSales: 5200, sarahSales: 3200, lisaSales: 250 },
-  { month: 'Mar', johnSales: 48, sarahSales: 350, lisaSales: 280 },
-  { month: 'Apr', johnSales: 610, sarahSales: 380, lisaSales: 300 },
-  { month: 'May', johnSales: 550, sarahSales: 420, lisaSales: 320 },
-  { month: 'Jun', johnSales: 670, sarahSales: 450, lisaSales: 350 },
-  { month: 'Aug', johnSales: 670, sarahSales: 450, lisaSales: 350 },
-  { month: 'Sep', johnSales: 670, sarahSales: 45000, lisaSales: 350 },
-  { month: 'Okt', johnSales: 670, sarahSales: 450, lisaSales: 350 },
-  { month: 'Nov', johnSales: 670, sarahSales: 450, lisaSales: 350 },
-
+  { month: "Jan", johnSales: 450, sarahSales: 280, lisaSales: 200 },
+  { month: "Feb", johnSales: 5200, sarahSales: 3200, lisaSales: 250 },
+  { month: "Mar", johnSales: 48, sarahSales: 350, lisaSales: 280 },
+  { month: "Apr", johnSales: 610, sarahSales: 380, lisaSales: 300 },
+  { month: "May", johnSales: 550, sarahSales: 420, lisaSales: 320 },
+  { month: "Jun", johnSales: 670, sarahSales: 450, lisaSales: 350 },
+  { month: "Aug", johnSales: 670, sarahSales: 450, lisaSales: 350 },
+  { month: "Sep", johnSales: 670, sarahSales: 45000, lisaSales: 350 },
+  { month: "Okt", johnSales: 670, sarahSales: 450, lisaSales: 350 },
+  { month: "Nov", johnSales: 670, sarahSales: 450, lisaSales: 350 },
 ];
 
 const departmentData = [
-  { department: 'Sales', employees: 8, productivity: 92, avgSales: 35000 },
-  { department: 'Marketing', employees: 5, productivity: 88, avgSales: 0 },
-  { department: 'IT', employees: 12, productivity: 95, avgSales: 0 },
-  { department: 'Finance', employees: 4, productivity: 89, avgSales: 0 },
-  { department: 'HR', employees: 3, productivity: 87, avgSales: 0 },
+  { department: "Sales", employees: 8, productivity: 92, avgSales: 35000 },
+  { department: "Marketing", employees: 5, productivity: 88, avgSales: 0 },
+  { department: "IT", employees: 12, productivity: 95, avgSales: 0 },
+  { department: "Finance", employees: 4, productivity: 89, avgSales: 0 },
+  { department: "HR", employees: 3, productivity: 87, avgSales: 0 },
 ];
 
 export default function Employees() {
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [dailySales, setDailySales] = useState(mockDailySales);
   const [timeEntries, setTimeEntries] = useState<TimeEntry[]>([]);
-  const [attendanceEntries, setAttendanceEntries] = useState<AttendanceEntry[]>([]);
+  const [attendanceEntries, setAttendanceEntries] = useState<AttendanceEntry[]>(
+    [],
+  );
   const [searchTerm, setSearchTerm] = useState("");
   const [departmentFilter, setDepartmentFilter] = useState("all");
   const [statusFilter, setStatusFilter] = useState("all");
-  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
+  const [selectedDate, setSelectedDate] = useState(
+    new Date().toISOString().split("T")[0],
+  );
 
   // Dialog states
   const [isAddEmployeeOpen, setIsAddEmployeeOpen] = useState(false);
@@ -253,8 +282,11 @@ export default function Employees() {
   const [isAttendanceOpen, setIsAttendanceOpen] = useState(false);
 
   // Selected items
-  const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null);
-  const [selectedEmployeeSales, setSelectedEmployeeSales] = useState<Employee | null>(null);
+  const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(
+    null,
+  );
+  const [selectedEmployeeSales, setSelectedEmployeeSales] =
+    useState<Employee | null>(null);
 
   // Loading & error states
   const [loading, setLoading] = useState(true);
@@ -274,26 +306,26 @@ export default function Employees() {
     commission: 0,
     skills: [],
     notes: "",
-    salesTarget: 0
+    salesTarget: 0,
   });
 
   const [newAttendance, setNewAttendance] = useState<Partial<AttendanceEntry>>({
     employeeId: "",
-    date: new Date().toISOString().split('T')[0],
+    date: new Date().toISOString().split("T")[0],
     clockIn: "",
     clockOut: "",
     status: "present",
-    notes: ""
+    notes: "",
   });
 
   const [newSale, setNewSale] = useState<Partial<DailySale>>({
     employeeId: "",
-    date: new Date().toISOString().split('T')[0],
+    date: new Date().toISOString().split("T")[0],
     amount: 0,
     quantity: 0,
     clientName: "",
     productsSold: [],
-    notes: ""
+    notes: "",
   });
 
   // Skills management
@@ -301,13 +333,16 @@ export default function Employees() {
 
   const { toast } = useToast();
 
-  const filteredEmployees = employees.filter(employee => {
+  const filteredEmployees = employees.filter((employee) => {
     const fullName = `${employee.firstName} ${employee.lastName}`.toLowerCase();
-    const matchesSearch = fullName.includes(searchTerm.toLowerCase()) ||
-                         employee.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         employee.employeeId.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesDepartment = departmentFilter === "all" || employee.department === departmentFilter;
-    const matchesStatus = statusFilter === "all" || employee.status === statusFilter;
+    const matchesSearch =
+      fullName.includes(searchTerm.toLowerCase()) ||
+      employee.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      employee.employeeId.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesDepartment =
+      departmentFilter === "all" || employee.department === departmentFilter;
+    const matchesStatus =
+      statusFilter === "all" || employee.status === statusFilter;
     return matchesSearch && matchesDepartment && matchesStatus;
   });
 
@@ -317,7 +352,7 @@ export default function Employees() {
       setError("");
 
       // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 500));
+      await new Promise((resolve) => setTimeout(resolve, 500));
 
       // Mock employee data
       const mockEmployees: Employee[] = [
@@ -338,7 +373,7 @@ export default function Employees() {
           status: "active",
           skills: ["Sales", "Team Leadership", "CRM"],
           notes: "Top performer in Q4 2023",
-          salesTarget: 50000
+          salesTarget: 50000,
         },
         {
           id: "2",
@@ -374,7 +409,7 @@ export default function Employees() {
           hireDate: "2022-11-10",
           status: "active",
           skills: ["React", "Node.js", "TypeScript"],
-          notes: "Full-stack developer"
+          notes: "Full-stack developer",
         },
         {
           id: "4",
@@ -393,8 +428,8 @@ export default function Employees() {
           status: "active",
           skills: ["Customer Service", "Product Knowledge"],
           notes: "Rising star in sales team",
-          salesTarget: 35000
-        }
+          salesTarget: 35000,
+        },
       ];
 
       setEmployees(mockEmployees);
@@ -407,7 +442,7 @@ export default function Employees() {
   // --- Load Mock Attendance for Selected Date ---
   const loadMockAttendanceForDate = async (date: string) => {
     // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 300));
+    await new Promise((resolve) => setTimeout(resolve, 300));
 
     // Mock attendance data for the selected date
     const mockAttendance: AttendanceEntry[] = [
@@ -419,7 +454,7 @@ export default function Employees() {
         clockOut: "17:15",
         totalHours: 8.75,
         status: "present",
-        notes: "Regular day"
+        notes: "Regular day",
       },
       {
         id: "att2",
@@ -428,7 +463,7 @@ export default function Employees() {
         clockIn: "09:00",
         clockOut: "18:00",
         totalHours: 8.0,
-        status: "present"
+        status: "present",
       },
       {
         id: "att3",
@@ -437,7 +472,7 @@ export default function Employees() {
         clockIn: "08:45",
         clockOut: "17:30",
         totalHours: 8.75,
-        status: "present"
+        status: "present",
       },
       {
         id: "att4",
@@ -447,8 +482,8 @@ export default function Employees() {
         clockOut: "17:45",
         totalHours: 8.5,
         status: "late",
-        notes: "Traffic delay"
-      }
+        notes: "Traffic delay",
+      },
     ];
 
     setAttendanceEntries(mockAttendance);
@@ -458,30 +493,53 @@ export default function Employees() {
     loadMockAttendanceForDate(selectedDate);
   }, [selectedDate]);
 
-  const getSalesEmployees = () => employees.filter(emp => emp.department === "Sales" && emp.status === "active");
+  const getSalesEmployees = () =>
+    employees.filter(
+      (emp) => emp.department === "Sales" && emp.status === "active",
+    );
 
   const getDailySalesForEmployee = (employeeId: string, date: string) => {
-    return dailySales.filter(sale => sale.employeeId === employeeId && sale.date === date);
+    return dailySales.filter(
+      (sale) => sale.employeeId === employeeId && sale.date === date,
+    );
   };
 
   const getTotalSalesForEmployee = (employeeId: string, date: string) => {
-    return getDailySalesForEmployee(employeeId, date).reduce((sum, sale) => sum + sale.amount, 0);
+    return getDailySalesForEmployee(employeeId, date).reduce(
+      (sum, sale) => sum + sale.amount,
+      0,
+    );
   };
 
   const getTotalCommissionForEmployee = (employeeId: string, date: string) => {
-    return getDailySalesForEmployee(employeeId, date).reduce((sum, sale) => sum + sale.commission, 0);
+    return getDailySalesForEmployee(employeeId, date).reduce(
+      (sum, sale) => sum + sale.commission,
+      0,
+    );
   };
 
   const getStatusBadge = (status: string) => {
     switch (status) {
-      case 'active':
-        return <Badge variant="default" className="bg-green-100 text-green-800">Active</Badge>;
-      case 'inactive':
-        return <Badge variant="secondary" className="bg-gray-100 text-gray-800">Inactive</Badge>;
-      case 'terminated':
+      case "active":
+        return (
+          <Badge variant="default" className="bg-green-100 text-green-800">
+            Active
+          </Badge>
+        );
+      case "inactive":
+        return (
+          <Badge variant="secondary" className="bg-gray-100 text-gray-800">
+            Inactive
+          </Badge>
+        );
+      case "terminated":
         return <Badge variant="destructive">Terminated</Badge>;
-      case 'on_leave':
-        return <Badge variant="secondary" className="bg-yellow-100 text-yellow-800">On Leave</Badge>;
+      case "on_leave":
+        return (
+          <Badge variant="secondary" className="bg-yellow-100 text-yellow-800">
+            On Leave
+          </Badge>
+        );
       default:
         return <Badge variant="outline">Unknown</Badge>;
     }
@@ -489,14 +547,39 @@ export default function Employees() {
 
   const getRoleBadge = (role: string) => {
     switch (role) {
-      case 'admin':
-        return <Badge variant="default" className="bg-purple-100 text-purple-800">Admin</Badge>;
-      case 'manager':
-        return <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">Manager</Badge>;
-      case 'worker':
-        return <Badge variant="outline" className="bg-gray-50 text-gray-700 border-gray-200">Employee</Badge>;
-      case 'intern':
-        return <Badge variant="outline" className="bg-orange-50 text-orange-700 border-orange-200">Intern</Badge>;
+      case "admin":
+        return (
+          <Badge variant="default" className="bg-purple-100 text-purple-800">
+            Admin
+          </Badge>
+        );
+      case "manager":
+        return (
+          <Badge
+            variant="outline"
+            className="bg-blue-50 text-blue-700 border-blue-200"
+          >
+            Manager
+          </Badge>
+        );
+      case "worker":
+        return (
+          <Badge
+            variant="outline"
+            className="bg-gray-50 text-gray-700 border-gray-200"
+          >
+            Employee
+          </Badge>
+        );
+      case "intern":
+        return (
+          <Badge
+            variant="outline"
+            className="bg-orange-50 text-orange-700 border-orange-200"
+          >
+            Intern
+          </Badge>
+        );
       default:
         return <Badge variant="outline">Unknown</Badge>;
     }
@@ -504,7 +587,7 @@ export default function Employees() {
 
   const generateEmployeeId = () => {
     const count = employees.length + 1;
-    return `EMP${count.toString().padStart(3, '0')}`;
+    return `EMP${count.toString().padStart(3, "0")}`;
   };
 
   const clearNewEmployee = () => {
@@ -521,7 +604,7 @@ export default function Employees() {
       commission: 0,
       skills: [],
       notes: "",
-      salesTarget: 0
+      salesTarget: 0,
     });
     setCurrentSkill("");
   };
@@ -529,23 +612,23 @@ export default function Employees() {
   const clearNewSale = () => {
     setNewSale({
       employeeId: "",
-      date: new Date().toISOString().split('T')[0],
+      date: new Date().toISOString().split("T")[0],
       amount: 0,
       quantity: 0,
       clientName: "",
       productsSold: [],
-      notes: ""
+      notes: "",
     });
   };
 
   const clearNewAttendance = () => {
     setNewAttendance({
       employeeId: "",
-      date: new Date().toISOString().split('T')[0],
+      date: new Date().toISOString().split("T")[0],
       clockIn: "",
       clockOut: "",
       status: "present",
-      notes: ""
+      notes: "",
     });
   };
 
@@ -560,7 +643,7 @@ export default function Employees() {
     }
 
     // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 500));
+    await new Promise((resolve) => setTimeout(resolve, 500));
 
     // Calculate total hours if both clock in and out are provided
     let totalHours = 0;
@@ -577,42 +660,48 @@ export default function Employees() {
       clockIn: newAttendance.clockIn,
       clockOut: newAttendance.clockOut,
       totalHours: totalHours,
-      status: newAttendance.status || 'present',
-      notes: newAttendance.notes || ""
+      status: newAttendance.status || "present",
+      notes: newAttendance.notes || "",
     };
 
     setAttendanceEntries([...attendanceEntries, attendanceEntry]);
     clearNewAttendance();
     setIsAttendanceOpen(false);
 
-    const employee = employees.find(emp => emp.id === newAttendance.employeeId);
+    const employee = employees.find(
+      (emp) => emp.id === newAttendance.employeeId,
+    );
     toast({
       title: "Attendance recorded",
       description: `Attendance recorded for ${employee?.firstName} ${employee?.lastName}.`,
     });
   };
 
-
   const getAttendanceForEmployee = (employeeId: string, date: string) => {
-    return attendanceEntries.filter(entry => entry.employeeId === employeeId && entry.date === date);
+    return attendanceEntries.filter(
+      (entry) => entry.employeeId === employeeId && entry.date === date,
+    );
   };
 
   const getTodaysAttendance = () => {
     const today = selectedDate;
-    return employees.map(employee => {
+    return employees.map((employee) => {
       const attendance = getAttendanceForEmployee(employee.id, today)[0];
       return {
         employee,
-        attendance
+        attendance,
       };
     });
   };
 
   const addSkill = () => {
-    if (currentSkill.trim() && !newEmployee.skills?.includes(currentSkill.trim())) {
+    if (
+      currentSkill.trim() &&
+      !newEmployee.skills?.includes(currentSkill.trim())
+    ) {
       setNewEmployee({
         ...newEmployee,
-        skills: [...(newEmployee.skills || []), currentSkill.trim()]
+        skills: [...(newEmployee.skills || []), currentSkill.trim()],
       });
       setCurrentSkill("");
     }
@@ -621,12 +710,18 @@ export default function Employees() {
   const removeSkill = (skillToRemove: string) => {
     setNewEmployee({
       ...newEmployee,
-      skills: newEmployee.skills?.filter(skill => skill !== skillToRemove) || []
+      skills:
+        newEmployee.skills?.filter((skill) => skill !== skillToRemove) || [],
     });
   };
 
   const addEmployee = async () => {
-    if (!newEmployee.firstName || !newEmployee.lastName || !newEmployee.email || !newEmployee.department) {
+    if (
+      !newEmployee.firstName ||
+      !newEmployee.lastName ||
+      !newEmployee.email ||
+      !newEmployee.department
+    ) {
       toast({
         title: "Error",
         description: "Please fill in all required fields",
@@ -636,7 +731,7 @@ export default function Employees() {
     }
 
     // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 500));
+    await new Promise((resolve) => setTimeout(resolve, 500));
 
     const employeeToAdd: Employee = {
       id: Date.now().toString(),
@@ -648,14 +743,14 @@ export default function Employees() {
       address: newEmployee.address || "",
       department: newEmployee.department!,
       position: newEmployee.position || "",
-      role: newEmployee.role || 'worker',
+      role: newEmployee.role || "worker",
       salary: newEmployee.salary || 0,
       commission: newEmployee.commission || 0,
-      status: 'active',
+      status: "active",
       skills: newEmployee.skills || [],
       notes: newEmployee.notes || "",
       salesTarget: newEmployee.salesTarget || 0,
-      hireDate: new Date().toISOString().split('T')[0]
+      hireDate: new Date().toISOString().split("T")[0],
     };
 
     setEmployees([...employees, employeeToAdd]);
@@ -668,9 +763,13 @@ export default function Employees() {
     });
   };
 
-
   const updateEmployee = async () => {
-    if (!selectedEmployee || !newEmployee.firstName || !newEmployee.lastName || !newEmployee.department) {
+    if (
+      !selectedEmployee ||
+      !newEmployee.firstName ||
+      !newEmployee.lastName ||
+      !newEmployee.department
+    ) {
       toast({
         title: "Error",
         description: "Please fill in all required fields",
@@ -680,7 +779,7 @@ export default function Employees() {
     }
 
     // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 500));
+    await new Promise((resolve) => setTimeout(resolve, 500));
 
     const updatedEmployee: Employee = {
       ...selectedEmployee,
@@ -690,15 +789,19 @@ export default function Employees() {
       address: newEmployee.address || "",
       department: newEmployee.department!,
       position: newEmployee.position || "",
-      role: newEmployee.role || 'worker',
+      role: newEmployee.role || "worker",
       salary: newEmployee.salary || 0,
       commission: newEmployee.commission || 0,
       skills: newEmployee.skills || [],
       notes: newEmployee.notes || "",
-      salesTarget: newEmployee.salesTarget || 0
+      salesTarget: newEmployee.salesTarget || 0,
     };
 
-    setEmployees(employees.map(emp => emp.id === selectedEmployee.id ? updatedEmployee : emp));
+    setEmployees(
+      employees.map((emp) =>
+        emp.id === selectedEmployee.id ? updatedEmployee : emp,
+      ),
+    );
     clearNewEmployee();
     setIsEditEmployeeOpen(false);
     setSelectedEmployee(null);
@@ -709,9 +812,8 @@ export default function Employees() {
     });
   };
 
-
   const deleteEmployee = async (employeeId: string) => {
-    const employee = employees.find(emp => emp.id === employeeId);
+    const employee = employees.find((emp) => emp.id === employeeId);
     if (!employee) {
       toast({
         title: "Error",
@@ -722,15 +824,14 @@ export default function Employees() {
     }
 
     // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 300));
+    await new Promise((resolve) => setTimeout(resolve, 300));
 
-    setEmployees(employees.filter(emp => emp.id !== employeeId));
+    setEmployees(employees.filter((emp) => emp.id !== employeeId));
     toast({
       title: "Employee removed",
       description: `${employee.firstName} ${employee.lastName} has been removed from the team.`,
     });
   };
-
 
   const openEditEmployeeDialog = (employee: Employee) => {
     setSelectedEmployee(employee);
@@ -747,7 +848,7 @@ export default function Employees() {
       commission: employee.commission,
       skills: employee.skills,
       notes: employee.notes,
-      salesTarget: employee.salesTarget
+      salesTarget: employee.salesTarget,
     });
     setCurrentSkill("");
     setIsEditEmployeeOpen(true);
@@ -763,7 +864,7 @@ export default function Employees() {
       return;
     }
 
-    const employee = employees.find(emp => emp.id === newSale.employeeId);
+    const employee = employees.find((emp) => emp.id === newSale.employeeId);
     const commission = (newSale.amount! * (employee?.commission || 0)) / 100;
 
     const sale: DailySale = {
@@ -775,7 +876,7 @@ export default function Employees() {
       clientName: newSale.clientName!,
       productsSold: newSale.productsSold || [],
       commission: commission,
-      notes: newSale.notes || ""
+      notes: newSale.notes || "",
     };
 
     setDailySales([...dailySales, sale]);
@@ -789,9 +890,11 @@ export default function Employees() {
   };
 
   const updateEmployeeStatus = (employeeId: string, newStatus: string) => {
-    setEmployees(employees.map(emp =>
-      emp.id === employeeId ? { ...emp, status: newStatus as any } : emp
-    ));
+    setEmployees(
+      employees.map((emp) =>
+        emp.id === employeeId ? { ...emp, status: newStatus as any } : emp,
+      ),
+    );
 
     toast({
       title: "Status updated",
@@ -803,10 +906,14 @@ export default function Employees() {
     return `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
   };
 
-  const downloadFile = (content: string, filename: string, mimeType: string) => {
+  const downloadFile = (
+    content: string,
+    filename: string,
+    mimeType: string,
+  ) => {
     const blob = new Blob([content], { type: mimeType });
     const url = window.URL.createObjectURL(blob);
-    const link = document.createElement('a');
+    const link = document.createElement("a");
     link.href = url;
     link.download = filename;
     document.body.appendChild(link);
@@ -815,38 +922,56 @@ export default function Employees() {
     window.URL.revokeObjectURL(url);
   };
 
-  const exportEmployeeReport = (format: 'pdf' | 'excel' | 'csv') => {
-    const todaysSales = dailySales.filter(s => s.date === selectedDate).reduce((sum, s) => sum + s.amount, 0);
-    const todaysCommissions = dailySales.filter(s => s.date === selectedDate).reduce((sum, s) => sum + s.commission, 0);
-    const avgSalary = Math.round(employees.reduce((sum, e) => sum + e.salary, 0) / employees.length);
+  const exportEmployeeReport = (format: "pdf" | "excel" | "csv") => {
+    const todaysSales = dailySales
+      .filter((s) => s.date === selectedDate)
+      .reduce((sum, s) => sum + s.amount, 0);
+    const todaysCommissions = dailySales
+      .filter((s) => s.date === selectedDate)
+      .reduce((sum, s) => sum + s.commission, 0);
+    const avgSalary = Math.round(
+      employees.reduce((sum, e) => sum + e.salary, 0) / employees.length,
+    );
 
     const reportData = {
-      reportType: 'Employee Report',
+      reportType: "Employee Report",
       generatedAt: new Date().toISOString(),
       summary: {
         totalEmployees: employees.length,
-        activeEmployees: employees.filter(e => e.status === 'active').length,
+        activeEmployees: employees.filter((e) => e.status === "active").length,
         salesTeam: getSalesEmployees().length,
         todaysSales,
         todaysCommissions,
-        avgSalary
+        avgSalary,
       },
       employees: filteredEmployees,
       dailySales,
       timeEntries,
       salesPerformanceData,
-      departmentData
+      departmentData,
     };
 
     switch (format) {
-      case 'pdf':
-        downloadFile(generateEmployeePDFContent(reportData), 'employee-report.pdf', 'application/pdf');
+      case "pdf":
+        downloadFile(
+          generateEmployeePDFContent(reportData),
+          "employee-report.pdf",
+          "application/pdf",
+        );
         break;
-      case 'excel':
-        downloadFile(generateEmployeeExcelContent(reportData), 'employee-report.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+      case "excel":
+        downloadFile(
+          generateEmployeeExcelContent(reportData),
+          "employee-report.xlsx",
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        );
         break;
-      case 'csv':
-        downloadFile(generateEmployeeCSVContent(reportData), 'employee-report.csv', 'text/csv');
+      case "csv":
+        downloadFile(
+          generateEmployeeCSVContent(reportData),
+          "employee-report.csv",
+          "text/csv",
+        );
         break;
     }
 
@@ -857,12 +982,13 @@ export default function Employees() {
   };
 
   const exportEmployeeDirectory = () => {
-    let csv = 'Employee ID,First Name,Last Name,Email,Phone,Department,Position,Role,Status,Hire Date,Salary,Commission %,Sales Target\n';
-    filteredEmployees.forEach(employee => {
-      csv += `${employee.employeeId},"${employee.firstName}","${employee.lastName}",${employee.email},${employee.phone},${employee.department},${employee.position},${employee.role},${employee.status},${employee.hireDate},${employee.salary},${employee.commission},${employee.salesTarget || ''}\n`;
+    let csv =
+      "Employee ID,First Name,Last Name,Email,Phone,Department,Position,Role,Status,Hire Date,Salary,Commission %,Sales Target\n";
+    filteredEmployees.forEach((employee) => {
+      csv += `${employee.employeeId},"${employee.firstName}","${employee.lastName}",${employee.email},${employee.phone},${employee.department},${employee.position},${employee.role},${employee.status},${employee.hireDate},${employee.salary},${employee.commission},${employee.salesTarget || ""}\n`;
     });
 
-    downloadFile(csv, 'employee-directory.csv', 'text/csv');
+    downloadFile(csv, "employee-directory.csv", "text/csv");
     toast({
       title: "Directory Exported",
       description: "Employee directory has been exported as CSV.",
@@ -870,15 +996,16 @@ export default function Employees() {
   };
 
   const exportSalesPerformance = () => {
-    let csv = 'Employee ID,Name,Date,Sales Amount,Commission,Client,Products,Notes\n';
-    dailySales.forEach(sale => {
-      const employee = employees.find(e => e.id === sale.employeeId);
+    let csv =
+      "Employee ID,Name,Date,Sales Amount,Commission,Client,Products,Notes\n";
+    dailySales.forEach((sale) => {
+      const employee = employees.find((e) => e.id === sale.employeeId);
       if (employee) {
-        csv += `${employee.employeeId},"${employee.firstName} ${employee.lastName}",${sale.date},${sale.amount},${sale.commission},"${sale.clientName}","${sale.productsSold.join(', ')}","${sale.notes || ''}"\n`;
+        csv += `${employee.employeeId},"${employee.firstName} ${employee.lastName}",${sale.date},${sale.amount},${sale.commission},"${sale.clientName}","${sale.productsSold.join(", ")}","${sale.notes || ""}"\n`;
       }
     });
 
-    downloadFile(csv, 'sales-performance.csv', 'text/csv');
+    downloadFile(csv, "sales-performance.csv", "text/csv");
     toast({
       title: "Sales Performance Exported",
       description: "Sales performance data has been exported as CSV.",
@@ -886,15 +1013,16 @@ export default function Employees() {
   };
 
   const exportAttendance = () => {
-    let csv = 'Employee ID,Name,Date,Clock In,Clock Out,Total Hours,Status,Notes\n';
-    timeEntries.forEach(entry => {
-      const employee = employees.find(e => e.employeeId === entry.employeeId);
+    let csv =
+      "Employee ID,Name,Date,Clock In,Clock Out,Total Hours,Status,Notes\n";
+    timeEntries.forEach((entry) => {
+      const employee = employees.find((e) => e.employeeId === entry.employeeId);
       if (employee) {
-        csv += `${employee.employeeId},"${employee.firstName} ${employee.lastName}",${entry.date},${entry.clockIn},${entry.clockOut || ''},${entry.totalHours},${entry.status},"${entry.notes || ''}"\n`;
+        csv += `${employee.employeeId},"${employee.firstName} ${employee.lastName}",${entry.date},${entry.clockIn},${entry.clockOut || ""},${entry.totalHours},${entry.status},"${entry.notes || ""}"\n`;
       }
     });
 
-    downloadFile(csv, 'attendance-data.csv', 'text/csv');
+    downloadFile(csv, "attendance-data.csv", "text/csv");
     toast({
       title: "Attendance Exported",
       description: "Attendance data has been exported as CSV.",
@@ -918,25 +1046,31 @@ Average Salary: $${data.summary.avgSalary.toLocaleString()}
 
 EMPLOYEE DIRECTORY
 ==================
-${data.employees.map((emp: any) => `${emp.employeeId} - ${emp.firstName} ${emp.lastName} | ${emp.department} - ${emp.position} | ${emp.status.toUpperCase()}`).join('\n')}
+${data.employees.map((emp: any) => `${emp.employeeId} - ${emp.firstName} ${emp.lastName} | ${emp.department} - ${emp.position} | ${emp.status.toUpperCase()}`).join("\n")}
 
 DEPARTMENT BREAKDOWN
 ====================
-${data.departmentData.map((dept: any) => `${dept.department}: ${dept.employees} employees (${dept.productivity}% productivity)`).join('\n')}
+${data.departmentData.map((dept: any) => `${dept.department}: ${dept.employees} employees (${dept.productivity}% productivity)`).join("\n")}
 
 SALES PERFORMANCE
 =================
-${data.dailySales.map((sale: any) => {
-  const employee = data.employees.find((e: any) => e.id === sale.employeeId);
-  return `${sale.date} - ${employee?.firstName} ${employee?.lastName}: $${sale.amount.toLocaleString()} (Commission: $${sale.commission.toFixed(2)})`;
-}).join('\n')}
+${data.dailySales
+  .map((sale: any) => {
+    const employee = data.employees.find((e: any) => e.id === sale.employeeId);
+    return `${sale.date} - ${employee?.firstName} ${employee?.lastName}: $${sale.amount.toLocaleString()} (Commission: $${sale.commission.toFixed(2)})`;
+  })
+  .join("\n")}
 
 ATTENDANCE SUMMARY
 ==================
-${data.timeEntries.map((entry: any) => {
-  const employee = data.employees.find((e: any) => e.employeeId === entry.employeeId);
-  return `${entry.date} - ${employee?.firstName} ${employee?.lastName}: ${entry.totalHours}h (${entry.status})`;
-}).join('\n')}
+${data.timeEntries
+  .map((entry: any) => {
+    const employee = data.employees.find(
+      (e: any) => e.employeeId === entry.employeeId,
+    );
+    return `${entry.date} - ${employee?.firstName} ${employee?.lastName}: ${entry.totalHours}h (${entry.status})`;
+  })
+  .join("\n")}
     `;
   };
 
@@ -945,55 +1079,62 @@ ${data.timeEntries.map((entry: any) => {
   };
 
   const generateEmployeeCSVContent = (data: any) => {
-    let csv = '';
+    let csv = "";
 
     // Summary
-    csv += 'Employee Summary\n';
+    csv += "Employee Summary\n";
     csv += `Generated,${new Date(data.generatedAt).toLocaleString()}\n`;
-    csv += '\n';
-    csv += 'Metric,Value\n';
+    csv += "\n";
+    csv += "Metric,Value\n";
     csv += `Total Employees,${data.summary.totalEmployees}\n`;
     csv += `Active Employees,${data.summary.activeEmployees}\n`;
     csv += `Sales Team,${data.summary.salesTeam}\n`;
     csv += `Today's Sales,$${data.summary.todaysSales.toLocaleString()}\n`;
     csv += `Today's Commissions,$${data.summary.todaysCommissions.toFixed(2)}\n`;
     csv += `Average Salary,$${data.summary.avgSalary.toLocaleString()}\n`;
-    csv += '\n';
+    csv += "\n";
 
     // Department Data
-    csv += 'Department Statistics\n';
-    csv += 'Department,Employees,Productivity %,Avg Sales\n';
+    csv += "Department Statistics\n";
+    csv += "Department,Employees,Productivity %,Avg Sales\n";
     data.departmentData.forEach((dept: any) => {
       csv += `${dept.department},${dept.employees},${dept.productivity},${dept.avgSales}\n`;
     });
-    csv += '\n';
+    csv += "\n";
 
     // Employee Directory
-    csv += 'Employee Directory\n';
-    csv += 'Employee ID,First Name,Last Name,Email,Phone,Department,Position,Role,Status,Hire Date,Salary,Commission %,Sales Target\n';
+    csv += "Employee Directory\n";
+    csv +=
+      "Employee ID,First Name,Last Name,Email,Phone,Department,Position,Role,Status,Hire Date,Salary,Commission %,Sales Target\n";
     data.employees.forEach((employee: any) => {
-      csv += `${employee.employeeId},"${employee.firstName}","${employee.lastName}",${employee.email},${employee.phone},${employee.department},${employee.position},${employee.role},${employee.status},${employee.hireDate},${employee.salary},${employee.commission},${employee.salesTarget || ''}\n`;
+      csv += `${employee.employeeId},"${employee.firstName}","${employee.lastName}",${employee.email},${employee.phone},${employee.department},${employee.position},${employee.role},${employee.status},${employee.hireDate},${employee.salary},${employee.commission},${employee.salesTarget || ""}\n`;
     });
-    csv += '\n';
+    csv += "\n";
 
     // Sales Performance
-    csv += 'Sales Performance\n';
-    csv += 'Employee ID,Name,Date,Sales Amount,Commission,Client,Products,Notes\n';
+    csv += "Sales Performance\n";
+    csv +=
+      "Employee ID,Name,Date,Sales Amount,Commission,Client,Products,Notes\n";
     data.dailySales.forEach((sale: any) => {
-      const employee = data.employees.find((e: any) => e.id === sale.employeeId);
+      const employee = data.employees.find(
+        (e: any) => e.id === sale.employeeId,
+      );
       if (employee) {
-        csv += `${employee.employeeId},"${employee.firstName} ${employee.lastName}",${sale.date},${sale.amount},${sale.commission},"${sale.clientName}","${sale.productsSold.join(', ')}","${sale.notes || ''}"\n`;
+        csv += `${employee.employeeId},"${employee.firstName} ${employee.lastName}",${sale.date},${sale.amount},${sale.commission},"${sale.clientName}","${sale.productsSold.join(", ")}","${sale.notes || ""}"\n`;
       }
     });
-    csv += '\n';
+    csv += "\n";
 
     // Attendance Data
-    csv += 'Attendance Data\n';
-    csv += 'Employee ID,Name,Date,Clock In,Clock Out,Total Hours,Status,Notes\n';
+    csv += "Attendance Data\n";
+    csv +=
+      "Employee ID,Name,Date,Clock In,Clock Out,Total Hours,Status,Notes\n";
     data.timeEntries.forEach((entry: any) => {
-      const employee = data.employees.find((e: any) => e.employeeId === entry.employeeId);
+      const employee = data.employees.find(
+        (e: any) => e.employeeId === entry.employeeId,
+      );
       if (employee) {
-        csv += `${employee.employeeId},"${employee.firstName} ${employee.lastName}",${entry.date},${entry.clockIn},${entry.clockOut || ''},${entry.totalHours},${entry.status},"${entry.notes || ''}"\n`;
+        csv += `${employee.employeeId},"${employee.firstName} ${employee.lastName}",${entry.date},${entry.clockIn},${entry.clockOut || ""},${entry.totalHours},${entry.status},"${entry.notes || ""}"\n`;
       }
     });
 
@@ -1005,15 +1146,22 @@ ${data.timeEntries.map((entry: any) => {
       {/* Mobile-optimized header */}
       <div className="flex flex-col space-y-4 md:flex-row md:items-center md:justify-between md:space-y-0">
         <div>
-          <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Employee Management</h1>
-          <p className="text-sm md:text-base text-muted-foreground">Manage staff, roles, performance, and sales tracking</p>
+          <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
+            Employee Management
+          </h1>
+          <p className="text-sm md:text-base text-muted-foreground">
+            Manage staff, roles, performance, and sales tracking
+          </p>
         </div>
 
         {/* Mobile-first action buttons */}
         <div className="flex flex-col gap-2 sm:flex-row">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="w-full sm:w-auto justify-center">
+              <Button
+                variant="outline"
+                className="w-full sm:w-auto justify-center"
+              >
                 <Download className="mr-2 h-4 w-4" />
                 <span className="hidden sm:inline">Export Report</span>
                 <span className="sm:hidden">Export</span>
@@ -1025,49 +1173,80 @@ ${data.timeEntries.map((entry: any) => {
               <DropdownMenuSeparator />
               <div className="p-2 space-y-1">
                 <div className="text-xs text-muted-foreground mb-2">
-                  Comprehensive employee report including directory, sales performance, attendance, and analytics.
+                  Comprehensive employee report including directory, sales
+                  performance, attendance, and analytics.
                 </div>
-                <DropdownMenuItem onClick={() => exportEmployeeReport('pdf')} className="cursor-pointer">
+                <DropdownMenuItem
+                  onClick={() => exportEmployeeReport("pdf")}
+                  className="cursor-pointer"
+                >
                   <FileSpreadsheet className="mr-2 h-4 w-4" />
                   <div className="flex-1">
                     <div className="font-medium">PDF Employee Report</div>
-                    <div className="text-xs text-muted-foreground">Complete HR report with analytics</div>
+                    <div className="text-xs text-muted-foreground">
+                      Complete HR report with analytics
+                    </div>
                   </div>
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => exportEmployeeReport('excel')} className="cursor-pointer">
+                <DropdownMenuItem
+                  onClick={() => exportEmployeeReport("excel")}
+                  className="cursor-pointer"
+                >
                   <FileSpreadsheet className="mr-2 h-4 w-4" />
                   <div className="flex-1">
                     <div className="font-medium">Excel Workbook</div>
-                    <div className="text-xs text-muted-foreground">Detailed employee data and sales</div>
+                    <div className="text-xs text-muted-foreground">
+                      Detailed employee data and sales
+                    </div>
                   </div>
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => exportEmployeeReport('csv')} className="cursor-pointer">
+                <DropdownMenuItem
+                  onClick={() => exportEmployeeReport("csv")}
+                  className="cursor-pointer"
+                >
                   <FileSpreadsheet className="mr-2 h-4 w-4" />
                   <div className="flex-1">
                     <div className="font-medium">CSV Employee Data</div>
-                    <div className="text-xs text-muted-foreground">Raw employee data for analysis</div>
+                    <div className="text-xs text-muted-foreground">
+                      Raw employee data for analysis
+                    </div>
                   </div>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => exportEmployeeDirectory()} className="cursor-pointer">
+                <DropdownMenuItem
+                  onClick={() => exportEmployeeDirectory()}
+                  className="cursor-pointer"
+                >
                   <Download className="mr-2 h-4 w-4" />
                   <div className="flex-1">
                     <div className="font-medium">Employee Directory</div>
-                    <div className="text-xs text-muted-foreground">Contact information and roles</div>
+                    <div className="text-xs text-muted-foreground">
+                      Contact information and roles
+                    </div>
                   </div>
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => exportSalesPerformance()} className="cursor-pointer">
+                <DropdownMenuItem
+                  onClick={() => exportSalesPerformance()}
+                  className="cursor-pointer"
+                >
                   <Download className="mr-2 h-4 w-4" />
                   <div className="flex-1">
                     <div className="font-medium">Sales Performance</div>
-                    <div className="text-xs text-muted-foreground">Sales data and commissions</div>
+                    <div className="text-xs text-muted-foreground">
+                      Sales data and commissions
+                    </div>
                   </div>
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => exportAttendance()} className="cursor-pointer">
+                <DropdownMenuItem
+                  onClick={() => exportAttendance()}
+                  className="cursor-pointer"
+                >
                   <Download className="mr-2 h-4 w-4" />
                   <div className="flex-1">
                     <div className="font-medium">Attendance Data</div>
-                    <div className="text-xs text-muted-foreground">Time tracking and presence</div>
+                    <div className="text-xs text-muted-foreground">
+                      Time tracking and presence
+                    </div>
                   </div>
                 </DropdownMenuItem>
               </div>
@@ -1075,7 +1254,10 @@ ${data.timeEntries.map((entry: any) => {
           </DropdownMenu>
           <Dialog open={isAttendanceOpen} onOpenChange={setIsAttendanceOpen}>
             <DialogTrigger asChild>
-              <Button variant="outline" className="w-full sm:w-auto justify-center">
+              <Button
+                variant="outline"
+                className="w-full sm:w-auto justify-center"
+              >
                 <Clock className="mr-2 h-4 w-4" />
                 <span className="hidden sm:inline">Mark Attendance</span>
                 <span className="sm:hidden">Attendance</span>
@@ -1093,17 +1275,22 @@ ${data.timeEntries.map((entry: any) => {
                   <Label htmlFor="attendanceEmployee">Employee *</Label>
                   <Select
                     value={newAttendance.employeeId}
-                    onValueChange={(value) => setNewAttendance({...newAttendance, employeeId: value})}
+                    onValueChange={(value) =>
+                      setNewAttendance({ ...newAttendance, employeeId: value })
+                    }
                   >
                     <SelectTrigger>
                       <SelectValue placeholder="Select employee" />
                     </SelectTrigger>
                     <SelectContent>
-                      {employees.filter(emp => emp.status === 'active').map((employee) => (
-                        <SelectItem key={employee.id} value={employee.id}>
-                          {employee.firstName} {employee.lastName} - {employee.department}
-                        </SelectItem>
-                      ))}
+                      {employees
+                        .filter((emp) => emp.status === "active")
+                        .map((employee) => (
+                          <SelectItem key={employee.id} value={employee.id}>
+                            {employee.firstName} {employee.lastName} -{" "}
+                            {employee.department}
+                          </SelectItem>
+                        ))}
                     </SelectContent>
                   </Select>
                 </div>
@@ -1114,14 +1301,24 @@ ${data.timeEntries.map((entry: any) => {
                       id="attendanceDate"
                       type="date"
                       value={newAttendance.date}
-                      onChange={(e) => setNewAttendance({...newAttendance, date: e.target.value})}
+                      onChange={(e) =>
+                        setNewAttendance({
+                          ...newAttendance,
+                          date: e.target.value,
+                        })
+                      }
                     />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="attendanceStatus">Status</Label>
                     <Select
                       value={newAttendance.status}
-                      onValueChange={(value) => setNewAttendance({...newAttendance, status: value as any})}
+                      onValueChange={(value) =>
+                        setNewAttendance({
+                          ...newAttendance,
+                          status: value as any,
+                        })
+                      }
                     >
                       <SelectTrigger>
                         <SelectValue />
@@ -1143,7 +1340,12 @@ ${data.timeEntries.map((entry: any) => {
                       id="clockIn"
                       type="time"
                       value={newAttendance.clockIn}
-                      onChange={(e) => setNewAttendance({...newAttendance, clockIn: e.target.value})}
+                      onChange={(e) =>
+                        setNewAttendance({
+                          ...newAttendance,
+                          clockIn: e.target.value,
+                        })
+                      }
                     />
                   </div>
                   <div className="space-y-2">
@@ -1152,7 +1354,12 @@ ${data.timeEntries.map((entry: any) => {
                       id="clockOut"
                       type="time"
                       value={newAttendance.clockOut}
-                      onChange={(e) => setNewAttendance({...newAttendance, clockOut: e.target.value})}
+                      onChange={(e) =>
+                        setNewAttendance({
+                          ...newAttendance,
+                          clockOut: e.target.value,
+                        })
+                      }
                     />
                   </div>
                 </div>
@@ -1162,7 +1369,12 @@ ${data.timeEntries.map((entry: any) => {
                     id="attendanceNotes"
                     placeholder="Additional notes"
                     value={newAttendance.notes}
-                    onChange={(e) => setNewAttendance({...newAttendance, notes: e.target.value})}
+                    onChange={(e) =>
+                      setNewAttendance({
+                        ...newAttendance,
+                        notes: e.target.value,
+                      })
+                    }
                     rows={2}
                   />
                 </div>
@@ -1170,10 +1382,13 @@ ${data.timeEntries.map((entry: any) => {
                   <Button className="flex-1" onClick={addAttendanceEntry}>
                     Mark Attendance
                   </Button>
-                  <Button variant="outline" onClick={() => {
-                    clearNewAttendance();
-                    setIsAttendanceOpen(false);
-                  }}>
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      clearNewAttendance();
+                      setIsAttendanceOpen(false);
+                    }}
+                  >
                     Cancel
                   </Button>
                 </div>
@@ -1182,7 +1397,10 @@ ${data.timeEntries.map((entry: any) => {
           </Dialog>
           <Dialog open={isAddSaleOpen} onOpenChange={setIsAddSaleOpen}>
             <DialogTrigger asChild>
-              <Button variant="outline" className="w-full sm:w-auto justify-center">
+              <Button
+                variant="outline"
+                className="w-full sm:w-auto justify-center"
+              >
                 <ShoppingCart className="mr-2 h-4 w-4" />
                 <span className="hidden sm:inline">Record Sale</span>
                 <span className="sm:hidden">Sale</span>
@@ -1200,7 +1418,9 @@ ${data.timeEntries.map((entry: any) => {
                   <Label htmlFor="saleEmployee">Employee *</Label>
                   <Select
                     value={newSale.employeeId}
-                    onValueChange={(value) => setNewSale({...newSale, employeeId: value})}
+                    onValueChange={(value) =>
+                      setNewSale({ ...newSale, employeeId: value })
+                    }
                   >
                     <SelectTrigger>
                       <SelectValue placeholder="Select employee" />
@@ -1208,7 +1428,8 @@ ${data.timeEntries.map((entry: any) => {
                     <SelectContent>
                       {getSalesEmployees().map((employee) => (
                         <SelectItem key={employee.id} value={employee.id}>
-                          {employee.firstName} {employee.lastName} - {employee.position}
+                          {employee.firstName} {employee.lastName} -{" "}
+                          {employee.position}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -1221,7 +1442,9 @@ ${data.timeEntries.map((entry: any) => {
                       id="saleDate"
                       type="date"
                       value={newSale.date}
-                      onChange={(e) => setNewSale({...newSale, date: e.target.value})}
+                      onChange={(e) =>
+                        setNewSale({ ...newSale, date: e.target.value })
+                      }
                     />
                   </div>
                   <div className="space-y-2">
@@ -1231,7 +1454,12 @@ ${data.timeEntries.map((entry: any) => {
                       type="number"
                       placeholder="0.00"
                       value={newSale.amount}
-                      onChange={(e) => setNewSale({...newSale, amount: parseFloat(e.target.value) || 0})}
+                      onChange={(e) =>
+                        setNewSale({
+                          ...newSale,
+                          amount: parseFloat(e.target.value) || 0,
+                        })
+                      }
                     />
                   </div>
                 </div>
@@ -1243,7 +1471,12 @@ ${data.timeEntries.map((entry: any) => {
                       type="number"
                       placeholder="1"
                       value={newSale.quantity}
-                      onChange={(e) => setNewSale({...newSale, quantity: parseInt(e.target.value) || 0})}
+                      onChange={(e) =>
+                        setNewSale({
+                          ...newSale,
+                          quantity: parseInt(e.target.value) || 0,
+                        })
+                      }
                     />
                   </div>
                   <div className="space-y-2">
@@ -1252,7 +1485,9 @@ ${data.timeEntries.map((entry: any) => {
                       id="clientName"
                       placeholder="Client name"
                       value={newSale.clientName}
-                      onChange={(e) => setNewSale({...newSale, clientName: e.target.value})}
+                      onChange={(e) =>
+                        setNewSale({ ...newSale, clientName: e.target.value })
+                      }
                     />
                   </div>
                 </div>
@@ -1262,7 +1497,9 @@ ${data.timeEntries.map((entry: any) => {
                     id="saleNotes"
                     placeholder="Additional sale details"
                     value={newSale.notes}
-                    onChange={(e) => setNewSale({...newSale, notes: e.target.value})}
+                    onChange={(e) =>
+                      setNewSale({ ...newSale, notes: e.target.value })
+                    }
                     rows={2}
                   />
                 </div>
@@ -1270,10 +1507,13 @@ ${data.timeEntries.map((entry: any) => {
                   <Button className="flex-1" onClick={addDailySale}>
                     Record Sale
                   </Button>
-                  <Button variant="outline" onClick={() => {
-                    clearNewSale();
-                    setIsAddSaleOpen(false);
-                  }}>
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      clearNewSale();
+                      setIsAddSaleOpen(false);
+                    }}
+                  >
                     Cancel
                   </Button>
                 </div>
@@ -1292,7 +1532,8 @@ ${data.timeEntries.map((entry: any) => {
               <DialogHeader>
                 <DialogTitle>Add New Employee</DialogTitle>
                 <DialogDescription>
-                  Create a new employee profile with personal and job information.
+                  Create a new employee profile with personal and job
+                  information.
                 </DialogDescription>
               </DialogHeader>
               <div className="space-y-4">
@@ -1303,7 +1544,12 @@ ${data.timeEntries.map((entry: any) => {
                       id="firstName"
                       placeholder="John"
                       value={newEmployee.firstName}
-                      onChange={(e) => setNewEmployee({...newEmployee, firstName: e.target.value})}
+                      onChange={(e) =>
+                        setNewEmployee({
+                          ...newEmployee,
+                          firstName: e.target.value,
+                        })
+                      }
                     />
                   </div>
                   <div className="space-y-2">
@@ -1312,7 +1558,12 @@ ${data.timeEntries.map((entry: any) => {
                       id="lastName"
                       placeholder="Smith"
                       value={newEmployee.lastName}
-                      onChange={(e) => setNewEmployee({...newEmployee, lastName: e.target.value})}
+                      onChange={(e) =>
+                        setNewEmployee({
+                          ...newEmployee,
+                          lastName: e.target.value,
+                        })
+                      }
                     />
                   </div>
                 </div>
@@ -1324,7 +1575,12 @@ ${data.timeEntries.map((entry: any) => {
                       type="email"
                       placeholder="john.smith@businesspro.com"
                       value={newEmployee.email}
-                      onChange={(e) => setNewEmployee({...newEmployee, email: e.target.value})}
+                      onChange={(e) =>
+                        setNewEmployee({
+                          ...newEmployee,
+                          email: e.target.value,
+                        })
+                      }
                     />
                   </div>
                   <div className="space-y-2">
@@ -1333,7 +1589,12 @@ ${data.timeEntries.map((entry: any) => {
                       id="phone"
                       placeholder="+1 (555) 123-4567"
                       value={newEmployee.phone}
-                      onChange={(e) => setNewEmployee({...newEmployee, phone: e.target.value})}
+                      onChange={(e) =>
+                        setNewEmployee({
+                          ...newEmployee,
+                          phone: e.target.value,
+                        })
+                      }
                     />
                   </div>
                 </div>
@@ -1343,7 +1604,12 @@ ${data.timeEntries.map((entry: any) => {
                     id="address"
                     placeholder="123 Main St, City, State 12345"
                     value={newEmployee.address}
-                    onChange={(e) => setNewEmployee({...newEmployee, address: e.target.value})}
+                    onChange={(e) =>
+                      setNewEmployee({
+                        ...newEmployee,
+                        address: e.target.value,
+                      })
+                    }
                     rows={2}
                   />
                 </div>
@@ -1352,7 +1618,9 @@ ${data.timeEntries.map((entry: any) => {
                     <Label htmlFor="department">Department *</Label>
                     <Select
                       value={newEmployee.department}
-                      onValueChange={(value) => setNewEmployee({...newEmployee, department: value})}
+                      onValueChange={(value) =>
+                        setNewEmployee({ ...newEmployee, department: value })
+                      }
                     >
                       <SelectTrigger>
                         <SelectValue placeholder="Select department" />
@@ -1373,7 +1641,12 @@ ${data.timeEntries.map((entry: any) => {
                       id="position"
                       placeholder="Sales Manager"
                       value={newEmployee.position}
-                      onChange={(e) => setNewEmployee({...newEmployee, position: e.target.value})}
+                      onChange={(e) =>
+                        setNewEmployee({
+                          ...newEmployee,
+                          position: e.target.value,
+                        })
+                      }
                     />
                   </div>
                 </div>
@@ -1382,7 +1655,9 @@ ${data.timeEntries.map((entry: any) => {
                     <Label htmlFor="role">Role</Label>
                     <Select
                       value={newEmployee.role}
-                      onValueChange={(value) => setNewEmployee({...newEmployee, role: value as any})}
+                      onValueChange={(value) =>
+                        setNewEmployee({ ...newEmployee, role: value as any })
+                      }
                     >
                       <SelectTrigger>
                         <SelectValue />
@@ -1402,7 +1677,12 @@ ${data.timeEntries.map((entry: any) => {
                       type="number"
                       placeholder="75000"
                       value={newEmployee.salary}
-                      onChange={(e) => setNewEmployee({...newEmployee, salary: parseInt(e.target.value) || 0})}
+                      onChange={(e) =>
+                        setNewEmployee({
+                          ...newEmployee,
+                          salary: parseInt(e.target.value) || 0,
+                        })
+                      }
                     />
                   </div>
                 </div>
@@ -1416,17 +1696,29 @@ ${data.timeEntries.map((entry: any) => {
                       type="number"
                       placeholder="5"
                       value={newEmployee.commission}
-                      onChange={(e) => setNewEmployee({...newEmployee, commission: parseFloat(e.target.value) || 0})}
+                      onChange={(e) =>
+                        setNewEmployee({
+                          ...newEmployee,
+                          commission: parseFloat(e.target.value) || 0,
+                        })
+                      }
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="salesTarget">Monthly Sales Target ($)</Label>
+                    <Label htmlFor="salesTarget">
+                      Monthly Sales Target ($)
+                    </Label>
                     <Input
                       id="salesTarget"
                       type="number"
                       placeholder="50000"
                       value={newEmployee.salesTarget}
-                      onChange={(e) => setNewEmployee({...newEmployee, salesTarget: parseInt(e.target.value) || 0})}
+                      onChange={(e) =>
+                        setNewEmployee({
+                          ...newEmployee,
+                          salesTarget: parseInt(e.target.value) || 0,
+                        })
+                      }
                     />
                   </div>
                 </div>
@@ -1440,7 +1732,7 @@ ${data.timeEntries.map((entry: any) => {
                       value={currentSkill}
                       onChange={(e) => setCurrentSkill(e.target.value)}
                       onKeyPress={(e) => {
-                        if (e.key === 'Enter') {
+                        if (e.key === "Enter") {
                           e.preventDefault();
                           addSkill();
                         }
@@ -1453,7 +1745,11 @@ ${data.timeEntries.map((entry: any) => {
                   {newEmployee.skills && newEmployee.skills.length > 0 && (
                     <div className="flex flex-wrap gap-2 mt-2">
                       {newEmployee.skills.map((skill, index) => (
-                        <Badge key={index} variant="outline" className="text-xs">
+                        <Badge
+                          key={index}
+                          variant="outline"
+                          className="text-xs"
+                        >
                           {skill}
                           <Button
                             type="button"
@@ -1476,7 +1772,9 @@ ${data.timeEntries.map((entry: any) => {
                     id="notes"
                     placeholder="Additional notes about the employee"
                     value={newEmployee.notes}
-                    onChange={(e) => setNewEmployee({...newEmployee, notes: e.target.value})}
+                    onChange={(e) =>
+                      setNewEmployee({ ...newEmployee, notes: e.target.value })
+                    }
                     rows={3}
                   />
                 </div>
@@ -1484,10 +1782,13 @@ ${data.timeEntries.map((entry: any) => {
                   <Button className="flex-1" onClick={addEmployee}>
                     Add Employee
                   </Button>
-                  <Button variant="outline" onClick={() => {
-                    clearNewEmployee();
-                    setIsAddEmployeeOpen(false);
-                  }}>
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      clearNewEmployee();
+                      setIsAddEmployeeOpen(false);
+                    }}
+                  >
                     Cancel
                   </Button>
                 </div>
@@ -1501,13 +1802,17 @@ ${data.timeEntries.map((entry: any) => {
       <div className="grid gap-3 grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-xs sm:text-sm font-medium">Total Employees</CardTitle>
+            <CardTitle className="text-xs sm:text-sm font-medium">
+              Total Employees
+            </CardTitle>
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-xl sm:text-2xl font-bold">{employees.length}</div>
+            <div className="text-xl sm:text-2xl font-bold">
+              {employees.length}
+            </div>
             <p className="text-xs text-muted-foreground hidden sm:block">
-              {employees.filter(e => e.status === 'active').length} active
+              {employees.filter((e) => e.status === "active").length} active
             </p>
           </CardContent>
         </Card>
@@ -1518,10 +1823,10 @@ ${data.timeEntries.map((entry: any) => {
             <Target className="h-4 w-4 text-green-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{getSalesEmployees().length}</div>
-            <p className="text-xs text-muted-foreground">
-              Active sales staff
-            </p>
+            <div className="text-2xl font-bold">
+              {getSalesEmployees().length}
+            </div>
+            <p className="text-xs text-muted-foreground">Active sales staff</p>
           </CardContent>
         </Card>
 
@@ -1532,10 +1837,15 @@ ${data.timeEntries.map((entry: any) => {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              ${dailySales.filter(s => s.date === selectedDate).reduce((sum, s) => sum + s.amount, 0).toLocaleString()}
+              $
+              {dailySales
+                .filter((s) => s.date === selectedDate)
+                .reduce((sum, s) => sum + s.amount, 0)
+                .toLocaleString()}
             </div>
             <p className="text-xs text-muted-foreground">
-              {dailySales.filter(s => s.date === selectedDate).length} transactions
+              {dailySales.filter((s) => s.date === selectedDate).length}{" "}
+              transactions
             </p>
           </CardContent>
         </Card>
@@ -1547,7 +1857,11 @@ ${data.timeEntries.map((entry: any) => {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              ${dailySales.filter(s => s.date === selectedDate).reduce((sum, s) => sum + s.commission, 0).toFixed(2)}
+              $
+              {dailySales
+                .filter((s) => s.date === selectedDate)
+                .reduce((sum, s) => sum + s.commission, 0)
+                .toFixed(2)}
             </div>
             <p className="text-xs text-muted-foreground">
               Today's earned commissions
@@ -1557,12 +1871,18 @@ ${data.timeEntries.map((entry: any) => {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Average Salary</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Average Salary
+            </CardTitle>
             <Award className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              ${Math.round(employees.reduce((sum, e) => sum + e.salary, 0) / employees.length).toLocaleString()}
+              $
+              {Math.round(
+                employees.reduce((sum, e) => sum + e.salary, 0) /
+                  employees.length,
+              ).toLocaleString()}
             </div>
             <p className="text-xs text-muted-foreground">
               Per year across all roles
@@ -1573,17 +1893,27 @@ ${data.timeEntries.map((entry: any) => {
 
       <Tabs defaultValue="directory" className="space-y-4">
         <TabsList className="grid w-full grid-cols-2 md:grid-cols-4">
-          <TabsTrigger value="directory" className="text-xs md:text-sm">Directory</TabsTrigger>
-          <TabsTrigger value="sales" className="text-xs md:text-sm">Sales</TabsTrigger>
-          <TabsTrigger value="attendance" className="text-xs md:text-sm">Attendance</TabsTrigger>
-          <TabsTrigger value="analytics" className="text-xs md:text-sm">Analytics</TabsTrigger>
+          <TabsTrigger value="directory" className="text-xs md:text-sm">
+            Directory
+          </TabsTrigger>
+          <TabsTrigger value="sales" className="text-xs md:text-sm">
+            Sales
+          </TabsTrigger>
+          <TabsTrigger value="attendance" className="text-xs md:text-sm">
+            Attendance
+          </TabsTrigger>
+          <TabsTrigger value="analytics" className="text-xs md:text-sm">
+            Analytics
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="directory" className="space-y-4">
           {/* Employee Directory */}
           <Card>
             <CardHeader>
-              <CardTitle className="text-lg md:text-xl">Employee Directory</CardTitle>
+              <CardTitle className="text-lg md:text-xl">
+                Employee Directory
+              </CardTitle>
               {/* Mobile-optimized filters */}
               <div className="flex flex-col gap-3 md:flex-row md:gap-4">
                 <div className="relative flex-1">
@@ -1596,7 +1926,10 @@ ${data.timeEntries.map((entry: any) => {
                   />
                 </div>
                 <div className="flex gap-2">
-                  <Select value={departmentFilter} onValueChange={setDepartmentFilter}>
+                  <Select
+                    value={departmentFilter}
+                    onValueChange={setDepartmentFilter}
+                  >
                     <SelectTrigger className="flex-1 md:w-[150px]">
                       <Filter className="mr-2 h-4 w-4" />
                       <SelectValue placeholder="Department" />
@@ -1646,7 +1979,10 @@ ${data.timeEntries.map((entry: any) => {
                           <Avatar className="h-10 w-10">
                             <AvatarImage src={employee.avatar} />
                             <AvatarFallback>
-                              {getInitials(employee.firstName, employee.lastName)}
+                              {getInitials(
+                                employee.firstName,
+                                employee.lastName,
+                              )}
                             </AvatarFallback>
                           </Avatar>
                           <div>
@@ -1673,8 +2009,12 @@ ${data.timeEntries.map((entry: any) => {
                       </TableCell>
                       <TableCell>
                         <div>
-                          <div className="font-medium">{employee.department}</div>
-                          <div className="text-sm text-muted-foreground">{employee.position}</div>
+                          <div className="font-medium">
+                            {employee.department}
+                          </div>
+                          <div className="text-sm text-muted-foreground">
+                            {employee.position}
+                          </div>
                         </div>
                       </TableCell>
                       <TableCell>{getRoleBadge(employee.role)}</TableCell>
@@ -1730,8 +2070,12 @@ ${data.timeEntries.map((entry: any) => {
           {/* Daily Sales Tracking */}
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="text-lg font-semibold">Employee Sales Performance</h3>
-              <p className="text-sm text-muted-foreground">Track daily sales and commissions by employee</p>
+              <h3 className="text-lg font-semibold">
+                Employee Sales Performance
+              </h3>
+              <p className="text-sm text-muted-foreground">
+                Track daily sales and commissions by employee
+              </p>
             </div>
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-2">
@@ -1750,10 +2094,21 @@ ${data.timeEntries.map((entry: any) => {
           {/* Sales Summary Cards */}
           <div className="grid gap-4 md:grid-cols-4">
             {getSalesEmployees().map((employee) => {
-              const dailySalesAmount = getTotalSalesForEmployee(employee.id, selectedDate);
-              const dailyCommission = getTotalCommissionForEmployee(employee.id, selectedDate);
-              const salesCount = getDailySalesForEmployee(employee.id, selectedDate).length;
-              const targetProgress = employee.salesTarget ? (dailySalesAmount / employee.salesTarget) * 100 : 0;
+              const dailySalesAmount = getTotalSalesForEmployee(
+                employee.id,
+                selectedDate,
+              );
+              const dailyCommission = getTotalCommissionForEmployee(
+                employee.id,
+                selectedDate,
+              );
+              const salesCount = getDailySalesForEmployee(
+                employee.id,
+                selectedDate,
+              ).length;
+              const targetProgress = employee.salesTarget
+                ? (dailySalesAmount / employee.salesTarget) * 100
+                : 0;
 
               return (
                 <Card key={employee.id} className="relative">
@@ -1766,8 +2121,12 @@ ${data.timeEntries.map((entry: any) => {
                           </AvatarFallback>
                         </Avatar>
                         <div>
-                          <CardTitle className="text-sm">{employee.firstName} {employee.lastName}</CardTitle>
-                          <CardDescription className="text-xs">{employee.position}</CardDescription>
+                          <CardTitle className="text-sm">
+                            {employee.firstName} {employee.lastName}
+                          </CardTitle>
+                          <CardDescription className="text-xs">
+                            {employee.position}
+                          </CardDescription>
                         </div>
                       </div>
                       <Button
@@ -1786,15 +2145,21 @@ ${data.timeEntries.map((entry: any) => {
                     <div className="grid grid-cols-2 gap-2 text-sm">
                       <div>
                         <div className="text-muted-foreground">Sales</div>
-                        <div className="font-semibold text-green-600">${dailySalesAmount.toLocaleString()}</div>
+                        <div className="font-semibold text-green-600">
+                          ${dailySalesAmount.toLocaleString()}
+                        </div>
                       </div>
                       <div>
                         <div className="text-muted-foreground">Commission</div>
-                        <div className="font-semibold text-blue-600">${dailyCommission.toFixed(2)}</div>
+                        <div className="font-semibold text-blue-600">
+                          ${dailyCommission.toFixed(2)}
+                        </div>
                       </div>
                     </div>
                     <div className="text-sm">
-                      <div className="text-muted-foreground">Transactions: {salesCount}</div>
+                      <div className="text-muted-foreground">
+                        Transactions: {salesCount}
+                      </div>
                     </div>
                     {employee.salesTarget && (
                       <div className="space-y-1">
@@ -1805,7 +2170,9 @@ ${data.timeEntries.map((entry: any) => {
                         <div className="w-full bg-gray-200 rounded-full h-1.5">
                           <div
                             className="bg-green-500 h-1.5 rounded-full transition-all"
-                            style={{ width: `${Math.min(targetProgress, 100)}%` }}
+                            style={{
+                              width: `${Math.min(targetProgress, 100)}%`,
+                            }}
                           />
                         </div>
                         <div className="text-xs text-muted-foreground">
@@ -1833,9 +2200,27 @@ ${data.timeEntries.map((entry: any) => {
                   <YAxis />
                   <Tooltip />
                   <Legend />
-                  <Line type="monotone" dataKey="johnSales" stroke="#22c55e" strokeWidth={2} name="John Smith" />
-                  <Line type="monotone" dataKey="sarahSales" stroke="#3b82f6" strokeWidth={2} name="Sarah Johnson" />
-                  <Line type="monotone" dataKey="lisaSales" stroke="#f59e0b" strokeWidth={2} name="Lisa Rodriguez" />
+                  <Line
+                    type="monotone"
+                    dataKey="johnSales"
+                    stroke="#22c55e"
+                    strokeWidth={2}
+                    name="John Smith"
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="sarahSales"
+                    stroke="#3b82f6"
+                    strokeWidth={2}
+                    name="Sarah Johnson"
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="lisaSales"
+                    stroke="#f59e0b"
+                    strokeWidth={2}
+                    name="Lisa Rodriguez"
+                  />
                 </LineChart>
               </ResponsiveContainer>
             </CardContent>
@@ -1847,7 +2232,9 @@ ${data.timeEntries.map((entry: any) => {
           <div className="flex items-center justify-between">
             <div>
               <h3 className="text-lg font-semibold">Employee Attendance</h3>
-              <p className="text-sm text-muted-foreground">Track employee time and attendance</p>
+              <p className="text-sm text-muted-foreground">
+                Track employee time and attendance
+              </p>
             </div>
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-2">
@@ -1871,9 +2258,15 @@ ${data.timeEntries.map((entry: any) => {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold text-green-600">
-                  {getTodaysAttendance().filter(({attendance}) => attendance?.status === 'present').length}
+                  {
+                    getTodaysAttendance().filter(
+                      ({ attendance }) => attendance?.status === "present",
+                    ).length
+                  }
                 </div>
-                <p className="text-xs text-muted-foreground">Employees present</p>
+                <p className="text-xs text-muted-foreground">
+                  Employees present
+                </p>
               </CardContent>
             </Card>
             <Card>
@@ -1882,7 +2275,11 @@ ${data.timeEntries.map((entry: any) => {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold text-yellow-600">
-                  {getTodaysAttendance().filter(({attendance}) => attendance?.status === 'late').length}
+                  {
+                    getTodaysAttendance().filter(
+                      ({ attendance }) => attendance?.status === "late",
+                    ).length
+                  }
                 </div>
                 <p className="text-xs text-muted-foreground">Late employees</p>
               </CardContent>
@@ -1893,7 +2290,12 @@ ${data.timeEntries.map((entry: any) => {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold text-red-600">
-                  {getTodaysAttendance().filter(({attendance}) => attendance?.status === 'absent' || !attendance).length}
+                  {
+                    getTodaysAttendance().filter(
+                      ({ attendance }) =>
+                        attendance?.status === "absent" || !attendance,
+                    ).length
+                  }
                 </div>
                 <p className="text-xs text-muted-foreground">Not present</p>
               </CardContent>
@@ -1904,7 +2306,14 @@ ${data.timeEntries.map((entry: any) => {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">
-                  {getTodaysAttendance().reduce((sum, {attendance}) => sum + (attendance?.totalHours || 0), 0).toFixed(1)}h
+                  {getTodaysAttendance()
+                    .reduce(
+                      (sum, { attendance }) =>
+                        sum + (attendance?.totalHours || 0),
+                      0,
+                    )
+                    .toFixed(1)}
+                  h
                 </div>
                 <p className="text-xs text-muted-foreground">Hours worked</p>
               </CardContent>
@@ -1914,7 +2323,9 @@ ${data.timeEntries.map((entry: any) => {
           <Card>
             <CardHeader>
               <CardTitle>Today's Attendance - {selectedDate}</CardTitle>
-              <CardDescription>Employee clock-in and clock-out records</CardDescription>
+              <CardDescription>
+                Employee clock-in and clock-out records
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <Table>
@@ -1930,13 +2341,16 @@ ${data.timeEntries.map((entry: any) => {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {getTodaysAttendance().map(({employee, attendance}) => (
+                  {getTodaysAttendance().map(({ employee, attendance }) => (
                     <TableRow key={employee.id}>
                       <TableCell>
                         <div className="flex items-center gap-3">
                           <Avatar className="h-8 w-8">
                             <AvatarFallback>
-                              {getInitials(employee.firstName, employee.lastName)}
+                              {getInitials(
+                                employee.firstName,
+                                employee.lastName,
+                              )}
                             </AvatarFallback>
                           </Avatar>
                           <div>
@@ -1970,18 +2384,57 @@ ${data.timeEntries.map((entry: any) => {
                         )}
                       </TableCell>
                       <TableCell className="font-medium">
-                        {attendance?.totalHours ? `${attendance.totalHours.toFixed(1)}h` : '--'}
+                        {attendance?.totalHours
+                          ? `${attendance.totalHours.toFixed(1)}h`
+                          : "--"}
                       </TableCell>
                       <TableCell>
-                        {attendance?.status === 'present' && <Badge variant="default" className="bg-green-100 text-green-800">Present</Badge>}
-                        {attendance?.status === 'absent' && <Badge variant="destructive">Absent</Badge>}
-                        {attendance?.status === 'late' && <Badge variant="secondary" className="bg-yellow-100 text-yellow-800">Late</Badge>}
-                        {attendance?.status === 'half_day' && <Badge variant="outline" className="bg-blue-50 text-blue-700">Half Day</Badge>}
-                        {attendance?.status === 'on_break' && <Badge variant="outline" className="bg-orange-50 text-orange-700">On Break</Badge>}
-                        {!attendance && <Badge variant="secondary" className="bg-gray-100 text-gray-800">Not Marked</Badge>}
+                        {attendance?.status === "present" && (
+                          <Badge
+                            variant="default"
+                            className="bg-green-100 text-green-800"
+                          >
+                            Present
+                          </Badge>
+                        )}
+                        {attendance?.status === "absent" && (
+                          <Badge variant="destructive">Absent</Badge>
+                        )}
+                        {attendance?.status === "late" && (
+                          <Badge
+                            variant="secondary"
+                            className="bg-yellow-100 text-yellow-800"
+                          >
+                            Late
+                          </Badge>
+                        )}
+                        {attendance?.status === "half_day" && (
+                          <Badge
+                            variant="outline"
+                            className="bg-blue-50 text-blue-700"
+                          >
+                            Half Day
+                          </Badge>
+                        )}
+                        {attendance?.status === "on_break" && (
+                          <Badge
+                            variant="outline"
+                            className="bg-orange-50 text-orange-700"
+                          >
+                            On Break
+                          </Badge>
+                        )}
+                        {!attendance && (
+                          <Badge
+                            variant="secondary"
+                            className="bg-gray-100 text-gray-800"
+                          >
+                            Not Marked
+                          </Badge>
+                        )}
                       </TableCell>
                       <TableCell className="text-sm text-muted-foreground max-w-xs truncate">
-                        {attendance?.notes || '--'}
+                        {attendance?.notes || "--"}
                       </TableCell>
                       <TableCell>
                         <Button
@@ -1991,7 +2444,7 @@ ${data.timeEntries.map((entry: any) => {
                             setNewAttendance({
                               ...newAttendance,
                               employeeId: employee.id,
-                              date: selectedDate
+                              date: selectedDate,
                             });
                             setIsAttendanceOpen(true);
                           }}
@@ -2013,7 +2466,9 @@ ${data.timeEntries.map((entry: any) => {
             <Card>
               <CardHeader>
                 <CardTitle>Department Overview</CardTitle>
-                <CardDescription>Employee count and productivity by department</CardDescription>
+                <CardDescription>
+                  Employee count and productivity by department
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <ResponsiveContainer width="100%" height={300}>
@@ -2024,7 +2479,11 @@ ${data.timeEntries.map((entry: any) => {
                     <Tooltip />
                     <Legend />
                     <Bar dataKey="employees" fill="#8884d8" name="Employees" />
-                    <Bar dataKey="productivity" fill="#82ca9d" name="Productivity %" />
+                    <Bar
+                      dataKey="productivity"
+                      fill="#82ca9d"
+                      name="Productivity %"
+                    />
                   </BarChart>
                 </ResponsiveContainer>
               </CardContent>
@@ -2049,7 +2508,10 @@ ${data.timeEntries.map((entry: any) => {
                       dataKey="employees"
                     >
                       {departmentData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={`hsl(${index * 45}, 70%, 60%)`} />
+                        <Cell
+                          key={`cell-${index}`}
+                          fill={`hsl(${index * 45}, 70%, 60%)`}
+                        />
                       ))}
                     </Pie>
                     <Tooltip />
@@ -2063,7 +2525,9 @@ ${data.timeEntries.map((entry: any) => {
           <Card>
             <CardHeader>
               <CardTitle>Department Statistics</CardTitle>
-              <CardDescription>Detailed breakdown by department</CardDescription>
+              <CardDescription>
+                Detailed breakdown by department
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <Table>
@@ -2078,14 +2542,22 @@ ${data.timeEntries.map((entry: any) => {
                 </TableHeader>
                 <TableBody>
                   {departmentData.map((dept) => {
-                    const deptEmployees = employees.filter(e => e.department === dept.department);
-                    const avgSalary = deptEmployees.reduce((sum, e) => sum + e.salary, 0) / deptEmployees.length;
+                    const deptEmployees = employees.filter(
+                      (e) => e.department === dept.department,
+                    );
+                    const avgSalary =
+                      deptEmployees.reduce((sum, e) => sum + e.salary, 0) /
+                      deptEmployees.length;
 
                     return (
                       <TableRow key={dept.department}>
-                        <TableCell className="font-medium">{dept.department}</TableCell>
+                        <TableCell className="font-medium">
+                          {dept.department}
+                        </TableCell>
                         <TableCell>{dept.employees}</TableCell>
-                        <TableCell>${Math.round(avgSalary).toLocaleString()}</TableCell>
+                        <TableCell>
+                          ${Math.round(avgSalary).toLocaleString()}
+                        </TableCell>
                         <TableCell>
                           <div className="flex items-center gap-2">
                             <div className="w-12 h-2 bg-gray-200 rounded-full">
@@ -2094,7 +2566,9 @@ ${data.timeEntries.map((entry: any) => {
                                 style={{ width: `${dept.productivity}%` }}
                               />
                             </div>
-                            <span className="text-sm">{dept.productivity}%</span>
+                            <span className="text-sm">
+                              {dept.productivity}%
+                            </span>
                           </div>
                         </TableCell>
                         <TableCell>
@@ -2122,7 +2596,8 @@ ${data.timeEntries.map((entry: any) => {
           <DialogHeader>
             <DialogTitle>Employee Details</DialogTitle>
             <DialogDescription>
-              Complete profile for {selectedEmployee?.firstName} {selectedEmployee?.lastName}
+              Complete profile for {selectedEmployee?.firstName}{" "}
+              {selectedEmployee?.lastName}
             </DialogDescription>
           </DialogHeader>
           {selectedEmployee && (
@@ -2132,14 +2607,19 @@ ${data.timeEntries.map((entry: any) => {
                 <Avatar className="h-20 w-20">
                   <AvatarImage src={selectedEmployee.avatar} />
                   <AvatarFallback className="text-lg">
-                    {getInitials(selectedEmployee.firstName, selectedEmployee.lastName)}
+                    {getInitials(
+                      selectedEmployee.firstName,
+                      selectedEmployee.lastName,
+                    )}
                   </AvatarFallback>
                 </Avatar>
                 <div className="flex-1">
                   <h3 className="text-xl font-semibold">
                     {selectedEmployee.firstName} {selectedEmployee.lastName}
                   </h3>
-                  <p className="text-muted-foreground">{selectedEmployee.position}</p>
+                  <p className="text-muted-foreground">
+                    {selectedEmployee.position}
+                  </p>
                   <div className="flex items-center gap-2 mt-2">
                     {getRoleBadge(selectedEmployee.role)}
                     {getStatusBadge(selectedEmployee.status)}
@@ -2174,7 +2654,9 @@ ${data.timeEntries.map((entry: any) => {
                   </div>
                   <div>
                     <Label className="text-sm font-medium">Salary</Label>
-                    <p className="text-sm">${selectedEmployee.salary.toLocaleString()}</p>
+                    <p className="text-sm">
+                      ${selectedEmployee.salary.toLocaleString()}
+                    </p>
                   </div>
                   {selectedEmployee.commission > 0 && (
                     <div>
@@ -2184,8 +2666,12 @@ ${data.timeEntries.map((entry: any) => {
                   )}
                   {selectedEmployee.salesTarget && (
                     <div>
-                      <Label className="text-sm font-medium">Monthly Sales Target</Label>
-                      <p className="text-sm">${selectedEmployee.salesTarget.toLocaleString()}</p>
+                      <Label className="text-sm font-medium">
+                        Monthly Sales Target
+                      </Label>
+                      <p className="text-sm">
+                        ${selectedEmployee.salesTarget.toLocaleString()}
+                      </p>
                     </div>
                   )}
                 </div>
@@ -2196,7 +2682,9 @@ ${data.timeEntries.map((entry: any) => {
                 <Label className="text-sm font-medium">Skills</Label>
                 <div className="flex flex-wrap gap-2 mt-2">
                   {selectedEmployee.skills.map((skill, index) => (
-                    <Badge key={index} variant="outline">{skill}</Badge>
+                    <Badge key={index} variant="outline">
+                      {skill}
+                    </Badge>
                   ))}
                 </div>
               </div>
@@ -2205,11 +2693,14 @@ ${data.timeEntries.map((entry: any) => {
               <div>
                 <Label className="text-sm font-medium">Notes</Label>
                 <p className="text-sm text-muted-foreground mt-1">
-                  {selectedEmployee.notes || 'No notes available'}
+                  {selectedEmployee.notes || "No notes available"}
                 </p>
               </div>
 
-              <Button onClick={() => setIsViewEmployeeOpen(false)} className="w-full">
+              <Button
+                onClick={() => setIsViewEmployeeOpen(false)}
+                className="w-full"
+              >
                 Close
               </Button>
             </div>
@@ -2233,7 +2724,12 @@ ${data.timeEntries.map((entry: any) => {
                 <Input
                   id="edit-firstName"
                   value={newEmployee.firstName}
-                  onChange={(e) => setNewEmployee({...newEmployee, firstName: e.target.value})}
+                  onChange={(e) =>
+                    setNewEmployee({
+                      ...newEmployee,
+                      firstName: e.target.value,
+                    })
+                  }
                 />
               </div>
               <div className="space-y-2">
@@ -2241,7 +2737,9 @@ ${data.timeEntries.map((entry: any) => {
                 <Input
                   id="edit-lastName"
                   value={newEmployee.lastName}
-                  onChange={(e) => setNewEmployee({...newEmployee, lastName: e.target.value})}
+                  onChange={(e) =>
+                    setNewEmployee({ ...newEmployee, lastName: e.target.value })
+                  }
                 />
               </div>
             </div>
@@ -2251,14 +2749,18 @@ ${data.timeEntries.map((entry: any) => {
                 <Input
                   id="edit-phone"
                   value={newEmployee.phone}
-                  onChange={(e) => setNewEmployee({...newEmployee, phone: e.target.value})}
+                  onChange={(e) =>
+                    setNewEmployee({ ...newEmployee, phone: e.target.value })
+                  }
                 />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="edit-department">Department *</Label>
                 <Select
                   value={newEmployee.department}
-                  onValueChange={(value) => setNewEmployee({...newEmployee, department: value})}
+                  onValueChange={(value) =>
+                    setNewEmployee({ ...newEmployee, department: value })
+                  }
                 >
                   <SelectTrigger>
                     <SelectValue />
@@ -2280,14 +2782,18 @@ ${data.timeEntries.map((entry: any) => {
                 <Input
                   id="edit-position"
                   value={newEmployee.position}
-                  onChange={(e) => setNewEmployee({...newEmployee, position: e.target.value})}
+                  onChange={(e) =>
+                    setNewEmployee({ ...newEmployee, position: e.target.value })
+                  }
                 />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="edit-role">Role</Label>
                 <Select
                   value={newEmployee.role}
-                  onValueChange={(value) => setNewEmployee({...newEmployee, role: value as any})}
+                  onValueChange={(value) =>
+                    setNewEmployee({ ...newEmployee, role: value as any })
+                  }
                 >
                   <SelectTrigger>
                     <SelectValue />
@@ -2308,7 +2814,12 @@ ${data.timeEntries.map((entry: any) => {
                   id="edit-salary"
                   type="number"
                   value={newEmployee.salary}
-                  onChange={(e) => setNewEmployee({...newEmployee, salary: parseInt(e.target.value) || 0})}
+                  onChange={(e) =>
+                    setNewEmployee({
+                      ...newEmployee,
+                      salary: parseInt(e.target.value) || 0,
+                    })
+                  }
                 />
               </div>
               <div className="space-y-2">
@@ -2317,7 +2828,12 @@ ${data.timeEntries.map((entry: any) => {
                   id="edit-commission"
                   type="number"
                   value={newEmployee.commission}
-                  onChange={(e) => setNewEmployee({...newEmployee, commission: parseFloat(e.target.value) || 0})}
+                  onChange={(e) =>
+                    setNewEmployee({
+                      ...newEmployee,
+                      commission: parseFloat(e.target.value) || 0,
+                    })
+                  }
                 />
               </div>
             </div>
@@ -2327,7 +2843,12 @@ ${data.timeEntries.map((entry: any) => {
                 id="edit-salesTarget"
                 type="number"
                 value={newEmployee.salesTarget}
-                onChange={(e) => setNewEmployee({...newEmployee, salesTarget: parseInt(e.target.value) || 0})}
+                onChange={(e) =>
+                  setNewEmployee({
+                    ...newEmployee,
+                    salesTarget: parseInt(e.target.value) || 0,
+                  })
+                }
               />
             </div>
 
@@ -2340,7 +2861,7 @@ ${data.timeEntries.map((entry: any) => {
                   value={currentSkill}
                   onChange={(e) => setCurrentSkill(e.target.value)}
                   onKeyPress={(e) => {
-                    if (e.key === 'Enter') {
+                    if (e.key === "Enter") {
                       e.preventDefault();
                       addSkill();
                     }
@@ -2375,7 +2896,9 @@ ${data.timeEntries.map((entry: any) => {
               <Textarea
                 id="edit-notes"
                 value={newEmployee.notes}
-                onChange={(e) => setNewEmployee({...newEmployee, notes: e.target.value})}
+                onChange={(e) =>
+                  setNewEmployee({ ...newEmployee, notes: e.target.value })
+                }
                 rows={3}
               />
             </div>
@@ -2383,11 +2906,14 @@ ${data.timeEntries.map((entry: any) => {
               <Button className="flex-1" onClick={updateEmployee}>
                 Update Employee
               </Button>
-              <Button variant="outline" onClick={() => {
-                clearNewEmployee();
-                setIsEditEmployeeOpen(false);
-                setSelectedEmployee(null);
-              }}>
+              <Button
+                variant="outline"
+                onClick={() => {
+                  clearNewEmployee();
+                  setIsEditEmployeeOpen(false);
+                  setSelectedEmployee(null);
+                }}
+              >
                 Cancel
               </Button>
             </div>
@@ -2401,7 +2927,8 @@ ${data.timeEntries.map((entry: any) => {
           <DialogHeader>
             <DialogTitle>Sales Details</DialogTitle>
             <DialogDescription>
-              Sales history for {selectedEmployeeSales?.firstName} {selectedEmployeeSales?.lastName}
+              Sales history for {selectedEmployeeSales?.firstName}{" "}
+              {selectedEmployeeSales?.lastName}
             </DialogDescription>
           </DialogHeader>
           {selectedEmployeeSales && (
@@ -2409,25 +2936,44 @@ ${data.timeEntries.map((entry: any) => {
               <div className="grid grid-cols-3 gap-4">
                 <Card>
                   <CardContent className="p-4">
-                    <div className="text-sm text-muted-foreground">Today's Sales</div>
+                    <div className="text-sm text-muted-foreground">
+                      Today's Sales
+                    </div>
                     <div className="text-2xl font-bold text-green-600">
-                      ${getTotalSalesForEmployee(selectedEmployeeSales.id, selectedDate).toLocaleString()}
+                      $
+                      {getTotalSalesForEmployee(
+                        selectedEmployeeSales.id,
+                        selectedDate,
+                      ).toLocaleString()}
                     </div>
                   </CardContent>
                 </Card>
                 <Card>
                   <CardContent className="p-4">
-                    <div className="text-sm text-muted-foreground">Commission Earned</div>
+                    <div className="text-sm text-muted-foreground">
+                      Commission Earned
+                    </div>
                     <div className="text-2xl font-bold text-blue-600">
-                      ${getTotalCommissionForEmployee(selectedEmployeeSales.id, selectedDate).toFixed(2)}
+                      $
+                      {getTotalCommissionForEmployee(
+                        selectedEmployeeSales.id,
+                        selectedDate,
+                      ).toFixed(2)}
                     </div>
                   </CardContent>
                 </Card>
                 <Card>
                   <CardContent className="p-4">
-                    <div className="text-sm text-muted-foreground">Transactions</div>
+                    <div className="text-sm text-muted-foreground">
+                      Transactions
+                    </div>
                     <div className="text-2xl font-bold">
-                      {getDailySalesForEmployee(selectedEmployeeSales.id, selectedDate).length}
+                      {
+                        getDailySalesForEmployee(
+                          selectedEmployeeSales.id,
+                          selectedDate,
+                        ).length
+                      }
                     </div>
                   </CardContent>
                 </Card>
@@ -2445,22 +2991,26 @@ ${data.timeEntries.map((entry: any) => {
                 </TableHeader>
                 <TableBody>
                   {dailySales
-                    .filter(sale => sale.employeeId === selectedEmployeeSales.id)
+                    .filter(
+                      (sale) => sale.employeeId === selectedEmployeeSales.id,
+                    )
                     .map((sale) => (
-                    <TableRow key={sale.id}>
-                      <TableCell>{sale.date}</TableCell>
-                      <TableCell className="font-medium">{sale.clientName}</TableCell>
-                      <TableCell className="font-medium text-green-600">
-                        ${sale.amount.toLocaleString()}
-                      </TableCell>
-                      <TableCell className="font-medium text-blue-600">
-                        ${sale.commission.toFixed(2)}
-                      </TableCell>
-                      <TableCell className="text-sm text-muted-foreground">
-                        {sale.notes || '-'}
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                      <TableRow key={sale.id}>
+                        <TableCell>{sale.date}</TableCell>
+                        <TableCell className="font-medium">
+                          {sale.clientName}
+                        </TableCell>
+                        <TableCell className="font-medium text-green-600">
+                          ${sale.amount.toLocaleString()}
+                        </TableCell>
+                        <TableCell className="font-medium text-blue-600">
+                          ${sale.commission.toFixed(2)}
+                        </TableCell>
+                        <TableCell className="text-sm text-muted-foreground">
+                          {sale.notes || "-"}
+                        </TableCell>
+                      </TableRow>
+                    ))}
                 </TableBody>
               </Table>
             </div>
