@@ -1,18 +1,36 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { 
-  Role, 
-  Resource, 
-  Action, 
-  RBACUser, 
+import {
+  Role,
+  Resource,
+  Action,
+  RBACUser,
   Permission,
-  hasPermission, 
-  canAccessResource, 
+  hasPermission,
+  canAccessResource,
   getAllowedActions,
   isHigherRole,
   ROLE_PERMISSIONS,
   NAVIGATION_PERMISSIONS
 } from '@shared/rbac';
+
+// Framework validation helpers
+const VALID_ACTIONS: Action[] = [
+  'create', 'read', 'update', 'delete', 'export', 'import', 'approve', 'reject', 'assign'
+];
+
+const VALID_RESOURCES: Resource[] = [
+  'users', 'employees', 'clients', 'sales', 'finance',
+  'dashboard', 'settings', 'reports', 'audit_logs', 'system_config'
+];
+
+const validateFrameworkAction = (action: Action): boolean => {
+  return VALID_ACTIONS.includes(action);
+};
+
+const validateFrameworkResource = (resource: Resource): boolean => {
+  return VALID_RESOURCES.includes(resource);
+};
 
 interface RBACState {
   // Current user's RBAC context
@@ -67,18 +85,29 @@ export const useRBACStore = create<RBACState>()(
       auditLogs: [],
       selectedUser: null,
 
-      // Permission checking methods
+      // Permission checking methods with framework validation
       hasPermission: (resource: Resource, action: Action, context?: any) => {
         const { currentUser } = get();
         if (!currentUser) return false;
-        
+
+        // Validate that the resource and action are defined in the framework
+        if (!validateFrameworkResource(resource)) {
+          console.warn(`Invalid resource "${resource}" not defined in framework`);
+          return false;
+        }
+
+        if (!validateFrameworkAction(action)) {
+          console.warn(`Invalid action "${action}" not defined in framework`);
+          return false;
+        }
+
         const permissionContext = {
           userId: currentUser.id,
           department: currentUser.department,
           region: currentUser.region,
           ...context
         };
-        
+
         return hasPermission(currentUser.role, resource, action, permissionContext);
       },
 
