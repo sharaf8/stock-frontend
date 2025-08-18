@@ -370,32 +370,35 @@ export default function Layout({ children }: LayoutProps) {
                 </DropdownMenuContent>
               </DropdownMenu>
 
-              {/* Theme toggle - smaller on mobile */}
+              {/* Enhanced Theme Toggle */}
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={toggleTheme}
-                className="h-8 w-8 md:h-9 md:w-9 relative overflow-hidden group hover:bg-muted transition-all duration-300"
+                className="h-10 w-10 rounded-xl relative overflow-hidden group hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300 hover:scale-110"
               >
-                <div className="relative">
+                <div className="relative z-10">
                   {theme === "light" ? (
-                    <Moon className="h-3 w-3 md:h-4 md:w-4 rotate-0 scale-100 transition-all duration-500 group-hover:rotate-12" />
+                    <Moon className="h-4 w-4 rotate-0 scale-100 transition-all duration-500 group-hover:rotate-12" />
                   ) : (
-                    <Sun className="h-3 w-3 md:h-4 md:w-4 rotate-0 scale-100 transition-all duration-500 group-hover:rotate-180" />
+                    <Sun className="h-4 w-4 rotate-0 scale-100 transition-all duration-500 group-hover:rotate-180" />
                   )}
                 </div>
-                <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/20 to-orange-400/20 dark:from-blue-400/20 dark:to-purple-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-md" />
+                <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/10 to-orange-400/10 dark:from-blue-400/10 dark:to-purple-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl" />
               </Button>
 
-              {/* Notifications - smaller on mobile */}
+              {/* Enhanced Notifications */}
               <Button
                 variant="ghost"
                 size="sm"
-                className="h-8 w-8 md:h-9 md:w-9 relative hover:bg-muted transition-colors"
+                className="h-10 w-10 rounded-xl relative group hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300 hover:scale-110"
               >
-                <Bell className="h-3 w-3 md:h-4 md:w-4" />
-                {/* Notification badge */}
-                <span className="absolute -top-1 -right-1 h-2 w-2 bg-red-500 rounded-full animate-pulse" />
+                <Bell className="h-4 w-4 group-hover:animate-pulse" />
+                {/* Enhanced Notification Badge */}
+                <span className="absolute -top-1 -right-1 h-3 w-3 bg-gradient-to-br from-red-500 to-red-600 rounded-full flex items-center justify-center text-[10px] text-white font-bold animate-pulse shadow-business">
+                  3
+                </span>
+                <div className="absolute inset-0 bg-gradient-to-br from-red-500/10 to-orange-500/10 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </Button>
             </div>
           </div>
