@@ -421,12 +421,12 @@ ${data.recentActivities.map((activity: any) => `${activity.time} - ${activity.de
         </Card>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-7">
         {/* Sales Chart */}
-        <Card className="col-span-4">
-          <CardHeader>
-            <CardTitle>{t('dashboard.sales_overview')}</CardTitle>
-            <CardDescription>{t('dashboard.monthly_sales_profit')}</CardDescription>
+        <Card className="col-span-4 shadow-md hover:shadow-lg transition-all duration-300 border-0 bg-gradient-to-br from-white to-gray-50">
+          <CardHeader className="pb-6">
+            <CardTitle className="text-xl font-semibold text-gray-900">{t('dashboard.sales_overview')}</CardTitle>
+            <CardDescription className="text-gray-600">{t('dashboard.monthly_sales_profit')}</CardDescription>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
