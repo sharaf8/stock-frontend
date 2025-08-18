@@ -333,16 +333,17 @@ export default function Layout({ children }: LayoutProps) {
               </Button>
             </div>
 
-            <div className="flex items-center gap-1 md:gap-2">
-              {/* Language switcher - smaller on mobile */}
+            <div className="flex items-center gap-2">
+              {/* Enhanced Language Switcher */}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="h-8 w-8 md:h-9 md:w-9 hover:bg-muted transition-colors"
+                    className="h-10 w-10 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300 hover:scale-110 relative group"
                   >
-                    <Globe className="h-3 w-3 md:h-4 md:w-4" />
+                    <Globe className="h-4 w-4 transition-transform group-hover:rotate-12" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
