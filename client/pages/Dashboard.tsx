@@ -303,10 +303,10 @@ ${data.recentActivities.map((activity: any) => `${activity.time} - ${activity.de
           </h1>
           <p className="text-muted-foreground text-lg">{t('dashboard.subtitle')}</p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
           <Select value={dateFilter} onValueChange={setDateFilter}>
-            <SelectTrigger className="w-[120px]">
-              <Calendar className="mr-2 h-4 w-4" />
+            <SelectTrigger className="w-full sm:w-[140px] h-10 border-gray-200 hover:border-gray-300 transition-colors">
+              <Calendar className="mr-2 h-4 w-4 text-gray-500" />
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
