@@ -180,17 +180,20 @@ export default function Layout({ children }: LayoutProps) {
           </TooltipProvider>
 
           {/* User section */}
-          <div className="p-4 border-t">
+          <div className="p-2 border-t">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
                   variant="ghost"
-                  className="w-full p-2 h-auto justify-start"
+                  className={cn(
+                    "w-full p-2 h-auto transition-all duration-200 hover:bg-muted",
+                    sidebarCollapsed ? "justify-center" : "justify-start"
+                  )}
                 >
-                  <div className="flex items-center gap-3 w-full">
-                    <Avatar className="w-8 h-8">
+                  <div className={cn("flex items-center w-full", sidebarCollapsed ? "justify-center" : "gap-3")}>
+                    <Avatar className="w-9 h-9 ring-2 ring-primary/20 hover:ring-primary/40 transition-all">
                       <AvatarImage src={user?.avatar} alt={user?.name} />
-                      <AvatarFallback className="bg-gradient-to-br from-green-500 to-green-600 text-white text-sm">
+                      <AvatarFallback className="bg-gradient-to-br from-green-500 to-green-600 text-white text-sm font-medium">
                         {user?.name
                           .split(" ")
                           .map((n) => n[0])
@@ -198,20 +201,24 @@ export default function Layout({ children }: LayoutProps) {
                           .toUpperCase() || "U"}
                       </AvatarFallback>
                     </Avatar>
-                    <div className="flex-1 min-w-0 text-left">
-                      <p className="text-sm font-medium truncate">
-                        {user?.name || "User"}
-                      </p>
-                      <p className="text-xs text-muted-foreground truncate">
-                        {user?.email}
-                      </p>
-                      {currentUser && (
-                        <div className="mt-1">
-                          <RoleBadge role={currentUser.role} size="sm" />
+                    {!sidebarCollapsed && (
+                      <>
+                        <div className="flex-1 min-w-0 text-left">
+                          <p className="text-sm font-medium truncate">
+                            {user?.name || "User"}
+                          </p>
+                          <p className="text-xs text-muted-foreground truncate">
+                            {user?.email}
+                          </p>
+                          {currentUser && (
+                            <div className="mt-1">
+                              <RoleBadge role={currentUser.role} size="sm" />
+                            </div>
+                          )}
                         </div>
-                      )}
-                    </div>
-                    <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                        <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                      </>
+                    )}
                   </div>
                 </Button>
               </DropdownMenuTrigger>
