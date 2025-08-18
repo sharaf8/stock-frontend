@@ -483,11 +483,19 @@ ${data.recentActivities.map((activity: any) => `${activity.time} - ${activity.de
           </CardContent>
         </Card>
 
-        {/* Product Categories */}
-        <Card className="col-span-3 shadow-md hover:shadow-lg transition-all duration-300 border-0 bg-gradient-to-br from-white to-blue-50">
-          <CardHeader className="pb-6">
-            <CardTitle className="text-xl font-semibold text-gray-900">{t('dashboard.product_categories')}</CardTitle>
-            <CardDescription className="text-gray-600">{t('dashboard.distribution_by_category')}</CardDescription>
+        {/* Enhanced Product Categories */}
+        <Card className="col-span-3 relative overflow-hidden group border-0 bg-gradient-to-br from-white via-white to-green-50/20 backdrop-blur-xl shadow-business-lg hover:shadow-business-xl transition-all duration-500 hover:-translate-y-1">
+          <div className="absolute inset-0 bg-gradient-to-br from-green-500/3 to-emerald-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          <CardHeader className="pb-8 relative z-10">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-gradient-to-br from-green-100 to-emerald-100 rounded-lg">
+                <Package className="h-5 w-5 text-green-600" />
+              </div>
+              <div>
+                <CardTitle className="text-2xl font-bold text-gray-900 tracking-tight">{t('dashboard.product_categories')}</CardTitle>
+                <CardDescription className="text-gray-600 mt-1">{t('dashboard.distribution_by_category')}</CardDescription>
+              </div>
+            </div>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
