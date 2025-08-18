@@ -146,36 +146,70 @@ export default function Layout({ children }: LayoutProps) {
             </Button>
           </div>
 
-          {/* Navigation */}
+          {/* Enhanced Navigation */}
           <TooltipProvider>
-            <nav className="flex-1 px-2 py-4 space-y-1">
-              {navigation.map((item) => {
+            <nav className="flex-1 px-4 py-6 space-y-2">
+              {navigation.map((item, index) => {
                 const isActive = location.pathname === item.href;
                 const NavItem = (
                   <Link
                     key={item.name}
                     to={item.href}
                     className={cn(
-                      "flex items-center gap-3 px-3 py-3 rounded-lg text-sm font-medium transition-all duration-200 group",
-                      sidebarCollapsed ? "justify-center" : "",
+                      "relative flex items-center gap-4 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 group overflow-hidden",
+                      sidebarCollapsed ? "justify-center px-3" : "",
                       isActive
-                        ? "bg-primary text-primary-foreground shadow-md"
-                        : "text-muted-foreground hover:text-foreground hover:bg-muted hover:shadow-sm",
+                        ? "bg-gradient-to-r from-primary to-primary-light text-white shadow-business-lg hover:shadow-business-xl"
+                        : "text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-gray-800/50 hover:shadow-business",
                     )}
+                    style={{ animationDelay: `${index * 50}ms` }}
                   >
-                    <item.icon className={cn("h-4 w-4 transition-transform group-hover:scale-110", isActive && "text-white")} />
+                    {/* Background Effect */}
+                    {isActive && (
+                      <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-primary-light/20 animate-pulse" />
+                    )}
+
+                    {/* Icon */}
+                    <div className={cn(
+                      "relative z-10 p-1.5 rounded-lg transition-all duration-300",
+                      isActive
+                        ? "bg-white/20"
+                        : "group-hover:bg-primary/10 group-hover:scale-110"
+                    )}>
+                      <item.icon className={cn(
+                        "h-5 w-5 transition-all duration-300",
+                        isActive
+                          ? "text-white drop-shadow-sm"
+                          : "text-gray-600 dark:text-gray-400 group-hover:text-primary"
+                      )} />
+                    </div>
+
+                    {/* Text */}
                     {!sidebarCollapsed && (
-                      <span className="transition-opacity duration-200">{item.name}</span>
+                      <span className={cn(
+                        "relative z-10 transition-all duration-300 font-semibold tracking-tight",
+                        isActive && "text-white drop-shadow-sm"
+                      )}>
+                        {item.name}
+                      </span>
+                    )}
+
+                    {/* Active Indicator */}
+                    {isActive && !sidebarCollapsed && (
+                      <div className="absolute right-3 w-2 h-2 bg-white rounded-full animate-pulse" />
                     )}
                   </Link>
                 );
 
                 return sidebarCollapsed ? (
-                  <Tooltip key={item.name} delayDuration={0}>
+                  <Tooltip key={item.name} delayDuration={100}>
                     <TooltipTrigger asChild>
                       {NavItem}
                     </TooltipTrigger>
-                    <TooltipContent side="right" className="font-medium">
+                    <TooltipContent
+                      side="right"
+                      className="font-semibold bg-gray-900 dark:bg-white text-white dark:text-gray-900 border-0 shadow-business-lg"
+                    >
                       {item.name}
                     </TooltipContent>
                   </Tooltip>
