@@ -300,16 +300,16 @@ export default function Layout({ children }: LayoutProps) {
           sidebarOpen ? (sidebarCollapsed ? "lg:ml-16" : "lg:ml-64") : "",
         )}
       >
-        {/* Top header */}
-        <header className="sticky top-0 z-40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
-          <div className="flex items-center gap-4 px-4 py-3">
+        {/* Enhanced Header */}
+        <header className="sticky top-0 z-40 backdrop-blur-xl bg-white/80 dark:bg-gray-900/80 border-b border-gray-200/50 dark:border-gray-700/50 shadow-business">
+          <div className="flex items-center gap-6 px-6 py-4">
             <Button
               variant="ghost"
               size="sm"
               onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="lg:hidden"
+              className="lg:hidden h-10 w-10 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300 hover:scale-110"
             >
-              <Menu className="h-4 w-4" />
+              <Menu className="h-5 w-5" />
             </Button>
 
             {/* Search - responsive behavior */}
