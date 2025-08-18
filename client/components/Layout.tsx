@@ -39,6 +39,8 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import AvatarUpload from "@/components/AvatarUpload";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -87,6 +89,14 @@ export default function Layout({ children }: LayoutProps) {
     toast({
       title: "Language changed",
       description: `Language switched to ${newLanguage === "en" ? "English" : newLanguage === "tg" ? "Тоҷикӣ" : "Русский"}`,
+    });
+  };
+
+  const handleAvatarUpdate = (avatarUrl: string) => {
+    // For now, just show success message - would update auth store in real app
+    toast({
+      title: "Avatar updated",
+      description: "Your profile picture has been updated",
     });
   };
 
