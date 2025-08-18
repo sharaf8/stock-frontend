@@ -312,26 +312,6 @@ export default function Layout({ children }: LayoutProps) {
               <Menu className="h-5 w-5" />
             </Button>
 
-            {/* Enhanced Search Bar */}
-            <div className="relative flex-1 max-w-md">
-              <div className="relative group hidden sm:block">
-                <Search className="absolute left-4 top-3 h-4 w-4 text-gray-400 group-focus-within:text-primary transition-colors duration-300" />
-                <Input
-                  placeholder={t("common.search") + "..."}
-                  className="pl-11 pr-4 h-11 text-sm bg-gray-50/50 dark:bg-gray-800/50 border-gray-200/50 dark:border-gray-700/50 rounded-xl focus:bg-white dark:focus:bg-gray-800 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-300 backdrop-blur-sm"
-                />
-                <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-primary/5 to-purple-500/5 opacity-0 group-focus-within:opacity-100 transition-opacity duration-300 pointer-events-none" />
-              </div>
-
-              {/* Enhanced Mobile Search Button */}
-              <Button
-                variant="ghost"
-                size="sm"
-                className="h-10 w-10 sm:hidden rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300 hover:scale-110"
-              >
-                <Search className="h-5 w-5" />
-              </Button>
-            </div>
 
             <div className="flex items-center gap-2">
               {/* Enhanced Language Switcher */}
