@@ -175,11 +175,14 @@ export default function Login() {
               </form>
 
               <div className="mt-6">
-                <div className="p-4 bg-amber-50 border border-amber-200 rounded-lg">
+                <div className="p-4 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-lg hover:shadow-md transition-all duration-300">
                   <p className="text-sm text-amber-800">
-                    <strong>🔒 Secure Access:</strong> User accounts are managed
-                    by administrators only. Contact your system administrator to
-                    request access.
+                    <strong className="flex items-center gap-1">
+                      🔒 <span>Secure Access:</span>
+                    </strong>
+                    <span className="mt-1 block text-amber-700">
+                      User accounts are managed by administrators only. Contact your system administrator to request access.
+                    </span>
                   </p>
                 </div>
               </div>
@@ -187,7 +190,7 @@ export default function Login() {
           </Card>
 
           {/* User Credentials */}
-          <div className="">
+          <div className="animate-slide-in" style={{ animationDelay: '0.2s' }}>
             <UserCredentials onCredentialSelect={handleCredentialSelect} />
           </div>
         </div>
