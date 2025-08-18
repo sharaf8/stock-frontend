@@ -153,15 +153,16 @@ export default function Layout({ children }: LayoutProps) {
                   className="w-full p-2 h-auto justify-start"
                 >
                   <div className="flex items-center gap-3 w-full">
-                    <div className="w-8 h-8 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center">
-                      <span className="text-white text-sm font-medium">
+                    <Avatar className="w-8 h-8">
+                      <AvatarImage src={user?.avatar} alt={user?.name} />
+                      <AvatarFallback className="bg-gradient-to-br from-green-500 to-green-600 text-white text-sm">
                         {user?.name
                           .split(" ")
                           .map((n) => n[0])
                           .join("")
                           .toUpperCase() || "U"}
-                      </span>
-                    </div>
+                      </AvatarFallback>
+                    </Avatar>
                     <div className="flex-1 min-w-0 text-left">
                       <p className="text-sm font-medium truncate">
                         {user?.name || "User"}
