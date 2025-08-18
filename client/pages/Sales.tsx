@@ -77,6 +77,7 @@ interface Employee {
   department: string;
   position: string;
   status: 'active' | 'inactive' | 'terminated' | 'on_leave';
+  avatar?: string;
 }
 
 interface Invoice {
@@ -128,32 +129,35 @@ const mockEmployees: Employee[] = [
   {
     id: "1",
     employeeId: "EMP001",
-    firstName: "John",
-    lastName: "Smith",
-    email: "john.smith@businesspro.com",
+    firstName: "Sarah",
+    lastName: "Chen",
+    email: "sarah.chen@businesspro.com",
     department: "Sales",
     position: "Sales Manager",
-    status: "active"
+    status: "active",
+    avatar: "https://images.pexels.com/photos/25651531/pexels-photo-25651531.jpeg"
   },
   {
     id: "2",
     employeeId: "EMP002",
-    firstName: "Sarah",
-    lastName: "Johnson",
-    email: "sarah.johnson@businesspro.com",
+    firstName: "Michael",
+    lastName: "Rodriguez",
+    email: "michael.rodriguez@businesspro.com",
     department: "Sales",
     position: "Sales Representative",
-    status: "active"
+    status: "active",
+    avatar: "https://images.pexels.com/photos/3613388/pexels-photo-3613388.jpeg"
   },
   {
     id: "4",
     employeeId: "EMP004",
-    firstName: "Lisa",
-    lastName: "Rodriguez",
-    email: "lisa.rodriguez@businesspro.com",
+    firstName: "Jennifer",
+    lastName: "Patel",
+    email: "jennifer.patel@businesspro.com",
     department: "Sales",
     position: "Sales Representative",
-    status: "active"
+    status: "active",
+    avatar: "https://images.pexels.com/photos/7640433/pexels-photo-7640433.jpeg"
   }
 ];
 
@@ -722,9 +726,17 @@ export default function Sales() {
                       <SelectItem value="none">No employee assigned</SelectItem>
                       {getSalesEmployees().map((employee) => (
                         <SelectItem key={employee.id} value={employee.id}>
-                          <div className="flex flex-col">
-                            <span className="font-medium">{employee.firstName} {employee.lastName}</span>
-                            <span className="text-sm text-muted-foreground">{employee.position}</span>
+                          <div className="flex items-center gap-2">
+                            <Avatar className="h-6 w-6">
+                              <AvatarImage src={employee.avatar} alt={`${employee.firstName} ${employee.lastName}`} />
+                              <AvatarFallback className="text-xs">
+                                {employee.firstName[0]}{employee.lastName[0]}
+                              </AvatarFallback>
+                            </Avatar>
+                            <div className="flex flex-col">
+                              <span className="font-medium">{employee.firstName} {employee.lastName}</span>
+                              <span className="text-sm text-muted-foreground">{employee.position}</span>
+                            </div>
                           </div>
                         </SelectItem>
                       ))}
