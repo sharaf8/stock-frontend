@@ -212,16 +212,16 @@ const mockTimeEntries: TimeEntry[] = [
 
 // Sample sales performance data
 const salesPerformanceData = [
-  { month: 'Jan', johnSales: 450, sarahSales: 280, lisaSales: 200 },
-  { month: 'Feb', johnSales: 5200, sarahSales: 3200, lisaSales: 250 },
-  { month: 'Mar', johnSales: 48, sarahSales: 350, lisaSales: 280 },
-  { month: 'Apr', johnSales: 610, sarahSales: 380, lisaSales: 300 },
-  { month: 'May', johnSales: 550, sarahSales: 420, lisaSales: 320 },
-  { month: 'Jun', johnSales: 670, sarahSales: 450, lisaSales: 350 },
-  { month: 'Aug', johnSales: 670, sarahSales: 450, lisaSales: 350 },
-  { month: 'Sep', johnSales: 670, sarahSales: 45000, lisaSales: 350 },
-  { month: 'Okt', johnSales: 670, sarahSales: 450, lisaSales: 350 },
-  { month: 'Nov', johnSales: 670, sarahSales: 450, lisaSales: 350 },
+  { month: 'Jan', johnSales: 45000, sarahSales: 280, lisaSales: 200 },
+  { month: 'Feb', johnSales: 5200, sarahSales: 320000, lisaSales: 250 },
+  { month: 'Mar', johnSales: 48, sarahSales: 350, lisaSales: 28000 },
+  { month: 'Apr', johnSales: 61000, sarahSales: 380, lisaSales: 300 },
+  { month: 'May', johnSales: 550, sarahSales: 42000, lisaSales: 320 },
+  { month: 'Jun', johnSales: 6000070, sarahSales: 450, lisaSales: 35000 },
+  { month: 'Aug', johnSales: 67000, sarahSales: 450, lisaSales: 350 },
+  { month: 'Sep', johnSales: 670, sarahSales: 4500000, lisaSales: 350 },
+  { month: 'Okt', johnSales: 670, sarahSales: 4500000, lisaSales: 35000 },
+  { month: 'Nov', johnSales: 67000, sarahSales: 450, lisaSales: 350 },
 
 ];
 
