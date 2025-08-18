@@ -358,20 +358,28 @@ ${data.recentActivities.map((activity: any) => `${activity.time} - ${activity.de
         </div>
       </div>
       
-      {/* KPI Cards */}
+      {/* Enhanced KPI Cards with Glassmorphism */}
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-        <Card className="hover:shadow-lg transition-all duration-300 hover:scale-[1.02] group border-0 shadow-md bg-gradient-to-br from-white to-gray-50">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
-            <CardTitle className="text-sm font-medium text-gray-700">{t('dashboard.total_revenue')}</CardTitle>
-            <div className="p-2 bg-green-100 rounded-lg group-hover:bg-green-200 transition-colors">
-              <DollarSign className="h-4 w-4 text-green-600" />
+        <Card className="relative overflow-hidden group border-0 bg-gradient-to-br from-white via-white to-green-50/30 backdrop-blur-xl shadow-business-lg hover:shadow-business-xl transition-all duration-500 hover:scale-[1.02] hover:-translate-y-1">
+          <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 to-emerald-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4 relative z-10">
+            <CardTitle className="text-sm font-semibold text-gray-700 tracking-tight">{t('dashboard.total_revenue')}</CardTitle>
+            <div className="p-3 bg-gradient-to-br from-green-100 to-emerald-100 rounded-xl group-hover:from-green-200 group-hover:to-emerald-200 transition-all duration-300 group-hover:scale-110 shadow-sm">
+              <DollarSign className="h-5 w-5 text-green-600 group-hover:text-green-700 transition-colors" />
             </div>
           </CardHeader>
-          <CardContent className="pt-0">
-            <div className="text-3xl font-bold text-gray-900 mb-1">$45,231.89</div>
-            <p className="text-sm text-green-600 font-medium">
-              +20.1% {t('dashboard.from_last_month')}
-            </p>
+          <CardContent className="pt-0 relative z-10">
+            <div className="text-3xl font-bold text-gray-900 mb-2 tracking-tight">$45,231.89</div>
+            <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1">
+                <TrendingUp className="h-4 w-4 text-green-600" />
+                <span className="text-sm font-semibold text-green-600">+20.1%</span>
+              </div>
+              <span className="text-sm text-muted-foreground">{t('dashboard.from_last_month')}</span>
+            </div>
+            <div className="mt-3 h-1 bg-gray-100 rounded-full overflow-hidden">
+              <div className="h-full bg-gradient-to-r from-green-500 to-emerald-500 rounded-full w-4/5 animate-pulse" />
+            </div>
           </CardContent>
         </Card>
         
