@@ -27,6 +27,7 @@ import {
   LogOut,
   ChevronDown,
   Globe,
+  User,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -190,6 +191,10 @@ export default function Layout({ children }: LayoutProps) {
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={() => navigate("/profile")}>
+                  <User className="mr-2 h-4 w-4" />
+                  Profile
+                </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => navigate("/settings")}>
                   <Settings className="mr-2 h-4 w-4" />
                   {t("navigation.settings")}
