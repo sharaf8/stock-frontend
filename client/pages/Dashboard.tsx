@@ -318,7 +318,7 @@ ${data.recentActivities.map((activity: any) => `${activity.time} - ${activity.de
           </Select>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline">
+              <Button variant="outline" className="h-10 border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-all duration-200">
                 <Download className="mr-2 h-4 w-4" />
                 Export
                 <ChevronDown className="ml-2 h-4 w-4" />
