@@ -134,20 +134,20 @@ export default function Login() {
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between pt-2">
                   <div className="flex items-center space-x-2">
                     <input
                       id="remember"
                       type="checkbox"
-                      className="h-4 w-4 text-blue-600 border-gray-300 rounded"
+                      className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 focus:ring-2 transition-all duration-200"
                     />
-                    <Label htmlFor="remember" className="text-sm text-gray-600">
+                    <Label htmlFor="remember" className="text-sm text-gray-600 cursor-pointer hover:text-gray-800 transition-colors">
                       Remember me
                     </Label>
                   </div>
                   <Link
                     to="/auth/forgot-password"
-                    className="text-sm text-blue-600 hover:text-blue-500"
+                    className="text-sm text-blue-600 hover:text-blue-800 font-medium transition-all duration-200 hover:underline"
                   >
                     Forgot password?
                   </Link>
@@ -155,16 +155,21 @@ export default function Login() {
 
                 <Button
                   type="submit"
-                  className="w-full h-11 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800"
+                  className="w-full h-12 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] font-medium text-white"
                   disabled={isLoading}
                 >
                   {isLoading ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Signing in...
+                      <span className="animate-pulse">Signing in...</span>
                     </>
                   ) : (
-                    "Sign in"
+                    <>
+                      <span>Sign in</span>
+                      <div className="ml-2 w-0 group-hover:w-4 overflow-hidden transition-all duration-300">
+                        →
+                      </div>
+                    </>
                   )}
                 </Button>
               </form>
