@@ -273,13 +273,21 @@ export default function Layout({ children }: LayoutProps) {
               <Menu className="h-4 w-4" />
             </Button>
 
-            {/* Search - hidden on small screens */}
-            <div className="relative flex-1 max-w-sm hidden md:block">
-              <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+            {/* Search - responsive behavior */}
+            <div className="relative flex-1 max-w-sm">
+              <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
                 placeholder={t("common.search") + "..."}
-                className="pl-8"
+                className="pl-10 h-9 text-sm hidden sm:block"
               />
+              {/* Mobile search button */}
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-8 w-8 sm:hidden hover:bg-muted transition-colors"
+              >
+                <Search className="h-4 w-4" />
+              </Button>
             </div>
 
             <div className="flex items-center gap-1 md:gap-2">
