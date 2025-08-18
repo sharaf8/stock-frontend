@@ -3,7 +3,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { useAuthStore } from "@/stores/authStore";
 import { useToast } from "@/hooks/use-toast";
 import UserCredentials from "@/components/UserCredentials";
@@ -46,7 +52,10 @@ export default function Login() {
     }
   };
 
-  const handleCredentialSelect = (selectedEmail: string, selectedPassword: string) => {
+  const handleCredentialSelect = (
+    selectedEmail: string,
+    selectedPassword: string,
+  ) => {
     setEmail(selectedEmail);
     setPassword(selectedPassword);
     toast({
@@ -72,105 +81,105 @@ export default function Login() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Login Form */}
           <Card className="shadow-xl border-0">
-          <CardHeader className="space-y-1 text-center">
-            <CardTitle className="text-2xl font-bold">Welcome back</CardTitle>
-            <CardDescription>
-              Sign in to your account to continue
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="email">Email address</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="admin@businesspro.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="h-11"
-                />
-              </div>
-              
-              <div className="space-y-2">
-                <Label htmlFor="password">Password</Label>
-                <div className="relative">
+            <CardHeader className="space-y-1 text-center">
+              <CardTitle className="text-2xl font-bold">Welcome back</CardTitle>
+              <CardDescription>
+                Sign in to your account to continue
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="email">Email address</Label>
                   <Input
-                    id="password"
-                    type={showPassword ? "text" : "password"}
-                    placeholder="Enter your password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="h-11 pr-10"
+                    id="email"
+                    type="email"
+                    placeholder="admin@businesspro.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="h-11"
                   />
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="sm"
-                    className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                    onClick={() => setShowPassword(!showPassword)}
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="password">Password</Label>
+                  <div className="relative">
+                    <Input
+                      id="password"
+                      type={showPassword ? "text" : "password"}
+                      placeholder="Enter your password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      className="h-11 pr-10"
+                    />
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      {showPassword ? (
+                        <EyeOff className="h-4 w-4 text-gray-400" />
+                      ) : (
+                        <Eye className="h-4 w-4 text-gray-400" />
+                      )}
+                    </Button>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-2">
+                    <input
+                      id="remember"
+                      type="checkbox"
+                      className="h-4 w-4 text-blue-600 border-gray-300 rounded"
+                    />
+                    <Label htmlFor="remember" className="text-sm text-gray-600">
+                      Remember me
+                    </Label>
+                  </div>
+                  <Link
+                    to="/auth/forgot-password"
+                    className="text-sm text-blue-600 hover:text-blue-500"
                   >
-                    {showPassword ? (
-                      <EyeOff className="h-4 w-4 text-gray-400" />
-                    ) : (
-                      <Eye className="h-4 w-4 text-gray-400" />
-                    )}
-                  </Button>
+                    Forgot password?
+                  </Link>
                 </div>
-              </div>
 
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-2">
-                  <input
-                    id="remember"
-                    type="checkbox"
-                    className="h-4 w-4 text-blue-600 border-gray-300 rounded"
-                  />
-                  <Label htmlFor="remember" className="text-sm text-gray-600">
-                    Remember me
-                  </Label>
-                </div>
-                <Link
-                  to="/auth/forgot-password"
-                  className="text-sm text-blue-600 hover:text-blue-500"
+                <Button
+                  type="submit"
+                  className="w-full h-11 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800"
+                  disabled={isLoading}
                 >
-                  Forgot password?
-                </Link>
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Signing in...
+                    </>
+                  ) : (
+                    "Sign in"
+                  )}
+                </Button>
+              </form>
+
+              <div className="mt-6">
+                <div className="p-4 bg-amber-50 border border-amber-200 rounded-lg">
+                  <p className="text-sm text-amber-800">
+                    <strong>🔒 Secure Access:</strong> User accounts are managed
+                    by administrators only. Contact your system administrator to
+                    request access.
+                  </p>
+                </div>
               </div>
+            </CardContent>
+          </Card>
 
-              <Button
-                type="submit"
-                className="w-full h-11 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800"
-                disabled={isLoading}
-              >
-                {isLoading ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Signing in...
-                  </>
-                ) : (
-                  "Sign in"
-                )}
-              </Button>
-            </form>
-
-            <div className="mt-6">
-              <div className="p-4 bg-amber-50 border border-amber-200 rounded-lg">
-                <p className="text-sm text-amber-800">
-                  <strong>🔒 Secure Access:</strong> User accounts are managed by administrators only.
-                  Contact your system administrator to request access.
-                </p>
-              </div>
-            </div>
-
-          </CardContent>
-        </Card>
-
-        {/* User Credentials */}
-        <div className="">
-          <UserCredentials onCredentialSelect={handleCredentialSelect} />
+          {/* User Credentials */}
+          <div className="">
+            <UserCredentials onCredentialSelect={handleCredentialSelect} />
+          </div>
         </div>
-      </div>
       </div>
     </div>
   );

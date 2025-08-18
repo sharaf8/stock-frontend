@@ -1,59 +1,65 @@
-import { useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Badge } from '@/components/ui/badge';
-import { useAuthStore } from '@/stores/authStore';
-import { useToast } from '@/hooks/use-toast';
-import AvatarUpload from '@/components/AvatarUpload';
-import RoleBadge from '@/components/ui/role-badge';
-import { 
-  User, 
-  Mail, 
-  Phone, 
-  MapPin, 
-  Building, 
+import { useState } from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
+import { useAuthStore } from "@/stores/authStore";
+import { useToast } from "@/hooks/use-toast";
+import AvatarUpload from "@/components/AvatarUpload";
+import RoleBadge from "@/components/ui/role-badge";
+import {
+  User,
+  Mail,
+  Phone,
+  MapPin,
+  Building,
   Calendar,
   Edit,
   Save,
-  X
-} from 'lucide-react';
+  X,
+} from "lucide-react";
 
 export default function Profile() {
   const { user } = useAuthStore();
   const { toast } = useToast();
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
-    name: user?.name || '',
-    email: user?.email || '',
-    phone: user?.phone || '',
-    location: user?.location || '',
-    department: user?.department || '',
-    title: user?.title || ''
+    name: user?.name || "",
+    email: user?.email || "",
+    phone: user?.phone || "",
+    location: user?.location || "",
+    department: user?.department || "",
+    title: user?.title || "",
   });
 
   const handleSave = async () => {
     // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
     // In a real app, this would update the user in the backend
     toast({
-      title: 'Profile updated',
-      description: 'Your profile information has been saved successfully',
+      title: "Profile updated",
+      description: "Your profile information has been saved successfully",
     });
-    
+
     setIsEditing(false);
   };
 
   const handleCancel = () => {
     setFormData({
-      name: user?.name || '',
-      email: user?.email || '',
-      phone: user?.phone || '',
-      location: user?.location || '',
-      department: user?.department || '',
-      title: user?.title || ''
+      name: user?.name || "",
+      email: user?.email || "",
+      phone: user?.phone || "",
+      location: user?.location || "",
+      department: user?.department || "",
+      title: user?.title || "",
     });
     setIsEditing(false);
   };
@@ -61,15 +67,17 @@ export default function Profile() {
   const handleAvatarUpdate = (avatarUrl: string) => {
     // In a real app, this would update the user avatar in the auth store
     toast({
-      title: 'Avatar updated',
-      description: 'Your profile picture has been updated successfully',
+      title: "Avatar updated",
+      description: "Your profile picture has been updated successfully",
     });
   };
 
   if (!user) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
-        <p className="text-muted-foreground">Please log in to view your profile</p>
+        <p className="text-muted-foreground">
+          Please log in to view your profile
+        </p>
       </div>
     );
   }
@@ -98,12 +106,12 @@ export default function Profile() {
             </div>
             <CardTitle className="text-xl">{user.name}</CardTitle>
             <CardDescription>{user.email}</CardDescription>
-            
+
             <div className="flex justify-center mt-3">
               <RoleBadge role={user.role} />
             </div>
           </CardHeader>
-          
+
           <CardContent className="space-y-4">
             {user.department && (
               <div className="flex items-center gap-2 text-sm">
@@ -111,21 +119,21 @@ export default function Profile() {
                 <span>{user.department}</span>
               </div>
             )}
-            
+
             {user.title && (
               <div className="flex items-center gap-2 text-sm">
                 <User className="h-4 w-4 text-muted-foreground" />
                 <span>{user.title}</span>
               </div>
             )}
-            
+
             {user.location && (
               <div className="flex items-center gap-2 text-sm">
                 <MapPin className="h-4 w-4 text-muted-foreground" />
                 <span>{user.location}</span>
               </div>
             )}
-            
+
             {user.phone && (
               <div className="flex items-center gap-2 text-sm">
                 <Phone className="h-4 w-4 text-muted-foreground" />
@@ -145,7 +153,7 @@ export default function Profile() {
                   Update your personal details and contact information
                 </CardDescription>
               </div>
-              
+
               {!isEditing ? (
                 <Button onClick={() => setIsEditing(true)} variant="outline">
                   <Edit className="h-4 w-4 mr-2" />
@@ -165,7 +173,7 @@ export default function Profile() {
               )}
             </div>
           </CardHeader>
-          
+
           <CardContent className="space-y-4">
             <div className="grid gap-4 md:grid-cols-2">
               <div className="space-y-2">
@@ -173,58 +181,70 @@ export default function Profile() {
                 <Input
                   id="name"
                   value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, name: e.target.value })
+                  }
                   disabled={!isEditing}
                 />
               </div>
-              
+
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
                 <Input
                   id="email"
                   type="email"
                   value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, email: e.target.value })
+                  }
                   disabled={!isEditing}
                 />
               </div>
-              
+
               <div className="space-y-2">
                 <Label htmlFor="phone">Phone</Label>
                 <Input
                   id="phone"
                   value={formData.phone}
-                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, phone: e.target.value })
+                  }
                   disabled={!isEditing}
                 />
               </div>
-              
+
               <div className="space-y-2">
                 <Label htmlFor="location">Location</Label>
                 <Input
                   id="location"
                   value={formData.location}
-                  onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, location: e.target.value })
+                  }
                   disabled={!isEditing}
                 />
               </div>
-              
+
               <div className="space-y-2">
                 <Label htmlFor="department">Department</Label>
                 <Input
                   id="department"
                   value={formData.department}
-                  onChange={(e) => setFormData({ ...formData, department: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, department: e.target.value })
+                  }
                   disabled={!isEditing}
                 />
               </div>
-              
+
               <div className="space-y-2">
                 <Label htmlFor="title">Job Title</Label>
                 <Input
                   id="title"
                   value={formData.title}
-                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, title: e.target.value })
+                  }
                   disabled={!isEditing}
                 />
               </div>
@@ -244,27 +264,37 @@ export default function Profile() {
         <CardContent>
           <div className="grid gap-4 md:grid-cols-2">
             <div>
-              <Label className="text-sm font-medium text-muted-foreground">Account Role</Label>
+              <Label className="text-sm font-medium text-muted-foreground">
+                Account Role
+              </Label>
               <div className="mt-1">
                 <RoleBadge role={user.role} />
               </div>
             </div>
-            
+
             <div>
-              <Label className="text-sm font-medium text-muted-foreground">Account Status</Label>
+              <Label className="text-sm font-medium text-muted-foreground">
+                Account Status
+              </Label>
               <div className="mt-1">
                 <Badge className="bg-green-100 text-green-800">Active</Badge>
               </div>
             </div>
-            
+
             <div>
-              <Label className="text-sm font-medium text-muted-foreground">User ID</Label>
+              <Label className="text-sm font-medium text-muted-foreground">
+                User ID
+              </Label>
               <p className="text-sm font-mono mt-1">{user.id}</p>
             </div>
-            
+
             <div>
-              <Label className="text-sm font-medium text-muted-foreground">Department</Label>
-              <p className="text-sm mt-1">{user.department || 'Not specified'}</p>
+              <Label className="text-sm font-medium text-muted-foreground">
+                Department
+              </Label>
+              <p className="text-sm mt-1">
+                {user.department || "Not specified"}
+              </p>
             </div>
           </div>
         </CardContent>

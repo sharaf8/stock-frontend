@@ -1,9 +1,15 @@
-import { useState, useRef } from 'react';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { useToast } from '@/hooks/use-toast';
-import { Upload, Camera, X, User } from 'lucide-react';
+import { useState, useRef } from "react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { useToast } from "@/hooks/use-toast";
+import { Upload, Camera, X, User } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -12,35 +18,41 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog";
 
 interface AvatarUploadProps {
   currentAvatar?: string;
   userName: string;
   onAvatarUpdate: (avatarUrl: string) => void;
-  size?: 'sm' | 'md' | 'lg';
+  size?: "sm" | "md" | "lg";
 }
 
-export default function AvatarUpload({ 
-  currentAvatar, 
-  userName, 
+export default function AvatarUpload({
+  currentAvatar,
+  userName,
   onAvatarUpdate,
-  size = 'md' 
+  size = "md",
 }: AvatarUploadProps) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(currentAvatar || null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(
+    currentAvatar || null,
+  );
   const [uploading, setUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
   const sizeClasses = {
-    sm: 'h-12 w-12',
-    md: 'h-20 w-20', 
-    lg: 'h-32 w-32'
+    sm: "h-12 w-12",
+    md: "h-20 w-20",
+    lg: "h-32 w-32",
   };
 
   const getInitials = (name: string) => {
-    return name.split(' ').map(n => n[0]).join('').toUpperCase();
+    return name
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase();
   };
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -48,11 +60,11 @@ export default function AvatarUpload({
     if (!file) return;
 
     // Validate file type
-    if (!file.type.startsWith('image/')) {
+    if (!file.type.startsWith("image/")) {
       toast({
-        title: 'Invalid file type',
-        description: 'Please select an image file (JPG, PNG, GIF, etc.)',
-        variant: 'destructive',
+        title: "Invalid file type",
+        description: "Please select an image file (JPG, PNG, GIF, etc.)",
+        variant: "destructive",
       });
       return;
     }
@@ -60,9 +72,9 @@ export default function AvatarUpload({
     // Validate file size (max 5MB)
     if (file.size > 5 * 1024 * 1024) {
       toast({
-        title: 'File too large',
-        description: 'Please select an image smaller than 5MB',
-        variant: 'destructive',
+        title: "File too large",
+        description: "Please select an image smaller than 5MB",
+        variant: "destructive",
       });
       return;
     }
@@ -79,25 +91,25 @@ export default function AvatarUpload({
     if (!previewUrl) return;
 
     setUploading(true);
-    
+
     try {
       // Simulate upload delay - in real app, this would upload to a server/cloud storage
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+
       // For demo purposes, use the preview URL as the final avatar URL
       onAvatarUpdate(previewUrl);
-      
+
       toast({
-        title: 'Avatar updated',
-        description: 'Your profile picture has been updated successfully',
+        title: "Avatar updated",
+        description: "Your profile picture has been updated successfully",
       });
-      
+
       setIsDialogOpen(false);
     } catch (error) {
       toast({
-        title: 'Upload failed',
-        description: 'Failed to upload avatar. Please try again.',
-        variant: 'destructive',
+        title: "Upload failed",
+        description: "Failed to upload avatar. Please try again.",
+        variant: "destructive",
       });
     } finally {
       setUploading(false);
@@ -106,12 +118,12 @@ export default function AvatarUpload({
 
   const handleRemoveAvatar = () => {
     setPreviewUrl(null);
-    onAvatarUpdate('');
+    onAvatarUpdate("");
     setIsDialogOpen(false);
-    
+
     toast({
-      title: 'Avatar removed',
-      description: 'Your profile picture has been removed',
+      title: "Avatar removed",
+      description: "Your profile picture has been removed",
     });
   };
 
@@ -135,7 +147,7 @@ export default function AvatarUpload({
             Change Avatar
           </Button>
         </DialogTrigger>
-        
+
         <DialogContent className="max-w-md">
           <DialogHeader>
             <DialogTitle>Update Profile Picture</DialogTitle>
@@ -166,7 +178,7 @@ export default function AvatarUpload({
                 <Upload className="h-4 w-4 mr-2" />
                 Choose Image
               </Button>
-              
+
               <input
                 ref={fileInputRef}
                 type="file"
@@ -212,7 +224,9 @@ export default function AvatarUpload({
             </Button>
             <Button
               onClick={handleUpload}
-              disabled={!previewUrl || uploading || previewUrl === currentAvatar}
+              disabled={
+                !previewUrl || uploading || previewUrl === currentAvatar
+              }
             >
               {uploading ? (
                 <>
@@ -220,7 +234,7 @@ export default function AvatarUpload({
                   Uploading...
                 </>
               ) : (
-                'Update Avatar'
+                "Update Avatar"
               )}
             </Button>
           </DialogFooter>

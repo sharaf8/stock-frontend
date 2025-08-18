@@ -1,9 +1,15 @@
 import { useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { 
+import {
   Table,
   TableBody,
   TableCell,
@@ -11,7 +17,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { 
+import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -20,7 +26,13 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import AIAssistant from "@/components/AIAssistant";
@@ -41,7 +53,7 @@ import {
   DollarSign,
   X,
   AlertTriangle,
-  Calendar
+  Calendar,
 } from "lucide-react";
 
 interface InvoiceItem {
@@ -58,7 +70,7 @@ interface Client {
   id: string;
   name: string;
   email: string;
-  type: 'retail' | 'wholesale' | 'distributor';
+  type: "retail" | "wholesale" | "distributor";
 }
 
 interface Product {
@@ -76,7 +88,7 @@ interface Employee {
   email: string;
   department: string;
   position: string;
-  status: 'active' | 'inactive' | 'terminated' | 'on_leave';
+  status: "active" | "inactive" | "terminated" | "on_leave";
   avatar?: string;
 }
 
@@ -86,7 +98,7 @@ interface Invoice {
   clientId: string;
   clientName: string;
   clientEmail: string;
-  clientType: 'retail' | 'wholesale' | 'distributor';
+  clientType: "retail" | "wholesale" | "distributor";
   employeeId?: string;
   employeeName?: string;
   employeeAvatar?: string;
@@ -98,8 +110,8 @@ interface Invoice {
   taxAmount: number;
   discountAmount: number;
   total: number;
-  status: 'draft' | 'sent' | 'paid' | 'overdue' | 'cancelled';
-  paymentMethod: 'cash' | 'card' | 'bank_transfer' | 'credit';
+  status: "draft" | "sent" | "paid" | "overdue" | "cancelled";
+  paymentMethod: "cash" | "card" | "bank_transfer" | "credit";
   notes: string;
   cancellationReason?: string;
   cancelledBy?: string;
@@ -107,17 +119,47 @@ interface Invoice {
 }
 
 const mockClients: Client[] = [
-  { id: "1", name: "Tech Solutions Ltd", email: "contact@techsolutions.com", type: "wholesale" },
-  { id: "2", name: "John Smith", email: "john.smith@email.com", type: "retail" },
-  { id: "3", name: "Global Distributors Inc", email: "orders@globaldist.com", type: "distributor" },
-  { id: "4", name: "Sarah Johnson", email: "sarah.j@email.com", type: "retail" },
-  { id: "5", name: "Metro Electronics", email: "sales@metroelec.com", type: "wholesale" },
+  {
+    id: "1",
+    name: "Tech Solutions Ltd",
+    email: "contact@techsolutions.com",
+    type: "wholesale",
+  },
+  {
+    id: "2",
+    name: "John Smith",
+    email: "john.smith@email.com",
+    type: "retail",
+  },
+  {
+    id: "3",
+    name: "Global Distributors Inc",
+    email: "orders@globaldist.com",
+    type: "distributor",
+  },
+  {
+    id: "4",
+    name: "Sarah Johnson",
+    email: "sarah.j@email.com",
+    type: "retail",
+  },
+  {
+    id: "5",
+    name: "Metro Electronics",
+    email: "sales@metroelec.com",
+    type: "wholesale",
+  },
 ];
 
 const mockProducts: Product[] = [
   { id: "1", name: "iPhone 15 Pro", unitPrice: 899, category: "Smartphones" },
   { id: "2", name: "MacBook Air M3", unitPrice: 1299, category: "Laptops" },
-  { id: "3", name: "Samsung Galaxy S24", unitPrice: 899, category: "Smartphones" },
+  {
+    id: "3",
+    name: "Samsung Galaxy S24",
+    unitPrice: 899,
+    category: "Smartphones",
+  },
   { id: "4", name: "iPad Pro", unitPrice: 1099, category: "Tablets" },
   { id: "5", name: "AirPods Pro", unitPrice: 199, category: "Accessories" },
   { id: "6", name: "Dell XPS 13", unitPrice: 1199, category: "Laptops" },
@@ -135,7 +177,8 @@ const mockEmployees: Employee[] = [
     department: "Sales",
     position: "Sales Manager",
     status: "active",
-    avatar: "https://images.pexels.com/photos/25651531/pexels-photo-25651531.jpeg"
+    avatar:
+      "https://images.pexels.com/photos/25651531/pexels-photo-25651531.jpeg",
   },
   {
     id: "2",
@@ -146,7 +189,8 @@ const mockEmployees: Employee[] = [
     department: "Sales",
     position: "Sales Representative",
     status: "active",
-    avatar: "https://images.pexels.com/photos/3613388/pexels-photo-3613388.jpeg"
+    avatar:
+      "https://images.pexels.com/photos/3613388/pexels-photo-3613388.jpeg",
   },
   {
     id: "4",
@@ -157,8 +201,9 @@ const mockEmployees: Employee[] = [
     department: "Sales",
     position: "Sales Representative",
     status: "active",
-    avatar: "https://images.pexels.com/photos/7640433/pexels-photo-7640433.jpeg"
-  }
+    avatar:
+      "https://images.pexels.com/photos/7640433/pexels-photo-7640433.jpeg",
+  },
 ];
 
 const mockInvoices: Invoice[] = [
@@ -171,7 +216,8 @@ const mockInvoices: Invoice[] = [
     clientType: "wholesale",
     employeeId: "1",
     employeeName: "Sarah Chen",
-    employeeAvatar: "https://images.pexels.com/photos/25651531/pexels-photo-25651531.jpeg",
+    employeeAvatar:
+      "https://images.pexels.com/photos/25651531/pexels-photo-25651531.jpeg",
     date: "2024-01-15",
     dueDate: "2024-02-15",
     items: [
@@ -182,7 +228,7 @@ const mockInvoices: Invoice[] = [
         quantity: 10,
         unitPrice: 899,
         discount: 10,
-        total: 8091
+        total: 8091,
       },
       {
         id: "2",
@@ -191,8 +237,8 @@ const mockInvoices: Invoice[] = [
         quantity: 5,
         unitPrice: 1299,
         discount: 5,
-        total: 6170.25
-      }
+        total: 6170.25,
+      },
     ],
     subtotal: 14261.25,
     taxRate: 8.5,
@@ -201,7 +247,7 @@ const mockInvoices: Invoice[] = [
     total: 14903.01,
     status: "paid",
     paymentMethod: "bank_transfer",
-    notes: "Wholesale order with volume discount applied"
+    notes: "Wholesale order with volume discount applied",
   },
   {
     id: "2",
@@ -212,7 +258,8 @@ const mockInvoices: Invoice[] = [
     clientType: "retail",
     employeeId: "2",
     employeeName: "Michael Rodriguez",
-    employeeAvatar: "https://images.pexels.com/photos/3613388/pexels-photo-3613388.jpeg",
+    employeeAvatar:
+      "https://images.pexels.com/photos/3613388/pexels-photo-3613388.jpeg",
     date: "2024-01-20",
     dueDate: "2024-01-25",
     items: [
@@ -223,8 +270,8 @@ const mockInvoices: Invoice[] = [
         quantity: 1,
         unitPrice: 899,
         discount: 0,
-        total: 899
-      }
+        total: 899,
+      },
     ],
     subtotal: 899,
     taxRate: 8.5,
@@ -233,8 +280,8 @@ const mockInvoices: Invoice[] = [
     total: 975.42,
     status: "sent",
     paymentMethod: "card",
-    notes: "Retail purchase"
-  }
+    notes: "Retail purchase",
+  },
 ];
 
 export default function Sales() {
@@ -301,12 +348,15 @@ export default function Sales() {
     setUseExistingClient(true);
   };
 
-  const filteredInvoices = invoices.filter(invoice => {
-    const matchesSearch = invoice.invoiceNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         invoice.clientName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         invoice.clientEmail.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         (invoice.employeeName && invoice.employeeName.toLowerCase().includes(searchTerm.toLowerCase()));
-    const matchesStatus = statusFilter === "all" || invoice.status === statusFilter;
+  const filteredInvoices = invoices.filter((invoice) => {
+    const matchesSearch =
+      invoice.invoiceNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      invoice.clientName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      invoice.clientEmail.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (invoice.employeeName &&
+        invoice.employeeName.toLowerCase().includes(searchTerm.toLowerCase()));
+    const matchesStatus =
+      statusFilter === "all" || invoice.status === statusFilter;
 
     // Date filtering logic
     let matchesDate = true;
@@ -329,14 +379,16 @@ export default function Sales() {
           matchesDate = invoiceDate >= weekStart && invoiceDate <= today;
           break;
         case "this_month":
-          matchesDate = invoiceDate.getMonth() === today.getMonth() &&
-                       invoiceDate.getFullYear() === today.getFullYear();
+          matchesDate =
+            invoiceDate.getMonth() === today.getMonth() &&
+            invoiceDate.getFullYear() === today.getFullYear();
           break;
         case "last_month":
           const lastMonth = new Date(today);
           lastMonth.setMonth(today.getMonth() - 1);
-          matchesDate = invoiceDate.getMonth() === lastMonth.getMonth() &&
-                       invoiceDate.getFullYear() === lastMonth.getFullYear();
+          matchesDate =
+            invoiceDate.getMonth() === lastMonth.getMonth() &&
+            invoiceDate.getFullYear() === lastMonth.getFullYear();
           break;
         case "custom":
           if (startDate && endDate) {
@@ -354,16 +406,35 @@ export default function Sales() {
 
   const getStatusBadge = (status: string) => {
     switch (status) {
-      case 'draft':
-        return <Badge variant="secondary" className="bg-gray-100 text-gray-800">Draft</Badge>;
-      case 'sent':
-        return <Badge variant="default" className="bg-blue-100 text-blue-800">Sent</Badge>;
-      case 'paid':
-        return <Badge variant="default" className="bg-green-100 text-green-800">Paid</Badge>;
-      case 'overdue':
+      case "draft":
+        return (
+          <Badge variant="secondary" className="bg-gray-100 text-gray-800">
+            Draft
+          </Badge>
+        );
+      case "sent":
+        return (
+          <Badge variant="default" className="bg-blue-100 text-blue-800">
+            Sent
+          </Badge>
+        );
+      case "paid":
+        return (
+          <Badge variant="default" className="bg-green-100 text-green-800">
+            Paid
+          </Badge>
+        );
+      case "overdue":
         return <Badge variant="destructive">Overdue</Badge>;
-      case 'cancelled':
-        return <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200">Cancelled</Badge>;
+      case "cancelled":
+        return (
+          <Badge
+            variant="outline"
+            className="bg-red-50 text-red-700 border-red-200"
+          >
+            Cancelled
+          </Badge>
+        );
       default:
         return <Badge variant="outline">Unknown</Badge>;
     }
@@ -378,7 +449,11 @@ export default function Sales() {
     return subtotal - discountAmount;
   };
 
-  const calculateInvoiceTotal = (items: InvoiceItem[], taxRate: number = 8.5, discountAmount: number = 0) => {
+  const calculateInvoiceTotal = (
+    items: InvoiceItem[],
+    taxRate: number = 8.5,
+    discountAmount: number = 0,
+  ) => {
     const subtotal = items.reduce((sum, item) => sum + item.total, 0);
     const taxAmount = (subtotal * taxRate) / 100;
     const total = subtotal + taxAmount - discountAmount;
@@ -406,7 +481,11 @@ export default function Sales() {
     };
 
     const updatedItems = [...(newInvoice.items || []), item];
-    const { subtotal, taxAmount, total } = calculateInvoiceTotal(updatedItems, newInvoice.taxRate, newInvoice.discountAmount);
+    const { subtotal, taxAmount, total } = calculateInvoiceTotal(
+      updatedItems,
+      newInvoice.taxRate,
+      newInvoice.discountAmount,
+    );
 
     setNewInvoice({
       ...newInvoice,
@@ -417,7 +496,7 @@ export default function Sales() {
     });
 
     clearCurrentItem();
-    
+
     toast({
       title: "Product added",
       description: `${item.productName} has been added to the invoice.`,
@@ -425,9 +504,15 @@ export default function Sales() {
   };
 
   const removeItemFromInvoice = (itemId: string) => {
-    const item = newInvoice.items?.find(i => i.id === itemId);
-    const updatedItems = (newInvoice.items || []).filter(item => item.id !== itemId);
-    const { subtotal, taxAmount, total } = calculateInvoiceTotal(updatedItems, newInvoice.taxRate, newInvoice.discountAmount);
+    const item = newInvoice.items?.find((i) => i.id === itemId);
+    const updatedItems = (newInvoice.items || []).filter(
+      (item) => item.id !== itemId,
+    );
+    const { subtotal, taxAmount, total } = calculateInvoiceTotal(
+      updatedItems,
+      newInvoice.taxRate,
+      newInvoice.discountAmount,
+    );
 
     setNewInvoice({
       ...newInvoice,
@@ -446,12 +531,15 @@ export default function Sales() {
   const generateInvoiceNumber = () => {
     const year = new Date().getFullYear();
     const count = invoices.length + 1;
-    return `INV-${year}-${count.toString().padStart(3, '0')}`;
+    return `INV-${year}-${count.toString().padStart(3, "0")}`;
   };
 
   const createInvoice = () => {
     // Validate client information
-    if (useExistingClient && (!newInvoice.clientId || newInvoice.clientId === "")) {
+    if (
+      useExistingClient &&
+      (!newInvoice.clientId || newInvoice.clientId === "")
+    ) {
       toast({
         title: "Error",
         description: "Please select a client",
@@ -460,7 +548,10 @@ export default function Sales() {
       return;
     }
 
-    if (!useExistingClient && (!newInvoice.clientName || newInvoice.clientName.trim() === "")) {
+    if (
+      !useExistingClient &&
+      (!newInvoice.clientName || newInvoice.clientName.trim() === "")
+    ) {
       toast({
         title: "Error",
         description: "Please enter client name",
@@ -484,19 +575,21 @@ export default function Sales() {
       clientId: newInvoice.clientId || "new",
       clientName: newInvoice.clientName!,
       clientEmail: newInvoice.clientEmail || "",
-      clientType: newInvoice.clientType || 'retail',
+      clientType: newInvoice.clientType || "retail",
       employeeId: newInvoice.employeeId,
       employeeName: newInvoice.employeeName,
-      date: new Date().toISOString().split('T')[0],
-      dueDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+      date: new Date().toISOString().split("T")[0],
+      dueDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
+        .toISOString()
+        .split("T")[0],
       items: newInvoice.items!,
       subtotal: newInvoice.subtotal || 0,
       taxRate: newInvoice.taxRate || 8.5,
       taxAmount: newInvoice.taxAmount || 0,
       discountAmount: newInvoice.discountAmount || 0,
       total: newInvoice.total || 0,
-      status: 'draft',
-      paymentMethod: newInvoice.paymentMethod || 'cash',
+      status: "draft",
+      paymentMethod: newInvoice.paymentMethod || "cash",
       notes: newInvoice.notes || "",
     };
 
@@ -528,16 +621,18 @@ export default function Sales() {
 
     const updatedInvoice = {
       ...invoiceToCancel,
-      status: 'cancelled' as any,
+      status: "cancelled" as any,
       cancellationReason: cancellationReason.trim(),
       cancelledBy: "Current User", // In a real app, this would be the actual user
-      cancelledDate: new Date().toISOString().split('T')[0]
+      cancelledDate: new Date().toISOString().split("T")[0],
     };
 
-    setInvoices(invoices.map(inv => 
-      inv.id === invoiceToCancel.id ? updatedInvoice : inv
-    ));
-    
+    setInvoices(
+      invoices.map((inv) =>
+        inv.id === invoiceToCancel.id ? updatedInvoice : inv,
+      ),
+    );
+
     setIsCancelDialogOpen(false);
     setInvoiceToCancel(null);
     setCancellationReason("");
@@ -549,10 +644,12 @@ export default function Sales() {
   };
 
   const updateInvoiceStatus = (invoiceId: string, newStatus: string) => {
-    setInvoices(invoices.map(inv => 
-      inv.id === invoiceId ? { ...inv, status: newStatus as any } : inv
-    ));
-    
+    setInvoices(
+      invoices.map((inv) =>
+        inv.id === invoiceId ? { ...inv, status: newStatus as any } : inv,
+      ),
+    );
+
     toast({
       title: "Status updated",
       description: `Invoice status changed to ${newStatus}.`,
@@ -560,15 +657,21 @@ export default function Sales() {
   };
 
   const getSalesEmployees = () => {
-    return mockEmployees.filter(emp => emp.department === "Sales" && emp.status === "active");
+    return mockEmployees.filter(
+      (emp) => emp.department === "Sales" && emp.status === "active",
+    );
   };
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Sales Management</h1>
-          <p className="text-muted-foreground">Create invoices and manage sales transactions</p>
+          <h1 className="text-3xl font-bold tracking-tight">
+            Sales Management
+          </h1>
+          <p className="text-muted-foreground">
+            Create invoices and manage sales transactions
+          </p>
         </div>
         <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
           <DialogTrigger asChild>
@@ -581,7 +684,8 @@ export default function Sales() {
             <DialogHeader>
               <DialogTitle>Create New Invoice</DialogTitle>
               <DialogDescription>
-                Generate a new sales invoice with items, taxes, and client information.
+                Generate a new sales invoice with items, taxes, and client
+                information.
               </DialogDescription>
             </DialogHeader>
             <div className="space-y-6">
@@ -596,7 +700,9 @@ export default function Sales() {
                     onChange={() => setUseExistingClient(true)}
                     className="h-4 w-4"
                   />
-                  <Label htmlFor="existing-client">Select existing client</Label>
+                  <Label htmlFor="existing-client">
+                    Select existing client
+                  </Label>
                   <input
                     type="radio"
                     id="new-client"
@@ -612,17 +718,19 @@ export default function Sales() {
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="client">Select Client *</Label>
-                      <Select 
-                        value={newInvoice.clientId || ""} 
+                      <Select
+                        value={newInvoice.clientId || ""}
                         onValueChange={(value) => {
-                          const selectedClient = mockClients.find(c => c.id === value);
+                          const selectedClient = mockClients.find(
+                            (c) => c.id === value,
+                          );
                           if (selectedClient) {
                             setNewInvoice({
                               ...newInvoice,
                               clientId: selectedClient.id,
                               clientName: selectedClient.name,
                               clientEmail: selectedClient.email,
-                              clientType: selectedClient.type
+                              clientType: selectedClient.type,
                             });
                           }
                         }}
@@ -634,8 +742,12 @@ export default function Sales() {
                           {mockClients.map((client) => (
                             <SelectItem key={client.id} value={client.id}>
                               <div className="flex flex-col">
-                                <span className="font-medium">{client.name}</span>
-                                <span className="text-sm text-muted-foreground">{client.email} • {client.type}</span>
+                                <span className="font-medium">
+                                  {client.name}
+                                </span>
+                                <span className="text-sm text-muted-foreground">
+                                  {client.email} • {client.type}
+                                </span>
                               </div>
                             </SelectItem>
                           ))}
@@ -646,9 +758,13 @@ export default function Sales() {
                       <Label>Client Details</Label>
                       <div className="h-10 px-3 py-2 border rounded-md bg-muted flex items-center text-sm">
                         {newInvoice.clientName ? (
-                          <span>{newInvoice.clientName} ({newInvoice.clientType})</span>
+                          <span>
+                            {newInvoice.clientName} ({newInvoice.clientType})
+                          </span>
                         ) : (
-                          <span className="text-muted-foreground">Select a client to see details</span>
+                          <span className="text-muted-foreground">
+                            Select a client to see details
+                          </span>
                         )}
                       </div>
                     </div>
@@ -661,7 +777,12 @@ export default function Sales() {
                         id="clientName"
                         placeholder="Enter client name"
                         value={newInvoice.clientName || ""}
-                        onChange={(e) => setNewInvoice({...newInvoice, clientName: e.target.value})}
+                        onChange={(e) =>
+                          setNewInvoice({
+                            ...newInvoice,
+                            clientName: e.target.value,
+                          })
+                        }
                       />
                     </div>
                     <div className="space-y-2">
@@ -671,14 +792,24 @@ export default function Sales() {
                         type="email"
                         placeholder="client@email.com"
                         value={newInvoice.clientEmail || ""}
-                        onChange={(e) => setNewInvoice({...newInvoice, clientEmail: e.target.value})}
+                        onChange={(e) =>
+                          setNewInvoice({
+                            ...newInvoice,
+                            clientEmail: e.target.value,
+                          })
+                        }
                       />
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="clientType">Client Type</Label>
-                      <Select 
-                        value={newInvoice.clientType} 
-                        onValueChange={(value) => setNewInvoice({...newInvoice, clientType: value as any})}
+                      <Select
+                        value={newInvoice.clientType}
+                        onValueChange={(value) =>
+                          setNewInvoice({
+                            ...newInvoice,
+                            clientType: value as any,
+                          })
+                        }
                       >
                         <SelectTrigger>
                           <SelectValue />
@@ -686,7 +817,9 @@ export default function Sales() {
                         <SelectContent>
                           <SelectItem value="retail">Retail</SelectItem>
                           <SelectItem value="wholesale">Wholesale</SelectItem>
-                          <SelectItem value="distributor">Distributor</SelectItem>
+                          <SelectItem value="distributor">
+                            Distributor
+                          </SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
@@ -705,15 +838,17 @@ export default function Sales() {
                         setNewInvoice({
                           ...newInvoice,
                           employeeId: "",
-                          employeeName: ""
+                          employeeName: "",
                         });
                       } else {
-                        const selectedEmployee = getSalesEmployees().find(e => e.id === value);
+                        const selectedEmployee = getSalesEmployees().find(
+                          (e) => e.id === value,
+                        );
                         if (selectedEmployee) {
                           setNewInvoice({
                             ...newInvoice,
                             employeeId: selectedEmployee.id,
-                            employeeName: `${selectedEmployee.firstName} ${selectedEmployee.lastName}`
+                            employeeName: `${selectedEmployee.firstName} ${selectedEmployee.lastName}`,
                           });
                         }
                       }
@@ -728,14 +863,22 @@ export default function Sales() {
                         <SelectItem key={employee.id} value={employee.id}>
                           <div className="flex items-center gap-2">
                             <Avatar className="h-6 w-6">
-                              <AvatarImage src={employee.avatar} alt={`${employee.firstName} ${employee.lastName}`} />
+                              <AvatarImage
+                                src={employee.avatar}
+                                alt={`${employee.firstName} ${employee.lastName}`}
+                              />
                               <AvatarFallback className="text-xs">
-                                {employee.firstName[0]}{employee.lastName[0]}
+                                {employee.firstName[0]}
+                                {employee.lastName[0]}
                               </AvatarFallback>
                             </Avatar>
                             <div className="flex flex-col">
-                              <span className="font-medium">{employee.firstName} {employee.lastName}</span>
-                              <span className="text-sm text-muted-foreground">{employee.position}</span>
+                              <span className="font-medium">
+                                {employee.firstName} {employee.lastName}
+                              </span>
+                              <span className="text-sm text-muted-foreground">
+                                {employee.position}
+                              </span>
                             </div>
                           </div>
                         </SelectItem>
@@ -745,9 +888,14 @@ export default function Sales() {
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="paymentMethod">Payment Method</Label>
-                  <Select 
-                    value={newInvoice.paymentMethod} 
-                    onValueChange={(value) => setNewInvoice({...newInvoice, paymentMethod: value as any})}
+                  <Select
+                    value={newInvoice.paymentMethod}
+                    onValueChange={(value) =>
+                      setNewInvoice({
+                        ...newInvoice,
+                        paymentMethod: value as any,
+                      })
+                    }
                   >
                     <SelectTrigger>
                       <SelectValue />
@@ -755,7 +903,9 @@ export default function Sales() {
                     <SelectContent>
                       <SelectItem value="cash">Cash</SelectItem>
                       <SelectItem value="card">Card</SelectItem>
-                      <SelectItem value="bank_transfer">Bank Transfer</SelectItem>
+                      <SelectItem value="bank_transfer">
+                        Bank Transfer
+                      </SelectItem>
                       <SelectItem value="credit">Credit</SelectItem>
                     </SelectContent>
                   </Select>
@@ -771,16 +921,18 @@ export default function Sales() {
                 <div className="grid grid-cols-4 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="product">Select Product *</Label>
-                    <Select 
-                      value={currentItem.productId || ""} 
+                    <Select
+                      value={currentItem.productId || ""}
                       onValueChange={(value) => {
-                        const selectedProduct = mockProducts.find(p => p.id === value);
+                        const selectedProduct = mockProducts.find(
+                          (p) => p.id === value,
+                        );
                         if (selectedProduct) {
                           setCurrentItem({
                             ...currentItem,
                             productId: selectedProduct.id,
                             productName: selectedProduct.name,
-                            unitPrice: selectedProduct.unitPrice
+                            unitPrice: selectedProduct.unitPrice,
                           });
                         }
                       }}
@@ -792,8 +944,12 @@ export default function Sales() {
                         {mockProducts.map((product) => (
                           <SelectItem key={product.id} value={product.id}>
                             <div className="flex flex-col">
-                              <span className="font-medium">{product.name}</span>
-                              <span className="text-sm text-muted-foreground">${product.unitPrice} • {product.category}</span>
+                              <span className="font-medium">
+                                {product.name}
+                              </span>
+                              <span className="text-sm text-muted-foreground">
+                                ${product.unitPrice} • {product.category}
+                              </span>
                             </div>
                           </SelectItem>
                         ))}
@@ -807,7 +963,12 @@ export default function Sales() {
                       type="number"
                       min="1"
                       value={currentItem.quantity}
-                      onChange={(e) => setCurrentItem({...currentItem, quantity: parseInt(e.target.value) || 1})}
+                      onChange={(e) =>
+                        setCurrentItem({
+                          ...currentItem,
+                          quantity: parseInt(e.target.value) || 1,
+                        })
+                      }
                     />
                   </div>
                   <div className="space-y-2">
@@ -818,7 +979,12 @@ export default function Sales() {
                       min="0"
                       max="100"
                       value={currentItem.discount}
-                      onChange={(e) => setCurrentItem({...currentItem, discount: parseFloat(e.target.value) || 0})}
+                      onChange={(e) =>
+                        setCurrentItem({
+                          ...currentItem,
+                          discount: parseFloat(e.target.value) || 0,
+                        })
+                      }
                     />
                   </div>
                   <div className="space-y-2">
@@ -831,8 +997,13 @@ export default function Sales() {
                 {currentItem.productId && (
                   <div className="text-sm text-muted-foreground bg-muted p-3 rounded-lg">
                     <div className="grid grid-cols-2 gap-4">
-                      <div><strong>Product:</strong> {currentItem.productName}</div>
-                      <div><strong>Unit Price:</strong> ${currentItem.unitPrice?.toFixed(2)}</div>
+                      <div>
+                        <strong>Product:</strong> {currentItem.productName}
+                      </div>
+                      <div>
+                        <strong>Unit Price:</strong> $
+                        {currentItem.unitPrice?.toFixed(2)}
+                      </div>
                     </div>
                   </div>
                 )}
@@ -841,10 +1012,7 @@ export default function Sales() {
                     <Plus className="mr-2 h-4 w-4" />
                     Add Item
                   </Button>
-                  <Button 
-                    variant="outline" 
-                    onClick={clearCurrentItem}
-                  >
+                  <Button variant="outline" onClick={clearCurrentItem}>
                     <X className="mr-2 h-4 w-4" />
                     Cancel Item
                   </Button>
@@ -875,8 +1043,8 @@ export default function Sales() {
                           <TableCell>{item.discount}%</TableCell>
                           <TableCell>${item.total.toFixed(2)}</TableCell>
                           <TableCell>
-                            <Button 
-                              variant="outline" 
+                            <Button
+                              variant="outline"
                               size="sm"
                               onClick={() => removeItemFromInvoice(item.id)}
                               className="text-red-600 hover:text-red-700"
@@ -903,13 +1071,25 @@ export default function Sales() {
                           value={newInvoice.taxRate}
                           onChange={(e) => {
                             const taxRate = parseFloat(e.target.value) || 0;
-                            const { subtotal, taxAmount, total } = calculateInvoiceTotal(newInvoice.items!, taxRate, newInvoice.discountAmount);
-                            setNewInvoice({...newInvoice, taxRate, taxAmount, total});
+                            const { subtotal, taxAmount, total } =
+                              calculateInvoiceTotal(
+                                newInvoice.items!,
+                                taxRate,
+                                newInvoice.discountAmount,
+                              );
+                            setNewInvoice({
+                              ...newInvoice,
+                              taxRate,
+                              taxAmount,
+                              total,
+                            });
                           }}
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="discountAmount">Additional Discount ($)</Label>
+                        <Label htmlFor="discountAmount">
+                          Additional Discount ($)
+                        </Label>
                         <Input
                           id="discountAmount"
                           type="number"
@@ -917,9 +1097,19 @@ export default function Sales() {
                           step="0.01"
                           value={newInvoice.discountAmount}
                           onChange={(e) => {
-                            const discountAmount = parseFloat(e.target.value) || 0;
-                            const { subtotal, taxAmount, total } = calculateInvoiceTotal(newInvoice.items!, newInvoice.taxRate, discountAmount);
-                            setNewInvoice({...newInvoice, discountAmount, total});
+                            const discountAmount =
+                              parseFloat(e.target.value) || 0;
+                            const { subtotal, taxAmount, total } =
+                              calculateInvoiceTotal(
+                                newInvoice.items!,
+                                newInvoice.taxRate,
+                                discountAmount,
+                              );
+                            setNewInvoice({
+                              ...newInvoice,
+                              discountAmount,
+                              total,
+                            });
                           }}
                         />
                       </div>
@@ -931,9 +1121,17 @@ export default function Sales() {
                       </div>
                     </div>
                     <div className="text-sm text-muted-foreground space-y-1">
-                      <div>Subtotal: ${(newInvoice.subtotal || 0).toFixed(2)}</div>
-                      <div>Tax ({newInvoice.taxRate}%): ${(newInvoice.taxAmount || 0).toFixed(2)}</div>
-                      <div>Discount: -${(newInvoice.discountAmount || 0).toFixed(2)}</div>
+                      <div>
+                        Subtotal: ${(newInvoice.subtotal || 0).toFixed(2)}
+                      </div>
+                      <div>
+                        Tax ({newInvoice.taxRate}%): $
+                        {(newInvoice.taxAmount || 0).toFixed(2)}
+                      </div>
+                      <div>
+                        Discount: -$
+                        {(newInvoice.discountAmount || 0).toFixed(2)}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -946,7 +1144,9 @@ export default function Sales() {
                   id="notes"
                   placeholder="Additional notes for the invoice"
                   value={newInvoice.notes}
-                  onChange={(e) => setNewInvoice({...newInvoice, notes: e.target.value})}
+                  onChange={(e) =>
+                    setNewInvoice({ ...newInvoice, notes: e.target.value })
+                  }
                   rows={3}
                 />
               </div>
@@ -956,10 +1156,14 @@ export default function Sales() {
                   <Receipt className="mr-2 h-4 w-4" />
                   Create Invoice
                 </Button>
-                <Button variant="outline" onClick={() => {
-                  clearNewInvoice();
-                  setIsCreateDialogOpen(false);
-                }} className="text-red-600 hover:text-red-700">
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    clearNewInvoice();
+                    setIsCreateDialogOpen(false);
+                  }}
+                  className="text-red-600 hover:text-red-700"
+                >
                   <X className="mr-2 h-4 w-4" />
                   Cancel Invoice
                 </Button>
@@ -973,17 +1177,19 @@ export default function Sales() {
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Invoices</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Total Invoices
+            </CardTitle>
             <Receipt className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{invoices.length}</div>
             <p className="text-xs text-muted-foreground">
-              {invoices.filter(i => i.status === 'paid').length} paid
+              {invoices.filter((i) => i.status === "paid").length} paid
             </p>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
@@ -991,29 +1197,35 @@ export default function Sales() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              ${invoices.filter(i => i.status === 'paid').reduce((sum, i) => sum + i.total, 0).toLocaleString()}
+              $
+              {invoices
+                .filter((i) => i.status === "paid")
+                .reduce((sum, i) => sum + i.total, 0)
+                .toLocaleString()}
             </div>
-            <p className="text-xs text-muted-foreground">
-              From paid invoices
-            </p>
+            <p className="text-xs text-muted-foreground">From paid invoices</p>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Pending Amount</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Pending Amount
+            </CardTitle>
             <Calculator className="h-4 w-4 text-yellow-500" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              ${invoices.filter(i => i.status === 'sent').reduce((sum, i) => sum + i.total, 0).toLocaleString()}
+              $
+              {invoices
+                .filter((i) => i.status === "sent")
+                .reduce((sum, i) => sum + i.total, 0)
+                .toLocaleString()}
             </div>
-            <p className="text-xs text-muted-foreground">
-              Awaiting payment
-            </p>
+            <p className="text-xs text-muted-foreground">Awaiting payment</p>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Cancelled</CardTitle>
@@ -1021,11 +1233,9 @@ export default function Sales() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {invoices.filter(i => i.status === 'cancelled').length}
+              {invoices.filter((i) => i.status === "cancelled").length}
             </div>
-            <p className="text-xs text-muted-foreground">
-              Cancelled invoices
-            </p>
+            <p className="text-xs text-muted-foreground">Cancelled invoices</p>
           </CardContent>
         </Card>
       </div>
@@ -1080,7 +1290,9 @@ export default function Sales() {
             {dateFilter === "custom" && (
               <div className="flex gap-4 items-center p-4 bg-muted rounded-lg">
                 <div className="flex items-center gap-2">
-                  <Label htmlFor="startDate" className="text-sm font-medium">From:</Label>
+                  <Label htmlFor="startDate" className="text-sm font-medium">
+                    From:
+                  </Label>
                   <Input
                     id="startDate"
                     type="date"
@@ -1090,7 +1302,9 @@ export default function Sales() {
                   />
                 </div>
                 <div className="flex items-center gap-2">
-                  <Label htmlFor="endDate" className="text-sm font-medium">To:</Label>
+                  <Label htmlFor="endDate" className="text-sm font-medium">
+                    To:
+                  </Label>
                   <Input
                     id="endDate"
                     type="date"
@@ -1121,13 +1335,17 @@ export default function Sales() {
                   <span className="ml-2 px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs">
                     {dateFilter === "custom" && startDate && endDate
                       ? `${startDate} to ${endDate}`
-                      : dateFilter.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())
-                    }
+                      : dateFilter
+                          .replace("_", " ")
+                          .replace(/\b\w/g, (l) => l.toUpperCase())}
                   </span>
                 )}
               </span>
               <span>
-                Total Value: ${filteredInvoices.reduce((sum, inv) => sum + inv.total, 0).toLocaleString()}
+                Total Value: $
+                {filteredInvoices
+                  .reduce((sum, inv) => sum + inv.total, 0)
+                  .toLocaleString()}
               </span>
             </div>
           </div>
@@ -1148,11 +1366,15 @@ export default function Sales() {
             <TableBody>
               {filteredInvoices.map((invoice) => (
                 <TableRow key={invoice.id}>
-                  <TableCell className="font-medium">{invoice.invoiceNumber}</TableCell>
+                  <TableCell className="font-medium">
+                    {invoice.invoiceNumber}
+                  </TableCell>
                   <TableCell>
                     <div>
                       <div className="font-medium">{invoice.clientName}</div>
-                      <div className="text-sm text-muted-foreground">{invoice.clientEmail}</div>
+                      <div className="text-sm text-muted-foreground">
+                        {invoice.clientEmail}
+                      </div>
                     </div>
                   </TableCell>
                   <TableCell>
@@ -1160,35 +1382,50 @@ export default function Sales() {
                       {invoice.employeeName ? (
                         <>
                           <Avatar className="h-6 w-6">
-                            <AvatarImage src={invoice.employeeAvatar} alt={invoice.employeeName} />
+                            <AvatarImage
+                              src={invoice.employeeAvatar}
+                              alt={invoice.employeeName}
+                            />
                             <AvatarFallback className="text-xs">
-                              {invoice.employeeName.split(' ').map(n => n[0]).join('').toUpperCase()}
+                              {invoice.employeeName
+                                .split(" ")
+                                .map((n) => n[0])
+                                .join("")
+                                .toUpperCase()}
                             </AvatarFallback>
                           </Avatar>
-                          <span className="text-sm">{invoice.employeeName}</span>
+                          <span className="text-sm">
+                            {invoice.employeeName}
+                          </span>
                         </>
                       ) : (
-                        <span className="text-sm text-muted-foreground">No employee</span>
+                        <span className="text-sm text-muted-foreground">
+                          No employee
+                        </span>
                       )}
                     </div>
                   </TableCell>
                   <TableCell>
                     <div>
                       <div>{invoice.date}</div>
-                      <div className="text-sm text-muted-foreground">Due: {invoice.dueDate}</div>
+                      <div className="text-sm text-muted-foreground">
+                        Due: {invoice.dueDate}
+                      </div>
                     </div>
                   </TableCell>
                   <TableCell>
-                    <div className="font-medium">${invoice.total.toFixed(2)}</div>
+                    <div className="font-medium">
+                      ${invoice.total.toFixed(2)}
+                    </div>
                     <div className="text-sm text-muted-foreground">
-                      {invoice.paymentMethod.replace('_', ' ')}
+                      {invoice.paymentMethod.replace("_", " ")}
                     </div>
                   </TableCell>
                   <TableCell>{getStatusBadge(invoice.status)}</TableCell>
                   <TableCell>
                     <div className="flex gap-1">
-                      <Button 
-                        variant="outline" 
+                      <Button
+                        variant="outline"
                         size="sm"
                         onClick={() => {
                           setSelectedInvoice(invoice);
@@ -1197,29 +1434,32 @@ export default function Sales() {
                       >
                         <Eye className="h-4 w-4" />
                       </Button>
-                      <Button 
-                        variant="outline" 
+                      <Button
+                        variant="outline"
                         size="sm"
                         onClick={() => {
                           toast({
                             title: "Invoice downloaded",
-                            description: "Invoice PDF has been generated and downloaded.",
+                            description:
+                              "Invoice PDF has been generated and downloaded.",
                           });
                         }}
                       >
                         <Download className="h-4 w-4" />
                       </Button>
-                      {invoice.status === 'draft' && (
+                      {invoice.status === "draft" && (
                         <>
-                          <Button 
-                            variant="outline" 
+                          <Button
+                            variant="outline"
                             size="sm"
-                            onClick={() => updateInvoiceStatus(invoice.id, 'sent')}
+                            onClick={() =>
+                              updateInvoiceStatus(invoice.id, "sent")
+                            }
                           >
                             Send
                           </Button>
-                          <Button 
-                            variant="outline" 
+                          <Button
+                            variant="outline"
                             size="sm"
                             onClick={() => openCancelDialog(invoice)}
                             className="text-red-600 hover:text-red-700"
@@ -1228,18 +1468,20 @@ export default function Sales() {
                           </Button>
                         </>
                       )}
-                      {invoice.status === 'sent' && (
+                      {invoice.status === "sent" && (
                         <>
-                          <Button 
-                            variant="outline" 
+                          <Button
+                            variant="outline"
                             size="sm"
-                            onClick={() => updateInvoiceStatus(invoice.id, 'paid')}
+                            onClick={() =>
+                              updateInvoiceStatus(invoice.id, "paid")
+                            }
                             className="text-green-600"
                           >
                             Mark Paid
                           </Button>
-                          <Button 
-                            variant="outline" 
+                          <Button
+                            variant="outline"
                             size="sm"
                             onClick={() => openCancelDialog(invoice)}
                             className="text-red-600 hover:text-red-700"
@@ -1287,8 +1529,12 @@ export default function Sales() {
                   <div className="space-y-1 text-sm">
                     <div>{selectedInvoice.clientName}</div>
                     <div>{selectedInvoice.clientEmail}</div>
-                    <div className="capitalize">{selectedInvoice.clientType} Customer</div>
-                    <div className="capitalize">Payment: {selectedInvoice.paymentMethod.replace('_', ' ')}</div>
+                    <div className="capitalize">
+                      {selectedInvoice.clientType} Customer
+                    </div>
+                    <div className="capitalize">
+                      Payment: {selectedInvoice.paymentMethod.replace("_", " ")}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1355,32 +1601,41 @@ export default function Sales() {
               {selectedInvoice.notes && (
                 <div>
                   <h3 className="font-semibold mb-2">Notes</h3>
-                  <p className="text-sm text-muted-foreground">{selectedInvoice.notes}</p>
+                  <p className="text-sm text-muted-foreground">
+                    {selectedInvoice.notes}
+                  </p>
                 </div>
               )}
 
               {/* Cancellation Information */}
-              {selectedInvoice.status === 'cancelled' && selectedInvoice.cancellationReason && (
-                <div className="border rounded-lg p-4 bg-red-50">
-                  <h3 className="font-semibold mb-2 text-red-800">Cancellation Details</h3>
-                  <div className="space-y-2 text-sm">
-                    <div>
-                      <span className="font-medium">Reason:</span>
-                      <p className="text-red-700 mt-1">{selectedInvoice.cancellationReason}</p>
+              {selectedInvoice.status === "cancelled" &&
+                selectedInvoice.cancellationReason && (
+                  <div className="border rounded-lg p-4 bg-red-50">
+                    <h3 className="font-semibold mb-2 text-red-800">
+                      Cancellation Details
+                    </h3>
+                    <div className="space-y-2 text-sm">
+                      <div>
+                        <span className="font-medium">Reason:</span>
+                        <p className="text-red-700 mt-1">
+                          {selectedInvoice.cancellationReason}
+                        </p>
+                      </div>
+                      {selectedInvoice.cancelledBy && (
+                        <div>
+                          <span className="font-medium">Cancelled by:</span>{" "}
+                          {selectedInvoice.cancelledBy}
+                        </div>
+                      )}
+                      {selectedInvoice.cancelledDate && (
+                        <div>
+                          <span className="font-medium">Cancelled on:</span>{" "}
+                          {selectedInvoice.cancelledDate}
+                        </div>
+                      )}
                     </div>
-                    {selectedInvoice.cancelledBy && (
-                      <div>
-                        <span className="font-medium">Cancelled by:</span> {selectedInvoice.cancelledBy}
-                      </div>
-                    )}
-                    {selectedInvoice.cancelledDate && (
-                      <div>
-                        <span className="font-medium">Cancelled on:</span> {selectedInvoice.cancelledDate}
-                      </div>
-                    )}
                   </div>
-                </div>
-              )}
+                )}
 
               <div className="flex gap-2">
                 <Button className="flex-1">
@@ -1391,20 +1646,24 @@ export default function Sales() {
                   <QrCode className="mr-2 h-4 w-4" />
                   QR Code
                 </Button>
-                {selectedInvoice.status !== 'cancelled' && selectedInvoice.status !== 'paid' && (
-                  <Button 
-                    variant="outline" 
-                    onClick={() => {
-                      openCancelDialog(selectedInvoice);
-                      setIsViewDialogOpen(false);
-                    }}
-                    className="text-red-600 hover:text-red-700"
-                  >
-                    <X className="mr-2 h-4 w-4" />
-                    Cancel
-                  </Button>
-                )}
-                <Button variant="outline" onClick={() => setIsViewDialogOpen(false)}>
+                {selectedInvoice.status !== "cancelled" &&
+                  selectedInvoice.status !== "paid" && (
+                    <Button
+                      variant="outline"
+                      onClick={() => {
+                        openCancelDialog(selectedInvoice);
+                        setIsViewDialogOpen(false);
+                      }}
+                      className="text-red-600 hover:text-red-700"
+                    >
+                      <X className="mr-2 h-4 w-4" />
+                      Cancel
+                    </Button>
+                  )}
+                <Button
+                  variant="outline"
+                  onClick={() => setIsViewDialogOpen(false)}
+                >
                   Close
                 </Button>
               </div>
@@ -1422,7 +1681,8 @@ export default function Sales() {
               Cancel Invoice
             </DialogTitle>
             <DialogDescription>
-              Please provide a reason for cancelling invoice {invoiceToCancel?.invoiceNumber}.
+              Please provide a reason for cancelling invoice{" "}
+              {invoiceToCancel?.invoiceNumber}.
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
@@ -1438,16 +1698,16 @@ export default function Sales() {
               />
             </div>
             <div className="flex gap-2">
-              <Button 
-                variant="destructive" 
-                className="flex-1" 
+              <Button
+                variant="destructive"
+                className="flex-1"
                 onClick={cancelInvoice}
               >
                 <X className="mr-2 h-4 w-4" />
                 Cancel Invoice
               </Button>
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 onClick={() => {
                   setIsCancelDialogOpen(false);
                   setInvoiceToCancel(null);
