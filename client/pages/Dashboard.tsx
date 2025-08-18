@@ -359,15 +359,17 @@ ${data.recentActivities.map((activity: any) => `${activity.time} - ${activity.de
       </div>
       
       {/* KPI Cards */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">{t('dashboard.total_revenue')}</CardTitle>
-            <DollarSign className="h-4 w-4 text-muted-foreground" />
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <Card className="hover:shadow-lg transition-all duration-300 hover:scale-[1.02] group border-0 shadow-md bg-gradient-to-br from-white to-gray-50">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
+            <CardTitle className="text-sm font-medium text-gray-700">{t('dashboard.total_revenue')}</CardTitle>
+            <div className="p-2 bg-green-100 rounded-lg group-hover:bg-green-200 transition-colors">
+              <DollarSign className="h-4 w-4 text-green-600" />
+            </div>
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">$45,231.89</div>
-            <p className="text-xs text-muted-foreground">
+          <CardContent className="pt-0">
+            <div className="text-3xl font-bold text-gray-900 mb-1">$45,231.89</div>
+            <p className="text-sm text-green-600 font-medium">
               +20.1% {t('dashboard.from_last_month')}
             </p>
           </CardContent>
