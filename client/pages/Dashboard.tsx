@@ -375,40 +375,46 @@ ${data.recentActivities.map((activity: any) => `${activity.time} - ${activity.de
           </CardContent>
         </Card>
         
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">{t('dashboard.products')}</CardTitle>
-            <Package className="h-4 w-4 text-muted-foreground" />
+        <Card className="hover:shadow-lg transition-all duration-300 hover:scale-[1.02] group border-0 shadow-md bg-gradient-to-br from-white to-blue-50">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
+            <CardTitle className="text-sm font-medium text-gray-700">{t('dashboard.products')}</CardTitle>
+            <div className="p-2 bg-blue-100 rounded-lg group-hover:bg-blue-200 transition-colors">
+              <Package className="h-4 w-4 text-blue-600" />
+            </div>
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">2,350</div>
-            <p className="text-xs text-muted-foreground">
+          <CardContent className="pt-0">
+            <div className="text-3xl font-bold text-gray-900 mb-1">2,350</div>
+            <p className="text-sm text-blue-600 font-medium">
               +180 {t('dashboard.new_this_month')}
             </p>
           </CardContent>
         </Card>
-        
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">{t('dashboard.active_clients')}</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
+
+        <Card className="hover:shadow-lg transition-all duration-300 hover:scale-[1.02] group border-0 shadow-md bg-gradient-to-br from-white to-purple-50">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
+            <CardTitle className="text-sm font-medium text-gray-700">{t('dashboard.active_clients')}</CardTitle>
+            <div className="p-2 bg-purple-100 rounded-lg group-hover:bg-purple-200 transition-colors">
+              <Users className="h-4 w-4 text-purple-600" />
+            </div>
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">573</div>
-            <p className="text-xs text-muted-foreground">
+          <CardContent className="pt-0">
+            <div className="text-3xl font-bold text-gray-900 mb-1">573</div>
+            <p className="text-sm text-purple-600 font-medium">
               +25 {t('dashboard.new_this_week')}
             </p>
           </CardContent>
         </Card>
-        
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">{t('dashboard.sales_today')}</CardTitle>
-            <ShoppingCart className="h-4 w-4 text-muted-foreground" />
+
+        <Card className="hover:shadow-lg transition-all duration-300 hover:scale-[1.02] group border-0 shadow-md bg-gradient-to-br from-white to-orange-50">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
+            <CardTitle className="text-sm font-medium text-gray-700">{t('dashboard.sales_today')}</CardTitle>
+            <div className="p-2 bg-orange-100 rounded-lg group-hover:bg-orange-200 transition-colors">
+              <ShoppingCart className="h-4 w-4 text-orange-600" />
+            </div>
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">127</div>
-            <p className="text-xs text-muted-foreground">
+          <CardContent className="pt-0">
+            <div className="text-3xl font-bold text-gray-900 mb-1">127</div>
+            <p className="text-sm text-orange-600 font-medium">
               +12% {t('dashboard.from_yesterday')}
             </p>
           </CardContent>
