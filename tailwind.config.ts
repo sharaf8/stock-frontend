@@ -14,39 +14,82 @@ export default {
     },
     extend: {
       colors: {
+        /* Enhanced Border & Input System */
         border: "hsl(var(--border))",
+        "border-hover": "hsl(var(--border-hover))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
+
+        /* Enhanced Background System */
+        background: {
+          DEFAULT: "hsl(var(--background))",
+          secondary: "hsl(var(--background-secondary))",
+          tertiary: "hsl(var(--background-tertiary))",
+        },
         foreground: "hsl(var(--foreground))",
+
+        /* Enhanced Primary System */
         primary: {
           DEFAULT: "hsl(var(--primary))",
+          light: "hsl(var(--primary-light))",
+          dark: "hsl(var(--primary-dark))",
           foreground: "hsl(var(--primary-foreground))",
         },
+
+        /* Enhanced Secondary System */
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
+          hover: "hsl(var(--secondary-hover))",
           foreground: "hsl(var(--secondary-foreground))",
         },
+
+        /* Enhanced State Colors */
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
         },
+        success: {
+          DEFAULT: "hsl(var(--success))",
+          foreground: "hsl(var(--success-foreground))",
+        },
+        warning: {
+          DEFAULT: "hsl(var(--warning))",
+          foreground: "hsl(var(--warning-foreground))",
+        },
+        info: {
+          DEFAULT: "hsl(var(--info))",
+          foreground: "hsl(var(--info-foreground))",
+        },
+
+        /* Enhanced Muted System */
         muted: {
           DEFAULT: "hsl(var(--muted))",
+          hover: "hsl(var(--muted-hover))",
           foreground: "hsl(var(--muted-foreground))",
         },
+
+        /* Enhanced Accent System */
         accent: {
           DEFAULT: "hsl(var(--accent))",
+          hover: "hsl(var(--accent-hover))",
           foreground: "hsl(var(--accent-foreground))",
         },
+
+        /* Enhanced Popover System */
         popover: {
           DEFAULT: "hsl(var(--popover))",
           foreground: "hsl(var(--popover-foreground))",
         },
+
+        /* Enhanced Card System */
         card: {
           DEFAULT: "hsl(var(--card))",
+          secondary: "hsl(var(--card-secondary))",
           foreground: "hsl(var(--card-foreground))",
+          shadow: "hsl(var(--card-shadow))",
         },
+
+        /* Enhanced Sidebar System */
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
@@ -57,6 +100,8 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+
+        /* Enhanced Business Brand Colors */
         business: {
           blue: {
             50: "#eff6ff",
@@ -72,6 +117,20 @@ export default {
             500: "#22c55e",
             600: "#16a34a",
             700: "#15803d",
+          },
+          purple: {
+            50: "#faf5ff",
+            100: "#f3e8ff",
+            500: "#a855f7",
+            600: "#9333ea",
+            700: "#7c3aed",
+          },
+          orange: {
+            50: "#fff7ed",
+            100: "#ffedd5",
+            500: "#f97316",
+            600: "#ea580c",
+            700: "#c2410c",
           },
           gray: {
             50: "#f9fafb",
