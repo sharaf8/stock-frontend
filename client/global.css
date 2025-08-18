@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -88,9 +88,12 @@
     /* Enhanced Shadow System */
     --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
     --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+    --shadow-md:
+      0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg:
+      0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --shadow-xl:
+      0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
   }
 
   .dark {
@@ -166,16 +169,20 @@
     /* Enhanced Dark Shadow System */
     --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
     --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.4), 0 1px 2px -1px rgb(0 0 0 / 0.4);
-    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.4);
-    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.4);
-    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.4), 0 8px 10px -6px rgb(0 0 0 / 0.4);
+    --shadow-md:
+      0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.4);
+    --shadow-lg:
+      0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.4);
+    --shadow-xl:
+      0 20px 25px -5px rgb(0 0 0 / 0.4), 0 8px 10px -6px rgb(0 0 0 / 0.4);
   }
 }
 
 @layer base {
   * {
     @apply border-border;
-    transition-property: color, background-color, border-color, box-shadow, transform, opacity;
+    transition-property:
+      color, background-color, border-color, box-shadow, transform, opacity;
     transition-duration: 300ms;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   }
@@ -190,29 +197,58 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-family:
+      "Inter",
+      system-ui,
+      -apple-system,
+      sans-serif;
     font-weight: 400;
     line-height: 1.6;
     letter-spacing: -0.01em;
-    transition: background-color 300ms ease, color 300ms ease;
+    transition:
+      background-color 300ms ease,
+      color 300ms ease;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   /* Enhanced Typography Scale */
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-weight: 600;
     line-height: 1.2;
     letter-spacing: -0.02em;
     color: hsl(var(--foreground));
   }
 
-  h1 { font-size: 2.5rem; font-weight: 700; }
-  h2 { font-size: 2rem; font-weight: 600; }
-  h3 { font-size: 1.5rem; font-weight: 600; }
-  h4 { font-size: 1.25rem; font-weight: 600; }
-  h5 { font-size: 1.125rem; font-weight: 600; }
-  h6 { font-size: 1rem; font-weight: 600; }
+  h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+  }
+  h2 {
+    font-size: 2rem;
+    font-weight: 600;
+  }
+  h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+  h4 {
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+  h5 {
+    font-size: 1.125rem;
+    font-weight: 600;
+  }
+  h6 {
+    font-size: 1rem;
+    font-weight: 600;
+  }
 
   /* Enhanced Text Elements */
   p {
@@ -221,7 +257,7 @@
   }
 
   code {
-    font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+    font-family: "JetBrains Mono", "Fira Code", Consolas, monospace;
     font-size: 0.875em;
     font-weight: 500;
   }
@@ -284,11 +320,19 @@
 
   /* Enhanced Gradient Utilities */
   .gradient-primary {
-    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-light)));
+    background: linear-gradient(
+      135deg,
+      hsl(var(--primary)),
+      hsl(var(--primary-light))
+    );
   }
 
   .gradient-card {
-    background: linear-gradient(135deg, hsl(var(--card)), hsl(var(--card-secondary)));
+    background: linear-gradient(
+      135deg,
+      hsl(var(--card)),
+      hsl(var(--card-secondary))
+    );
   }
 
   /* Enhanced Animation Utilities */
@@ -301,13 +345,22 @@
   }
 
   @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-10px); }
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
   }
 
   @keyframes glow {
-    from { box-shadow: 0 0 20px hsl(var(--primary) / 0.4); }
-    to { box-shadow: 0 0 30px hsl(var(--primary) / 0.6); }
+    from {
+      box-shadow: 0 0 20px hsl(var(--primary) / 0.4);
+    }
+    to {
+      box-shadow: 0 0 30px hsl(var(--primary) / 0.6);
+    }
   }
 
   /* Enhanced Responsive Utilities */

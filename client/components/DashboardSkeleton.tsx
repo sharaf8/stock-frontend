@@ -15,11 +15,14 @@ export default function DashboardSkeleton() {
           <Skeleton className="h-10 w-full sm:w-[120px]" />
         </div>
       </div>
-      
+
       {/* KPI Cards Skeleton */}
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
         {Array.from({ length: 4 }).map((_, index) => (
-          <Card key={index} className="shadow-md border-0 bg-gradient-to-br from-white to-gray-50">
+          <Card
+            key={index}
+            className="shadow-md border-0 bg-gradient-to-br from-white to-gray-50"
+          >
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
               <Skeleton className="h-4 w-24" />
               <Skeleton className="h-8 w-8 rounded-lg" />
@@ -76,7 +79,10 @@ export default function DashboardSkeleton() {
           <CardContent className="max-h-80 overflow-y-auto">
             <div className="space-y-3">
               {Array.from({ length: 5 }).map((_, index) => (
-                <div key={index} className="flex items-start gap-3 p-3 border rounded-lg">
+                <div
+                  key={index}
+                  className="flex items-start gap-3 p-3 border rounded-lg"
+                >
                   <Skeleton className="w-8 h-8 rounded-full" />
                   <div className="flex-1 min-w-0">
                     <Skeleton className="h-4 w-full mb-2" />
@@ -104,7 +110,10 @@ export default function DashboardSkeleton() {
           <CardContent>
             <div className="space-y-4">
               {Array.from({ length: 3 }).map((_, index) => (
-                <div key={index} className="flex items-center justify-between p-3 border rounded-lg">
+                <div
+                  key={index}
+                  className="flex items-center justify-between p-3 border rounded-lg"
+                >
                   <div className="flex-1">
                     <Skeleton className="h-4 w-32 mb-2" />
                     <Skeleton className="h-3 w-24 mb-2" />

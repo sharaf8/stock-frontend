@@ -73,7 +73,9 @@ export default function Login() {
             <Package className="h-6 w-6 text-white transition-transform group-hover:rotate-12 duration-300" />
           </div>
           <div className="text-center">
-            <h1 className="font-bold text-3xl text-gray-900 hover:text-blue-700 transition-colors duration-300">BusinessPro</h1>
+            <h1 className="font-bold text-3xl text-gray-900 hover:text-blue-700 transition-colors duration-300">
+              BusinessPro
+            </h1>
             <p className="text-sm text-gray-600">Management Suite</p>
           </div>
         </div>
@@ -92,7 +94,12 @@ export default function Login() {
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="space-y-2">
-                  <Label htmlFor="email" className="text-sm font-medium text-gray-700">Email address</Label>
+                  <Label
+                    htmlFor="email"
+                    className="text-sm font-medium text-gray-700"
+                  >
+                    Email address
+                  </Label>
                   <div className="relative group">
                     <Mail className="absolute left-3 top-3.5 h-4 w-4 text-gray-400 transition-colors group-focus-within:text-blue-600" />
                     <Input
@@ -107,7 +114,12 @@ export default function Login() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="password" className="text-sm font-medium text-gray-700">Password</Label>
+                  <Label
+                    htmlFor="password"
+                    className="text-sm font-medium text-gray-700"
+                  >
+                    Password
+                  </Label>
                   <div className="relative group">
                     <Lock className="absolute left-3 top-3.5 h-4 w-4 text-gray-400 transition-colors group-focus-within:text-blue-600" />
                     <Input
@@ -141,7 +153,10 @@ export default function Login() {
                       type="checkbox"
                       className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 focus:ring-2 transition-all duration-200"
                     />
-                    <Label htmlFor="remember" className="text-sm text-gray-600 cursor-pointer hover:text-gray-800 transition-colors">
+                    <Label
+                      htmlFor="remember"
+                      className="text-sm text-gray-600 cursor-pointer hover:text-gray-800 transition-colors"
+                    >
                       Remember me
                     </Label>
                   </div>
@@ -181,7 +196,8 @@ export default function Login() {
                       🔒 <span>Secure Access:</span>
                     </strong>
                     <span className="mt-1 block text-amber-700">
-                      User accounts are managed by administrators only. Contact your system administrator to request access.
+                      User accounts are managed by administrators only. Contact
+                      your system administrator to request access.
                     </span>
                   </p>
                 </div>
@@ -190,7 +206,7 @@ export default function Login() {
           </Card>
 
           {/* User Credentials */}
-          <div className="animate-slide-in" style={{ animationDelay: '0.2s' }}>
+          <div className="animate-slide-in" style={{ animationDelay: "0.2s" }}>
             <UserCredentials onCredentialSelect={handleCredentialSelect} />
           </div>
         </div>

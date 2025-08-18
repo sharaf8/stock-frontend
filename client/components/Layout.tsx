@@ -133,7 +133,9 @@ export default function Layout({ children }: LayoutProps) {
                 <h1 className="font-bold text-xl bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">
                   BusinessPro
                 </h1>
-                <p className="text-sm text-muted-foreground font-medium">Management Suite</p>
+                <p className="text-sm text-muted-foreground font-medium">
+                  Management Suite
+                </p>
               </div>
             )}
             <Button
@@ -142,7 +144,12 @@ export default function Layout({ children }: LayoutProps) {
               onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
               className="absolute -right-4 top-6 hidden lg:flex w-8 h-8 rounded-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-business hover:shadow-business-md transition-all duration-300 hover:scale-110"
             >
-              <Menu className={cn("h-4 w-4 transition-transform duration-300", sidebarCollapsed && "rotate-180")} />
+              <Menu
+                className={cn(
+                  "h-4 w-4 transition-transform duration-300",
+                  sidebarCollapsed && "rotate-180",
+                )}
+              />
             </Button>
           </div>
 
@@ -170,26 +177,32 @@ export default function Layout({ children }: LayoutProps) {
                     )}
 
                     {/* Icon */}
-                    <div className={cn(
-                      "relative z-10 p-1.5 rounded-lg transition-all duration-300",
-                      isActive
-                        ? "bg-white/20"
-                        : "group-hover:bg-primary/10 group-hover:scale-110"
-                    )}>
-                      <item.icon className={cn(
-                        "h-5 w-5 transition-all duration-300",
+                    <div
+                      className={cn(
+                        "relative z-10 p-1.5 rounded-lg transition-all duration-300",
                         isActive
-                          ? "text-white drop-shadow-sm"
-                          : "text-gray-600 dark:text-gray-400 group-hover:text-primary"
-                      )} />
+                          ? "bg-white/20"
+                          : "group-hover:bg-primary/10 group-hover:scale-110",
+                      )}
+                    >
+                      <item.icon
+                        className={cn(
+                          "h-5 w-5 transition-all duration-300",
+                          isActive
+                            ? "text-white drop-shadow-sm"
+                            : "text-gray-600 dark:text-gray-400 group-hover:text-primary",
+                        )}
+                      />
                     </div>
 
                     {/* Text */}
                     {!sidebarCollapsed && (
-                      <span className={cn(
-                        "relative z-10 transition-all duration-300 font-semibold tracking-tight",
-                        isActive && "text-white drop-shadow-sm"
-                      )}>
+                      <span
+                        className={cn(
+                          "relative z-10 transition-all duration-300 font-semibold tracking-tight",
+                          isActive && "text-white drop-shadow-sm",
+                        )}
+                      >
                         {item.name}
                       </span>
                     )}
@@ -203,9 +216,7 @@ export default function Layout({ children }: LayoutProps) {
 
                 return sidebarCollapsed ? (
                   <Tooltip key={item.name} delayDuration={100}>
-                    <TooltipTrigger asChild>
-                      {NavItem}
-                    </TooltipTrigger>
+                    <TooltipTrigger asChild>{NavItem}</TooltipTrigger>
                     <TooltipContent
                       side="right"
                       className="font-semibold bg-gray-900 dark:bg-white text-white dark:text-gray-900 border-0 shadow-business-lg"
@@ -213,7 +224,9 @@ export default function Layout({ children }: LayoutProps) {
                       {item.name}
                     </TooltipContent>
                   </Tooltip>
-                ) : NavItem;
+                ) : (
+                  NavItem
+                );
               })}
             </nav>
           </TooltipProvider>
@@ -226,10 +239,15 @@ export default function Layout({ children }: LayoutProps) {
                   variant="ghost"
                   className={cn(
                     "w-full p-2 h-auto transition-all duration-200 hover:bg-muted",
-                    sidebarCollapsed ? "justify-center" : "justify-start"
+                    sidebarCollapsed ? "justify-center" : "justify-start",
                   )}
                 >
-                  <div className={cn("flex items-center w-full", sidebarCollapsed ? "justify-center" : "gap-3")}>
+                  <div
+                    className={cn(
+                      "flex items-center w-full",
+                      sidebarCollapsed ? "justify-center" : "gap-3",
+                    )}
+                  >
                     <Avatar className="w-9 h-9 ring-2 ring-primary/20 hover:ring-primary/40 transition-all">
                       <AvatarImage src={user?.avatar} alt={user?.name} />
                       <AvatarFallback className="bg-gradient-to-br from-green-500 to-green-600 text-white text-sm font-medium">
@@ -311,7 +329,6 @@ export default function Layout({ children }: LayoutProps) {
             >
               <Menu className="h-5 w-5" />
             </Button>
-
 
             <div className="flex items-center gap-2">
               {/* Enhanced Language Switcher */}

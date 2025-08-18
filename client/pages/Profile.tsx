@@ -40,7 +40,7 @@ export default function Profile() {
 
   const handleSave = async () => {
     setIsLoading(true);
-    
+
     try {
       // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 1500));
@@ -121,7 +121,7 @@ export default function Profile() {
                 <div className="absolute bottom-2 right-2 w-4 h-4 bg-green-500 border-2 border-white rounded-full animate-pulse" />
               </div>
             </div>
-            
+
             <CardTitle className="text-2xl font-bold text-gray-900">
               {user.name}
             </CardTitle>
@@ -140,24 +140,36 @@ export default function Profile() {
               <div className="flex items-center gap-3 p-3 bg-blue-50 rounded-lg">
                 <Building className="h-5 w-5 text-blue-600" />
                 <div>
-                  <p className="text-sm font-medium text-blue-900">Department</p>
-                  <p className="text-sm text-blue-700">{user.department || "Not specified"}</p>
+                  <p className="text-sm font-medium text-blue-900">
+                    Department
+                  </p>
+                  <p className="text-sm text-blue-700">
+                    {user.department || "Not specified"}
+                  </p>
                 </div>
               </div>
 
               <div className="flex items-center gap-3 p-3 bg-green-50 rounded-lg">
                 <BadgeIcon className="h-5 w-5 text-green-600" />
                 <div>
-                  <p className="text-sm font-medium text-green-900">Job Title</p>
-                  <p className="text-sm text-green-700">{user.title || "Not specified"}</p>
+                  <p className="text-sm font-medium text-green-900">
+                    Job Title
+                  </p>
+                  <p className="text-sm text-green-700">
+                    {user.title || "Not specified"}
+                  </p>
                 </div>
               </div>
 
               <div className="flex items-center gap-3 p-3 bg-purple-50 rounded-lg">
                 <Shield className="h-5 w-5 text-purple-600" />
                 <div>
-                  <p className="text-sm font-medium text-purple-900">Account Status</p>
-                  <Badge className="bg-green-100 text-green-800 mt-1">Active</Badge>
+                  <p className="text-sm font-medium text-purple-900">
+                    Account Status
+                  </p>
+                  <Badge className="bg-green-100 text-green-800 mt-1">
+                    Active
+                  </Badge>
                 </div>
               </div>
             </div>
@@ -178,8 +190,8 @@ export default function Profile() {
               </div>
 
               {!isEditing ? (
-                <Button 
-                  onClick={() => setIsEditing(true)} 
+                <Button
+                  onClick={() => setIsEditing(true)}
                   className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-md hover:shadow-lg transition-all duration-300 self-start sm:self-center"
                 >
                   <Edit className="h-4 w-4 mr-2" />
@@ -196,9 +208,9 @@ export default function Profile() {
                     <Save className="h-4 w-4 mr-2" />
                     Save Changes
                   </LoadingButton>
-                  <Button 
-                    onClick={handleCancel} 
-                    variant="outline" 
+                  <Button
+                    onClick={handleCancel}
+                    variant="outline"
                     disabled={isLoading}
                     className="hover:bg-gray-50"
                   >
@@ -214,7 +226,10 @@ export default function Profile() {
             {/* Editable Fields */}
             <div className="grid gap-6 md:grid-cols-2">
               <div className="space-y-3">
-                <Label htmlFor="name" className="text-sm font-semibold text-gray-700">
+                <Label
+                  htmlFor="name"
+                  className="text-sm font-semibold text-gray-700"
+                >
                   Full Name *
                 </Label>
                 <div className="relative">
@@ -227,8 +242,8 @@ export default function Profile() {
                     }
                     disabled={!isEditing}
                     className={`pl-10 h-11 ${
-                      isEditing 
-                        ? "border-blue-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20" 
+                      isEditing
+                        ? "border-blue-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
                         : "bg-gray-50"
                     } transition-all duration-200`}
                     placeholder="Enter your full name"
@@ -237,7 +252,10 @@ export default function Profile() {
               </div>
 
               <div className="space-y-3">
-                <Label htmlFor="phone" className="text-sm font-semibold text-gray-700">
+                <Label
+                  htmlFor="phone"
+                  className="text-sm font-semibold text-gray-700"
+                >
                   Phone Number
                 </Label>
                 <div className="relative">
@@ -250,8 +268,8 @@ export default function Profile() {
                     }
                     disabled={!isEditing}
                     className={`pl-10 h-11 ${
-                      isEditing 
-                        ? "border-blue-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20" 
+                      isEditing
+                        ? "border-blue-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
                         : "bg-gray-50"
                     } transition-all duration-200`}
                     placeholder="Enter your phone number"
@@ -308,7 +326,8 @@ export default function Profile() {
                       Editing Mode Active
                     </p>
                     <p className="text-xs text-blue-700 mt-1">
-                      You can modify your full name, phone number, and avatar. Other information is managed by your administrator.
+                      You can modify your full name, phone number, and avatar.
+                      Other information is managed by your administrator.
                     </p>
                   </div>
                 </div>

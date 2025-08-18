@@ -9,7 +9,8 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-gradient-to-r from-primary to-primary-light text-primary-foreground hover:from-primary-dark hover:to-primary shadow-business hover:shadow-business-lg hover:scale-[1.02] active:scale-[0.98]",
+        default:
+          "bg-gradient-to-r from-primary to-primary-light text-primary-foreground hover:from-primary-dark hover:to-primary shadow-business hover:shadow-business-lg hover:scale-[1.02] active:scale-[0.98]",
         destructive:
           "bg-gradient-to-r from-destructive to-red-600 text-destructive-foreground hover:from-red-600 hover:to-red-700 shadow-business hover:shadow-business-lg hover:scale-[1.02] active:scale-[0.98]",
         success:
@@ -20,7 +21,8 @@ const buttonVariants = cva(
           "border-2 border-gray-200 dark:border-gray-700 bg-background/50 backdrop-blur-sm hover:bg-accent hover:text-accent-foreground hover:border-primary/50 shadow-business hover:shadow-business-md hover:scale-[1.02] active:scale-[0.98]",
         secondary:
           "bg-gradient-to-r from-secondary to-secondary-hover text-secondary-foreground hover:from-secondary-hover hover:to-muted shadow-business hover:shadow-business-md hover:scale-[1.02] active:scale-[0.98]",
-        ghost: "hover:bg-accent/50 hover:text-accent-foreground backdrop-blur-sm hover:scale-[1.02] active:scale-[0.98] transition-all duration-200",
+        ghost:
+          "hover:bg-accent/50 hover:text-accent-foreground backdrop-blur-sm hover:scale-[1.02] active:scale-[0.98] transition-all duration-200",
         link: "text-primary underline-offset-4 hover:underline hover:text-primary-dark",
       },
       size: {

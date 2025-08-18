@@ -1659,34 +1659,39 @@ Invoice Details:
 Date: ${selectedInvoice.date}
 Due Date: ${selectedInvoice.dueDate}
 Status: ${selectedInvoice.status}
-${selectedInvoice.employeeName ? `Sales Employee: ${selectedInvoice.employeeName}` : ''}
+${selectedInvoice.employeeName ? `Sales Employee: ${selectedInvoice.employeeName}` : ""}
 
 Items:
 ------
-${selectedInvoice.items.map((item, index) =>
-`${index + 1}. ${item.productName}
+${selectedInvoice.items
+  .map(
+    (item, index) =>
+      `${index + 1}. ${item.productName}
    Quantity: ${item.quantity}
    Unit Price: $${item.unitPrice.toFixed(2)}
    Discount: ${item.discount}%
-   Total: $${item.total.toFixed(2)}`
-).join('\n\n')}
+   Total: $${item.total.toFixed(2)}`,
+  )
+  .join("\n\n")}
 
 Summary:
 --------
 Subtotal: $${selectedInvoice.subtotal.toFixed(2)}
 Tax (${selectedInvoice.taxRate}%): $${selectedInvoice.taxAmount.toFixed(2)}
-${selectedInvoice.discountAmount > 0 ? `Discount: -$${selectedInvoice.discountAmount.toFixed(2)}` : ''}
+${selectedInvoice.discountAmount > 0 ? `Discount: -$${selectedInvoice.discountAmount.toFixed(2)}` : ""}
 TOTAL: $${selectedInvoice.total.toFixed(2)}
 
-${selectedInvoice.notes ? `Notes: ${selectedInvoice.notes}` : ''}
+${selectedInvoice.notes ? `Notes: ${selectedInvoice.notes}` : ""}
 
 Generated on: ${new Date().toLocaleString()}
                       `;
 
                       // Create and download file
-                      const blob = new Blob([pdfContent], { type: 'text/plain' });
+                      const blob = new Blob([pdfContent], {
+                        type: "text/plain",
+                      });
                       const url = window.URL.createObjectURL(blob);
-                      const link = document.createElement('a');
+                      const link = document.createElement("a");
                       link.href = url;
                       link.download = `invoice-${selectedInvoice.invoiceNumber}.txt`;
                       document.body.appendChild(link);

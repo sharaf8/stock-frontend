@@ -27,11 +27,14 @@ const toastVariants = cva(
   {
     variants: {
       variant: {
-        default: "border-border bg-background/95 text-foreground hover:shadow-2xl",
+        default:
+          "border-border bg-background/95 text-foreground hover:shadow-2xl",
         destructive:
           "destructive group border-red-200 bg-red-50/95 text-red-900 dark:border-red-800 dark:bg-red-950/95 dark:text-red-100",
-        success: "border-green-200 bg-green-50/95 text-green-900 dark:border-green-800 dark:bg-green-950/95 dark:text-green-100",
-        warning: "border-yellow-200 bg-yellow-50/95 text-yellow-900 dark:border-yellow-800 dark:bg-yellow-950/95 dark:text-yellow-100",
+        success:
+          "border-green-200 bg-green-50/95 text-green-900 dark:border-green-800 dark:bg-green-950/95 dark:text-green-100",
+        warning:
+          "border-yellow-200 bg-yellow-50/95 text-yellow-900 dark:border-yellow-800 dark:bg-yellow-950/95 dark:text-yellow-100",
         info: "border-blue-200 bg-blue-50/95 text-blue-900 dark:border-blue-800 dark:bg-blue-950/95 dark:text-blue-100",
       },
     },
