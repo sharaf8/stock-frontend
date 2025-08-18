@@ -321,7 +321,7 @@ export default function Layout({ children }: LayoutProps) {
                     onClick={() => handleLanguageChange("ru")}
                     className={language === "ru" ? "bg-accent" : ""}
                   >
-                    🇷🇺 Русский
+                    🇷🇺 ��усский
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -347,9 +347,11 @@ export default function Layout({ children }: LayoutProps) {
               <Button
                 variant="ghost"
                 size="sm"
-                className="h-8 w-8 md:h-9 md:w-9"
+                className="h-8 w-8 md:h-9 md:w-9 relative hover:bg-muted transition-colors"
               >
                 <Bell className="h-3 w-3 md:h-4 md:w-4" />
+                {/* Notification badge */}
+                <span className="absolute -top-1 -right-1 h-2 w-2 bg-red-500 rounded-full animate-pulse" />
               </Button>
             </div>
           </div>
