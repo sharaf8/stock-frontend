@@ -48,7 +48,6 @@ import {
   Download,
   Receipt,
   Calculator,
-  QrCode,
   Minus,
   DollarSign,
   X,
