@@ -323,13 +323,16 @@ export default function Layout({ children }: LayoutProps) {
                 variant="ghost"
                 size="sm"
                 onClick={toggleTheme}
-                className="h-8 w-8 md:h-9 md:w-9"
+                className="h-8 w-8 md:h-9 md:w-9 relative overflow-hidden group hover:bg-muted transition-all duration-300"
               >
-                {theme === "light" ? (
-                  <Moon className="h-3 w-3 md:h-4 md:w-4" />
-                ) : (
-                  <Sun className="h-3 w-3 md:h-4 md:w-4" />
-                )}
+                <div className="relative">
+                  {theme === "light" ? (
+                    <Moon className="h-3 w-3 md:h-4 md:w-4 rotate-0 scale-100 transition-all duration-500 group-hover:rotate-12" />
+                  ) : (
+                    <Sun className="h-3 w-3 md:h-4 md:w-4 rotate-0 scale-100 transition-all duration-500 group-hover:rotate-180" />
+                  )}
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/20 to-orange-400/20 dark:from-blue-400/20 dark:to-purple-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-md" />
               </Button>
 
               {/* Notifications - smaller on mobile */}
