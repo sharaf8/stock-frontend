@@ -444,10 +444,10 @@ ${data.recentActivities.map((activity: any) => `${activity.time} - ${activity.de
         </Card>
 
         {/* Product Categories */}
-        <Card className="col-span-3">
-          <CardHeader>
-            <CardTitle>{t('dashboard.product_categories')}</CardTitle>
-            <CardDescription>{t('dashboard.distribution_by_category')}</CardDescription>
+        <Card className="col-span-3 shadow-md hover:shadow-lg transition-all duration-300 border-0 bg-gradient-to-br from-white to-blue-50">
+          <CardHeader className="pb-6">
+            <CardTitle className="text-xl font-semibold text-gray-900">{t('dashboard.product_categories')}</CardTitle>
+            <CardDescription className="text-gray-600">{t('dashboard.distribution_by_category')}</CardDescription>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
