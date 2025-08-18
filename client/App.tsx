@@ -14,6 +14,7 @@ import Sales from "./pages/Sales";
 import Finance from "./pages/Finance";
 import Employees from "./pages/Employees";
 import Settings from "./pages/Settings";
+import Profile from "./pages/Profile";
 import Login from "./pages/auth/Login";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import NotFound from "./pages/NotFound";
@@ -88,6 +89,7 @@ const App = () => {
                       <Route path="/sales" element={<Sales />} />
                       <Route path="/finance" element={<Finance />} />
                       <Route path="/employees" element={<Employees />} />
+                      <Route path="/profile" element={<Profile />} />
                       <Route path="/settings" element={<Settings />} />
 
                       {/* Admin-only routes */}
