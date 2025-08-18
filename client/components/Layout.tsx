@@ -115,14 +115,24 @@ export default function Layout({ children }: LayoutProps) {
       >
         <div className="flex flex-col h-full">
           {/* Logo */}
-          <div className="flex items-center gap-2 px-6 py-4 border-b">
-            <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-blue-700 rounded-lg flex items-center justify-center">
-              <Package className="h-5 w-5 text-white" />
+          <div className="flex items-center gap-2 px-4 py-4 border-b relative">
+            <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-700 rounded-lg flex items-center justify-center shadow-md hover:shadow-lg transition-all group">
+              <Package className="h-5 w-5 text-white group-hover:scale-110 transition-transform" />
             </div>
-            <div>
-              <h1 className="font-bold text-lg">BusinessPro</h1>
-              <p className="text-xs text-muted-foreground">Management Suite</p>
-            </div>
+            {!sidebarCollapsed && (
+              <div className="transition-opacity duration-200">
+                <h1 className="font-bold text-lg">BusinessPro</h1>
+                <p className="text-xs text-muted-foreground">Management Suite</p>
+              </div>
+            )}
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+              className="absolute -right-3 top-4 hidden lg:flex w-6 h-6 rounded-full bg-background border shadow-md hover:shadow-lg transition-all"
+            >
+              <Menu className="h-3 w-3" />
+            </Button>
           </div>
 
           {/* Navigation */}
