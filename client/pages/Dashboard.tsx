@@ -453,12 +453,20 @@ ${data.recentActivities.map((activity: any) => `${activity.time} - ${activity.de
         </Card>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-7">
-        {/* Sales Chart */}
-        <Card className="col-span-4 shadow-md hover:shadow-lg transition-all duration-300 border-0 bg-gradient-to-br from-white to-gray-50">
-          <CardHeader className="pb-6">
-            <CardTitle className="text-xl font-semibold text-gray-900">{t('dashboard.sales_overview')}</CardTitle>
-            <CardDescription className="text-gray-600">{t('dashboard.monthly_sales_profit')}</CardDescription>
+      <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-7">
+        {/* Enhanced Sales Chart */}
+        <Card className="col-span-4 relative overflow-hidden group border-0 bg-gradient-to-br from-white via-white to-blue-50/20 backdrop-blur-xl shadow-business-lg hover:shadow-business-xl transition-all duration-500 hover:-translate-y-1">
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-500/3 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          <CardHeader className="pb-8 relative z-10">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-gradient-to-br from-blue-100 to-purple-100 rounded-lg">
+                <TrendingUp className="h-5 w-5 text-blue-600" />
+              </div>
+              <div>
+                <CardTitle className="text-2xl font-bold text-gray-900 tracking-tight">{t('dashboard.sales_overview')}</CardTitle>
+                <CardDescription className="text-gray-600 mt-1">{t('dashboard.monthly_sales_profit')}</CardDescription>
+              </div>
+            </div>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
