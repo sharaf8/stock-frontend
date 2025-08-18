@@ -257,8 +257,8 @@ export default function Layout({ children }: LayoutProps) {
       {/* Main content */}
       <div
         className={cn(
-          "transition-all duration-200",
-          sidebarOpen ? "lg:ml-64" : "",
+          "transition-all duration-300",
+          sidebarOpen ? (sidebarCollapsed ? "lg:ml-16" : "lg:ml-64") : "",
         )}
       >
         {/* Top header */}
