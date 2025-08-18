@@ -1638,13 +1638,74 @@ export default function Sales() {
                 )}
 
               <div className="flex gap-2">
-                <Button className="flex-1">
+                <Button
+                  className="flex-1"
+                  onClick={() => {
+                    // Generate PDF download functionality
+                    const downloadPDF = () => {
+                      // Create PDF content
+                      const pdfContent = `
+INVOICE ${selectedInvoice.invoiceNumber}
+========================================
+
+Client Information:
+------------------
+Name: ${selectedInvoice.clientName}
+Email: ${selectedInvoice.clientEmail}
+Type: ${selectedInvoice.clientType}
+Payment Method: ${selectedInvoice.paymentMethod.replace("_", " ")}
+
+Invoice Details:
+---------------
+Date: ${selectedInvoice.date}
+Due Date: ${selectedInvoice.dueDate}
+Status: ${selectedInvoice.status}
+${selectedInvoice.employeeName ? `Sales Employee: ${selectedInvoice.employeeName}` : ''}
+
+Items:
+------
+${selectedInvoice.items.map((item, index) =>
+`${index + 1}. ${item.productName}
+   Quantity: ${item.quantity}
+   Unit Price: $${item.unitPrice.toFixed(2)}
+   Discount: ${item.discount}%
+   Total: $${item.total.toFixed(2)}`
+).join('\n\n')}
+
+Summary:
+--------
+Subtotal: $${selectedInvoice.subtotal.toFixed(2)}
+Tax (${selectedInvoice.taxRate}%): $${selectedInvoice.taxAmount.toFixed(2)}
+${selectedInvoice.discountAmount > 0 ? `Discount: -$${selectedInvoice.discountAmount.toFixed(2)}` : ''}
+TOTAL: $${selectedInvoice.total.toFixed(2)}
+
+${selectedInvoice.notes ? `Notes: ${selectedInvoice.notes}` : ''}
+
+Generated on: ${new Date().toLocaleString()}
+                      `;
+
+                      // Create and download file
+                      const blob = new Blob([pdfContent], { type: 'text/plain' });
+                      const url = window.URL.createObjectURL(blob);
+                      const link = document.createElement('a');
+                      link.href = url;
+                      link.download = `invoice-${selectedInvoice.invoiceNumber}.txt`;
+                      document.body.appendChild(link);
+                      link.click();
+                      document.body.removeChild(link);
+                      window.URL.revokeObjectURL(url);
+                    };
+
+                    downloadPDF();
+
+                    toast({
+                      title: "Invoice Downloaded",
+                      description: `Invoice ${selectedInvoice.invoiceNumber} has been downloaded as a PDF.`,
+                    });
+                  }}
+                >
                   <Download className="mr-2 h-4 w-4" />
                   Download PDF
-                </Button>
-                <Button variant="outline">
-                  <QrCode className="mr-2 h-4 w-4" />
-                  QR Code
                 </Button>
                 {selectedInvoice.status !== "cancelled" &&
                   selectedInvoice.status !== "paid" && (
