@@ -107,7 +107,8 @@ export default function Layout({ children }: LayoutProps) {
       {/* Sidebar */}
       <div
         className={cn(
-          "fixed inset-y-0 left-0 z-50 w-64 bg-card border-r border-border transform transition-transform duration-200 ease-in-out",
+          "fixed inset-y-0 left-0 z-50 bg-card border-r border-border transform transition-all duration-300 ease-in-out shadow-lg",
+          sidebarCollapsed ? "w-16" : "w-64",
           sidebarOpen ? "translate-x-0" : "-translate-x-full",
           "lg:translate-x-0",
         )}
