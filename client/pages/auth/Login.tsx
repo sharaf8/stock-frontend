@@ -13,7 +13,7 @@ import {
 import { useAuthStore } from "@/stores/authStore";
 import { useToast } from "@/hooks/use-toast";
 import UserCredentials from "@/components/UserCredentials";
-import { Eye, EyeOff, Package, Loader2 } from "lucide-react";
+import { Eye, EyeOff, Package, Loader2, Lock, Mail } from "lucide-react";
 
 export default function Login() {
   const [email, setEmail] = useState("");
