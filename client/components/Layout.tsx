@@ -120,24 +120,29 @@ export default function Layout({ children }: LayoutProps) {
         )}
       >
         <div className="flex flex-col h-full">
-          {/* Logo */}
-          <div className="flex items-center gap-2 px-4 py-4 border-b relative">
-            <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-700 rounded-lg flex items-center justify-center shadow-md hover:shadow-lg transition-all group">
-              <Package className="h-5 w-5 text-white group-hover:scale-110 transition-transform" />
+          {/* Enhanced Logo Section */}
+          <div className="flex items-center gap-3 px-6 py-6 border-b border-gray-200/30 dark:border-gray-700/30 relative">
+            <div className="relative group">
+              <div className="w-12 h-12 bg-gradient-to-br from-blue-600 via-blue-700 to-purple-700 rounded-xl flex items-center justify-center shadow-business-lg hover:shadow-business-xl transition-all duration-300 hover:scale-110 animate-glow">
+                <Package className="h-6 w-6 text-white group-hover:rotate-12 transition-transform duration-300" />
+              </div>
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-400 to-purple-600 rounded-xl opacity-0 group-hover:opacity-20 transition-opacity duration-300 blur-xl" />
             </div>
             {!sidebarCollapsed && (
-              <div className="transition-opacity duration-200">
-                <h1 className="font-bold text-lg">BusinessPro</h1>
-                <p className="text-xs text-muted-foreground">Management Suite</p>
+              <div className="transition-all duration-300 opacity-100">
+                <h1 className="font-bold text-xl bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">
+                  BusinessPro
+                </h1>
+                <p className="text-sm text-muted-foreground font-medium">Management Suite</p>
               </div>
             )}
             <Button
               variant="ghost"
               size="sm"
               onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-              className="absolute -right-3 top-4 hidden lg:flex w-6 h-6 rounded-full bg-background border shadow-md hover:shadow-lg transition-all"
+              className="absolute -right-4 top-6 hidden lg:flex w-8 h-8 rounded-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-business hover:shadow-business-md transition-all duration-300 hover:scale-110"
             >
-              <Menu className="h-3 w-3" />
+              <Menu className={cn("h-4 w-4 transition-transform duration-300", sidebarCollapsed && "rotate-180")} />
             </Button>
           </div>
 
