@@ -142,26 +142,42 @@ export default function Layout({ children }: LayoutProps) {
           </div>
 
           {/* Navigation */}
-          <nav className="flex-1 px-4 py-4 space-y-1">
-            {navigation.map((item) => {
-              const isActive = location.pathname === item.href;
-              return (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  className={cn(
-                    "flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
-                    isActive
-                      ? "bg-primary text-primary-foreground"
-                      : "text-muted-foreground hover:text-foreground hover:bg-muted",
-                  )}
-                >
-                  <item.icon className="h-4 w-4" />
-                  {item.name}
-                </Link>
-              );
-            })}
-          </nav>
+          <TooltipProvider>
+            <nav className="flex-1 px-2 py-4 space-y-1">
+              {navigation.map((item) => {
+                const isActive = location.pathname === item.href;
+                const NavItem = (
+                  <Link
+                    key={item.name}
+                    to={item.href}
+                    className={cn(
+                      "flex items-center gap-3 px-3 py-3 rounded-lg text-sm font-medium transition-all duration-200 group",
+                      sidebarCollapsed ? "justify-center" : "",
+                      isActive
+                        ? "bg-primary text-primary-foreground shadow-md"
+                        : "text-muted-foreground hover:text-foreground hover:bg-muted hover:shadow-sm",
+                    )}
+                  >
+                    <item.icon className={cn("h-4 w-4 transition-transform group-hover:scale-110", isActive && "text-white")} />
+                    {!sidebarCollapsed && (
+                      <span className="transition-opacity duration-200">{item.name}</span>
+                    )}
+                  </Link>
+                );
+
+                return sidebarCollapsed ? (
+                  <Tooltip key={item.name} delayDuration={0}>
+                    <TooltipTrigger asChild>
+                      {NavItem}
+                    </TooltipTrigger>
+                    <TooltipContent side="right" className="font-medium">
+                      {item.name}
+                    </TooltipContent>
+                  </Tooltip>
+                ) : NavItem;
+              })}
+            </nav>
+          </TooltipProvider>
 
           {/* User section */}
           <div className="p-4 border-t">
