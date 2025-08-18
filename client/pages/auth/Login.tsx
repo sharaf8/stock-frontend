@@ -80,49 +80,55 @@ export default function Login() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Login Form */}
-          <Card className="shadow-xl border-0">
-            <CardHeader className="space-y-1 text-center">
-              <CardTitle className="text-2xl font-bold">Welcome back</CardTitle>
-              <CardDescription>
+          <Card className="shadow-xl border-0 backdrop-blur-sm bg-white/80 hover:shadow-2xl transition-all duration-500 animate-slide-in group">
+            <CardHeader className="space-y-1 text-center pb-6">
+              <CardTitle className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
+                Welcome back
+              </CardTitle>
+              <CardDescription className="text-gray-600">
                 Sign in to your account to continue
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="space-y-2">
-                  <Label htmlFor="email">Email address</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="admin@businesspro.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="h-11"
-                  />
+                  <Label htmlFor="email" className="text-sm font-medium text-gray-700">Email address</Label>
+                  <div className="relative group">
+                    <Mail className="absolute left-3 top-3.5 h-4 w-4 text-gray-400 transition-colors group-focus-within:text-blue-600" />
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder="admin@businesspro.com"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="h-12 pl-10 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all duration-300 hover:border-gray-300"
+                    />
+                  </div>
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="password">Password</Label>
-                  <div className="relative">
+                  <Label htmlFor="password" className="text-sm font-medium text-gray-700">Password</Label>
+                  <div className="relative group">
+                    <Lock className="absolute left-3 top-3.5 h-4 w-4 text-gray-400 transition-colors group-focus-within:text-blue-600" />
                     <Input
                       id="password"
                       type={showPassword ? "text" : "password"}
                       placeholder="Enter your password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      className="h-11 pr-10"
+                      className="h-12 pl-10 pr-12 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all duration-300 hover:border-gray-300"
                     />
                     <Button
                       type="button"
                       variant="ghost"
                       size="sm"
-                      className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                      className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent transition-all duration-200 hover:scale-110"
                       onClick={() => setShowPassword(!showPassword)}
                     >
                       {showPassword ? (
-                        <EyeOff className="h-4 w-4 text-gray-400" />
+                        <EyeOff className="h-4 w-4 text-gray-400 hover:text-gray-600" />
                       ) : (
-                        <Eye className="h-4 w-4 text-gray-400" />
+                        <Eye className="h-4 w-4 text-gray-400 hover:text-gray-600" />
                       )}
                     </Button>
                   </div>
