@@ -24,6 +24,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import AIAssistant from "@/components/AIAssistant";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Plus,
   Search,
@@ -87,6 +88,7 @@ interface Invoice {
   clientType: 'retail' | 'wholesale' | 'distributor';
   employeeId?: string;
   employeeName?: string;
+  employeeAvatar?: string;
   date: string;
   dueDate: string;
   items: InvoiceItem[];
@@ -164,7 +166,8 @@ const mockInvoices: Invoice[] = [
     clientEmail: "contact@techsolutions.com",
     clientType: "wholesale",
     employeeId: "1",
-    employeeName: "John Smith",
+    employeeName: "Sarah Chen",
+    employeeAvatar: "https://images.pexels.com/photos/25651531/pexels-photo-25651531.jpeg",
     date: "2024-01-15",
     dueDate: "2024-02-15",
     items: [
@@ -204,7 +207,8 @@ const mockInvoices: Invoice[] = [
     clientEmail: "john.smith@email.com",
     clientType: "retail",
     employeeId: "2",
-    employeeName: "Sarah Johnson",
+    employeeName: "Michael Rodriguez",
+    employeeAvatar: "https://images.pexels.com/photos/3613388/pexels-photo-3613388.jpeg",
     date: "2024-01-20",
     dueDate: "2024-01-25",
     items: [
@@ -1140,8 +1144,20 @@ export default function Sales() {
                     </div>
                   </TableCell>
                   <TableCell>
-                    <div className="text-sm">
-                      {invoice.employeeName || <span className="text-muted-foreground">No employee</span>}
+                    <div className="flex items-center gap-2">
+                      {invoice.employeeName ? (
+                        <>
+                          <Avatar className="h-6 w-6">
+                            <AvatarImage src={invoice.employeeAvatar} alt={invoice.employeeName} />
+                            <AvatarFallback className="text-xs">
+                              {invoice.employeeName.split(' ').map(n => n[0]).join('').toUpperCase()}
+                            </AvatarFallback>
+                          </Avatar>
+                          <span className="text-sm">{invoice.employeeName}</span>
+                        </>
+                      ) : (
+                        <span className="text-sm text-muted-foreground">No employee</span>
+                      )}
                     </div>
                   </TableCell>
                   <TableCell>
