@@ -65,15 +65,15 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-blue-50 p-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-blue-50 p-4 animate-fade-in">
       <div className="w-full max-w-4xl">
         {/* Logo and Brand */}
-        <div className="flex items-center justify-center gap-2 mb-8">
-          <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl flex items-center justify-center">
-            <Package className="h-6 w-6 text-white" />
+        <div className="flex items-center justify-center gap-2 mb-8 animate-slide-in">
+          <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 group">
+            <Package className="h-6 w-6 text-white transition-transform group-hover:rotate-12 duration-300" />
           </div>
           <div className="text-center">
-            <h1 className="font-bold text-2xl text-gray-900">BusinessPro</h1>
+            <h1 className="font-bold text-3xl text-gray-900 hover:text-blue-700 transition-colors duration-300">BusinessPro</h1>
             <p className="text-sm text-gray-600">Management Suite</p>
           </div>
         </div>
