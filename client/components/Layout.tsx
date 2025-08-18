@@ -289,7 +289,7 @@ export default function Layout({ children }: LayoutProps) {
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="h-8 w-8 md:h-9 md:w-9"
+                    className="h-8 w-8 md:h-9 md:w-9 hover:bg-muted transition-colors"
                   >
                     <Globe className="h-3 w-3 md:h-4 md:w-4" />
                   </Button>
