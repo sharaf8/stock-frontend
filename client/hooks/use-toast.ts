@@ -178,9 +178,25 @@ function useToast() {
     };
   }, [state]);
 
+  const success = (props: Omit<Toast, "variant">) =>
+    toast({ ...props, variant: "success" });
+
+  const error = (props: Omit<Toast, "variant">) =>
+    toast({ ...props, variant: "destructive" });
+
+  const warning = (props: Omit<Toast, "variant">) =>
+    toast({ ...props, variant: "warning" });
+
+  const info = (props: Omit<Toast, "variant">) =>
+    toast({ ...props, variant: "info" });
+
   return {
     ...state,
     toast,
+    success,
+    error,
+    warning,
+    info,
     dismiss: (toastId?: string) => dispatch({ type: "DISMISS_TOAST", toastId }),
   };
 }
