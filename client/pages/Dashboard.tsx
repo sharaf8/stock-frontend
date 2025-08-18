@@ -295,11 +295,13 @@ ${data.recentActivities.map((activity: any) => `${activity.time} - ${activity.de
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">{t('dashboard.title')}</h1>
-          <p className="text-muted-foreground">{t('dashboard.subtitle')}</p>
+    <div className="space-y-8 animate-fade-in">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-border">
+        <div className="space-y-2">
+          <h1 className="text-4xl font-bold tracking-tight bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
+            {t('dashboard.title')}
+          </h1>
+          <p className="text-muted-foreground text-lg">{t('dashboard.subtitle')}</p>
         </div>
         <div className="flex items-center gap-2">
           <Select value={dateFilter} onValueChange={setDateFilter}>
