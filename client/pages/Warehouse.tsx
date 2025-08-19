@@ -131,6 +131,7 @@ interface WarehouseHistory {
     | "delete"
     | "stock_in"
     | "stock_out"
+    | "transfer"
     | "adjustment";
   entityType: "product" | "stock";
   entityId: string;
