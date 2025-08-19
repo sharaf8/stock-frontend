@@ -705,6 +705,24 @@ export default function Warehouse() {
         
         {/* Action Buttons */}
         <div className="flex items-center gap-3">
+          <Button
+            variant="outline"
+            className="bg-green-50 hover:bg-green-100 text-green-700 border-green-200"
+            onClick={() => openStockDialog('in')}
+          >
+            <ArrowUp className="mr-2 h-4 w-4" />
+            Stock In
+          </Button>
+
+          <Button
+            variant="outline"
+            className="bg-red-50 hover:bg-red-100 text-red-700 border-red-200"
+            onClick={() => openStockDialog('out')}
+          >
+            <ArrowDown className="mr-2 h-4 w-4" />
+            Stock Out
+          </Button>
+
           <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
             <DialogTrigger asChild>
               <Button>
@@ -1060,8 +1078,8 @@ export default function Warehouse() {
                       </TableCell>
                       <TableCell>
                         <div className="flex gap-1">
-                          <Button 
-                            variant="outline" 
+                          <Button
+                            variant="outline"
                             size="sm"
                             onClick={() => {
                               setSelectedProduct(product);
@@ -1070,8 +1088,8 @@ export default function Warehouse() {
                           >
                             <Eye className="h-4 w-4" />
                           </Button>
-                          <Button 
-                            variant="outline" 
+                          <Button
+                            variant="outline"
                             size="sm"
                             onClick={() => {
                               setEditingProduct(product);
@@ -1096,28 +1114,8 @@ export default function Warehouse() {
                           >
                             <Edit className="h-4 w-4" />
                           </Button>
-                          <Button 
-                            variant="outline" 
-                            size="sm"
-                            onClick={() => {
-                              setSelectedProduct(product);
-                              setIsStockInDialogOpen(true);
-                            }}
-                          >
-                            <ArrowUp className="h-4 w-4 text-green-600" />
-                          </Button>
-                          <Button 
-                            variant="outline" 
-                            size="sm"
-                            onClick={() => {
-                              setSelectedProduct(product);
-                              setIsStockOutDialogOpen(true);
-                            }}
-                          >
-                            <ArrowDown className="h-4 w-4 text-red-600" />
-                          </Button>
-                          <Button 
-                            variant="outline" 
+                          <Button
+                            variant="outline"
                             size="sm"
                             onClick={() => deleteProduct(product.id)}
                           >
