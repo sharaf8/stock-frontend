@@ -80,10 +80,10 @@ export default function UserCreateDialog({ trigger, onUserCreated }: UserCreateD
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!formData.name || !formData.email || !formData.password) {
+    if (!formData.name || !formData.email || !formData.password || !formData.filialId) {
       toast({
         title: 'Error',
-        description: 'Please fill in all required fields',
+        description: 'Please fill in all required fields including work location',
         variant: 'destructive',
       });
       return;
@@ -140,6 +140,7 @@ export default function UserCreateDialog({ trigger, onUserCreated }: UserCreateD
       password: '',
       role: 'employee',
       department: '',
+      filialId: '',
       notes: ''
     });
   };
@@ -287,6 +288,31 @@ export default function UserCreateDialog({ trigger, onUserCreated }: UserCreateD
                   </SelectContent>
                 </Select>
               </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="filial" className="flex items-center gap-2">
+                <Building2 className="h-4 w-4" />
+                Work Location (Filial) *
+              </Label>
+              <Select
+                value={formData.filialId}
+                onValueChange={(value) => setFormData(prev => ({ ...prev, filialId: value }))}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select work location" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="store1">Main Warehouse</SelectItem>
+                  <SelectItem value="store2">Downtown Retail Store</SelectItem>
+                  <SelectItem value="store3">North Branch</SelectItem>
+                  <SelectItem value="store4">Online Fulfillment Center</SelectItem>
+                  <SelectItem value="store5">Bukhara Branch</SelectItem>
+                </SelectContent>
+              </Select>
+              <p className="text-xs text-muted-foreground">
+                Choose the primary location where this user will work
+              </p>
             </div>
 
             {/* Role Preview */}
