@@ -296,6 +296,7 @@ export default function Warehouse() {
   const [isStockInDialogOpen, setIsStockInDialogOpen] = useState(false);
   const [isStockOutDialogOpen, setIsStockOutDialogOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [stockQuantity, setStockQuantity] = useState(0);
   const [stockReason, setStockReason] = useState("");
   const [stockNotes, setStockNotes] = useState("");
