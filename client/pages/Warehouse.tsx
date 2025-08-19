@@ -303,6 +303,10 @@ export default function Warehouse() {
   const [stockReason, setStockReason] = useState("");
   const [stockNotes, setStockNotes] = useState("");
   const [stockLocation, setStockLocation] = useState("");
+  const [stockFrom, setStockFrom] = useState("");
+  const [stockTo, setStockTo] = useState("");
+  const [stockFromType, setStockFromType] = useState("");
+  const [stockToType, setStockToType] = useState("");
   const [newProduct, setNewProduct] = useState<Partial<Product>>({
     name: "",
     category: "",
@@ -426,10 +430,10 @@ export default function Warehouse() {
   };
 
   const handleStockIn = () => {
-    if (!selectedProduct || stockQuantity <= 0 || !stockReason.trim() || !stockLocation.trim()) {
+    if (!selectedProduct || stockQuantity <= 0 || !stockReason.trim() || !stockLocation.trim() || !stockFromType.trim() || !stockFrom.trim()) {
       toast({
         title: "Error",
-        description: "Please fill in all required fields (Quantity, Reason, Location)",
+        description: "Please fill in all required fields",
         variant: "destructive",
       });
       return;
@@ -449,7 +453,8 @@ export default function Warehouse() {
     });
 
     setProducts(updatedProducts);
-    addStockMovement(selectedProduct.id, 'stock_in', stockQuantity, stockReason, stockNotes + (stockLocation ? ` (Location: ${stockLocation})` : ''));
+    const detailedNotes = `From: ${stockFrom} (${stockFromType}), Location: ${stockLocation}${stockNotes ? `, Notes: ${stockNotes}` : ''}`;
+    addStockMovement(selectedProduct.id, 'stock_in', stockQuantity, stockReason, detailedNotes);
 
     toast({
       title: "Stock Added",
@@ -460,12 +465,14 @@ export default function Warehouse() {
     setStockReason("");
     setStockNotes("");
     setStockLocation("");
+    setStockFrom("");
+    setStockFromType("");
     setIsStockInDialogOpen(false);
     setSelectedProduct(null);
   };
 
   const handleStockOut = () => {
-    if (!selectedProduct || stockQuantity <= 0 || !stockReason.trim()) {
+    if (!selectedProduct || stockQuantity <= 0 || !stockReason.trim() || !stockLocation.trim() || !stockToType.trim() || !stockTo.trim()) {
       toast({
         title: "Error",
         description: "Please fill in all required fields",
@@ -497,7 +504,8 @@ export default function Warehouse() {
     });
 
     setProducts(updatedProducts);
-    addStockMovement(selectedProduct.id, 'stock_out', stockQuantity, stockReason, stockNotes);
+    const detailedNotes = `To: ${stockTo} (${stockToType}), Location: ${stockLocation}${stockNotes ? `, Notes: ${stockNotes}` : ''}`;
+    addStockMovement(selectedProduct.id, 'stock_out', stockQuantity, stockReason, detailedNotes);
 
     toast({
       title: "Stock Removed",
@@ -507,6 +515,9 @@ export default function Warehouse() {
     setStockQuantity(0);
     setStockReason("");
     setStockNotes("");
+    setStockLocation("");
+    setStockTo("");
+    setStockToType("");
     setIsStockOutDialogOpen(false);
     setSelectedProduct(null);
   };
@@ -1453,41 +1464,73 @@ export default function Warehouse() {
                 placeholder="Enter quantity"
               />
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="stockInReason">Reason *</Label>
-                <Select value={stockReason} onValueChange={setStockReason}>
+                <Label htmlFor="stockFromType">From (Origin) *</Label>
+                <Select value={stockFromType} onValueChange={setStockFromType}>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select reason" />
+                    <SelectValue placeholder="Select origin type" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="New shipment received">New shipment received</SelectItem>
-                    <SelectItem value="Supplier delivery">Supplier delivery</SelectItem>
-                    <SelectItem value="Return from customer">Return from customer</SelectItem>
-                    <SelectItem value="Transfer from another location">Transfer from another location</SelectItem>
-                    <SelectItem value="Production completed">Production completed</SelectItem>
-                    <SelectItem value="Other">Other</SelectItem>
+                    <SelectItem value="supplier">Supplier</SelectItem>
+                    <SelectItem value="other_filial">Other Filial</SelectItem>
+                    <SelectItem value="customer_return">Return from Customer</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
-              <div className="space-y-2">
-                <Label htmlFor="stockInLocation">Location/Magazine *</Label>
-                <Select value={stockLocation} onValueChange={setStockLocation}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select location" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Main Warehouse">Main Warehouse</SelectItem>
-                    <SelectItem value="Magazine A">Magazine A</SelectItem>
-                    <SelectItem value="Magazine B">Magazine B</SelectItem>
-                    <SelectItem value="Magazine C">Magazine C</SelectItem>
-                    <SelectItem value="Storage Room 1">Storage Room 1</SelectItem>
-                    <SelectItem value="Storage Room 2">Storage Room 2</SelectItem>
-                    <SelectItem value="Cold Storage">Cold Storage</SelectItem>
-                    <SelectItem value="Loading Dock">Loading Dock</SelectItem>
-                    <SelectItem value="Other">Other</SelectItem>
-                  </SelectContent>
-                </Select>
+
+              {stockFromType && (
+                <div className="space-y-2">
+                  <Label htmlFor="stockFrom">
+                    {stockFromType === 'supplier' && 'Supplier Name *'}
+                    {stockFromType === 'other_filial' && 'Filial/Branch Name *'}
+                    {stockFromType === 'customer_return' && 'Customer Name *'}
+                  </Label>
+                  <Input
+                    id="stockFrom"
+                    value={stockFrom}
+                    onChange={(e) => setStockFrom(e.target.value)}
+                    placeholder={
+                      stockFromType === 'supplier' ? 'e.g., Apple Inc.' :
+                      stockFromType === 'other_filial' ? 'e.g., Branch Office Moscow' :
+                      'e.g., John Doe (баргардондан ��з мизоҷ)'
+                    }
+                  />
+                </div>
+              )}
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="stockInReason">Reason *</Label>
+                  <Select value={stockReason} onValueChange={setStockReason}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select reason" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Purchase">Purchase</SelectItem>
+                      <SelectItem value="Transfer">Transfer</SelectItem>
+                      <SelectItem value="Return">Return</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="stockInLocation">Location *</Label>
+                  <Select value={stockLocation} onValueChange={setStockLocation}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select location" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Main Warehouse">Main Warehouse</SelectItem>
+                      <SelectItem value="Magazine A">Magazine A</SelectItem>
+                      <SelectItem value="Magazine B">Magazine B</SelectItem>
+                      <SelectItem value="Magazine C">Magazine C</SelectItem>
+                      <SelectItem value="Storage Room 1">Storage Room 1</SelectItem>
+                      <SelectItem value="Storage Room 2">Storage Room 2</SelectItem>
+                      <SelectItem value="Cold Storage">Cold Storage</SelectItem>
+                      <SelectItem value="Loading Dock">Loading Dock</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
             </div>
             <div className="space-y-2">
@@ -1517,6 +1560,8 @@ export default function Warehouse() {
                 setStockReason("");
                 setStockNotes("");
                 setStockLocation("");
+                setStockFrom("");
+                setStockFromType("");
                 setSelectedProduct(null);
               }}>
                 Cancel
@@ -1551,22 +1596,75 @@ export default function Warehouse() {
                 placeholder="Enter quantity"
               />
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="stockOutReason">Reason *</Label>
-              <Select value={stockReason} onValueChange={setStockReason}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select reason" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="Sale to customer">Sale to customer</SelectItem>
-                  <SelectItem value="Damaged items">Damaged items</SelectItem>
-                  <SelectItem value="Lost items">Lost items</SelectItem>
-                  <SelectItem value="Transfer to another location">Transfer to another location</SelectItem>
-                  <SelectItem value="Return to supplier">Return to supplier</SelectItem>
-                  <SelectItem value="Expired items">Expired items</SelectItem>
-                  <SelectItem value="Other">Other</SelectItem>
-                </SelectContent>
-              </Select>
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="stockToType">To (Destination) *</Label>
+                <Select value={stockToType} onValueChange={setStockToType}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select destination type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="client">Client</SelectItem>
+                    <SelectItem value="other_filial">Other Filial</SelectItem>
+                    <SelectItem value="discarded">Discarded</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {stockToType && (
+                <div className="space-y-2">
+                  <Label htmlFor="stockTo">
+                    {stockToType === 'client' && 'Client Name *'}
+                    {stockToType === 'other_filial' && 'Filial/Branch Name *'}
+                    {stockToType === 'discarded' && 'Discard Reason *'}
+                  </Label>
+                  <Input
+                    id="stockTo"
+                    value={stockTo}
+                    onChange={(e) => setStockTo(e.target.value)}
+                    placeholder={
+                      stockToType === 'client' ? 'e.g., ABC Company Ltd.' :
+                      stockToType === 'other_filial' ? 'e.g., Branch Office Dubai' :
+                      'e.g., Damaged, Expired, Lost'
+                    }
+                  />
+                </div>
+              )}
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="stockOutReason">Reason *</Label>
+                  <Select value={stockReason} onValueChange={setStockReason}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select reason" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Sale">Sale</SelectItem>
+                      <SelectItem value="Transfer">Transfer</SelectItem>
+                      <SelectItem value="Damage">Damage</SelectItem>
+                      <SelectItem value="Expired">Expired</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="stockOutLocation">Location *</Label>
+                  <Select value={stockLocation} onValueChange={setStockLocation}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select location" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Main Warehouse">Main Warehouse</SelectItem>
+                      <SelectItem value="Magazine A">Magazine A</SelectItem>
+                      <SelectItem value="Magazine B">Magazine B</SelectItem>
+                      <SelectItem value="Magazine C">Magazine C</SelectItem>
+                      <SelectItem value="Storage Room 1">Storage Room 1</SelectItem>
+                      <SelectItem value="Storage Room 2">Storage Room 2</SelectItem>
+                      <SelectItem value="Cold Storage">Cold Storage</SelectItem>
+                      <SelectItem value="Loading Dock">Loading Dock</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
             </div>
             <div className="space-y-2">
               <Label htmlFor="stockOutNotes">Notes (Optional)</Label>
@@ -1597,6 +1695,9 @@ export default function Warehouse() {
                 setStockQuantity(0);
                 setStockReason("");
                 setStockNotes("");
+                setStockLocation("");
+                setStockTo("");
+                setStockToType("");
                 setSelectedProduct(null);
               }}>
                 Cancel
