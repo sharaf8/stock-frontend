@@ -23,15 +23,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { 
-  Plus, 
-  Eye, 
-  EyeOff, 
-  User, 
-  Mail, 
+import {
+  Plus,
+  Eye,
+  EyeOff,
+  User,
+  Mail,
   Lock,
   AlertCircle,
-  Building
+  Building,
+  Building2
 } from 'lucide-react';
 
 interface UserCreateDialogProps {
@@ -51,6 +52,7 @@ export default function UserCreateDialog({ trigger, onUserCreated }: UserCreateD
     password: '',
     role: 'employee' as Role,
     department: '',
+    filialId: '',
     notes: ''
   });
 
