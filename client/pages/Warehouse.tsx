@@ -657,6 +657,12 @@ export default function Warehouse() {
             Stock Out
           </Badge>
         );
+      case "transfer":
+        return (
+          <Badge variant="outline" className="bg-blue-100 text-blue-800">
+            Transfer
+          </Badge>
+        );
       case "adjustment":
         return (
           <Badge variant="outline" className="bg-orange-100 text-orange-800">
