@@ -57,6 +57,20 @@ import {
   Package2,
 } from "lucide-react";
 
+interface Store {
+  id: string;
+  name: string;
+  location: string;
+  type: "warehouse" | "retail" | "online";
+}
+
+interface ProductStore {
+  storeId: string;
+  storeName: string;
+  quantity: number;
+  location: string;
+}
+
 interface Product {
   id: string;
   name: string;
@@ -65,6 +79,7 @@ interface Product {
   sku: string;
   description: string;
   quantity: number;
+  stores: ProductStore[];
   minStock: number;
   maxStock: number;
   costPrice: number;
@@ -82,7 +97,7 @@ interface StockMovement {
   id: string;
   productId: string;
   productName: string;
-  type: "stock_in" | "stock_out" | "adjustment";
+  type: "stock_in" | "stock_out" | "adjustment" | "transfer";
   quantity: number;
   reason: string;
   notes?: string;
@@ -91,6 +106,21 @@ interface StockMovement {
   time: string;
   previousQuantity: number;
   newQuantity: number;
+  storeId: string;
+  storeName: string;
+  fromStore?: {
+    id: string;
+    name: string;
+    type: string;
+  };
+  toStore?: {
+    id: string;
+    name: string;
+    type: string;
+  };
+  reference?: string;
+  supplier?: string;
+  customer?: string;
 }
 
 interface WarehouseHistory {
