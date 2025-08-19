@@ -295,6 +295,8 @@ export default function Warehouse() {
   const [isViewDialogOpen, setIsViewDialogOpen] = useState(false);
   const [isStockInDialogOpen, setIsStockInDialogOpen] = useState(false);
   const [isStockOutDialogOpen, setIsStockOutDialogOpen] = useState(false);
+  const [isProductSelectionOpen, setIsProductSelectionOpen] = useState(false);
+  const [stockActionType, setStockActionType] = useState<'in' | 'out'>('in');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [stockQuantity, setStockQuantity] = useState(0);
@@ -397,7 +399,7 @@ export default function Warehouse() {
       quantity,
       reason,
       notes,
-      performedBy: "Current User", // In real app, get from auth context
+      performedBy: "Current User",
       date: new Date().toISOString().split('T')[0],
       time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       previousQuantity: product.quantity,
@@ -406,7 +408,6 @@ export default function Warehouse() {
 
     setStockMovements([movement, ...stockMovements]);
 
-    // Add to warehouse history
     const historyEntry: WarehouseHistory = {
       id: Date.now().toString() + "_history",
       action: type,
@@ -454,7 +455,6 @@ export default function Warehouse() {
       description: `Added ${stockQuantity} units to ${selectedProduct.name}`,
     });
 
-    // Reset form
     setStockQuantity(0);
     setStockReason("");
     setStockNotes("");
@@ -502,7 +502,6 @@ export default function Warehouse() {
       description: `Removed ${stockQuantity} units from ${selectedProduct.name}`,
     });
 
-    // Reset form
     setStockQuantity(0);
     setStockReason("");
     setStockNotes("");
@@ -542,7 +541,6 @@ export default function Warehouse() {
 
     setProducts([...products, product]);
 
-    // Add to warehouse history
     const historyEntry: WarehouseHistory = {
       id: Date.now().toString() + "_history",
       action: "create",
@@ -582,13 +580,83 @@ export default function Warehouse() {
     });
   };
 
+  const editProduct = () => {
+    if (!editingProduct || !newProduct.name || !newProduct.category || !newProduct.sku) {
+      toast({
+        title: "Error",
+        description: "Please fill in all required fields (Name, Category, SKU)",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const updatedProduct: Product = {
+      ...editingProduct,
+      name: newProduct.name!,
+      category: newProduct.category!,
+      brand: newProduct.brand || "",
+      sku: newProduct.sku!,
+      description: newProduct.description || "",
+      quantity: newProduct.quantity || 0,
+      minStock: newProduct.minStock || 0,
+      maxStock: newProduct.maxStock || 0,
+      costPrice: newProduct.costPrice || 0,
+      sellingPrice: newProduct.sellingPrice || 0,
+      supplier: newProduct.supplier || "",
+      location: newProduct.location || "",
+      tags: newProduct.tags || [],
+      status: calculateStatus(newProduct.quantity || 0, newProduct.minStock || 0),
+      updatedAt: new Date().toISOString().split('T')[0]
+    };
+
+    setProducts(products.map(p => p.id === editingProduct.id ? updatedProduct : p));
+
+    const historyEntry: WarehouseHistory = {
+      id: Date.now().toString() + "_history",
+      action: "edit",
+      entityType: "product",
+      entityId: editingProduct.id,
+      entityName: updatedProduct.name,
+      description: `Updated product: ${updatedProduct.name}`,
+      performedBy: "Current User",
+      date: new Date().toISOString().split('T')[0],
+      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      details: { updatedFields: newProduct }
+    };
+
+    setWarehouseHistory([historyEntry, ...warehouseHistory]);
+
+    setNewProduct({
+      name: "",
+      category: "",
+      brand: "",
+      sku: "",
+      description: "",
+      quantity: 0,
+      minStock: 0,
+      maxStock: 0,
+      costPrice: 0,
+      sellingPrice: 0,
+      supplier: "",
+      location: "",
+      tags: [],
+      status: "in-stock"
+    });
+    setEditingProduct(null);
+    setIsEditDialogOpen(false);
+
+    toast({
+      title: "Product updated",
+      description: `${updatedProduct.name} has been updated successfully.`,
+    });
+  };
+
   const deleteProduct = (productId: string) => {
     const product = products.find(p => p.id === productId);
     if (!product) return;
 
     setProducts(products.filter(p => p.id !== productId));
 
-    // Add to warehouse history
     const historyEntry: WarehouseHistory = {
       id: Date.now().toString() + "_history",
       action: "delete",
@@ -610,6 +678,21 @@ export default function Warehouse() {
     });
   };
 
+  const openStockDialog = (type: 'in' | 'out') => {
+    setStockActionType(type);
+    setIsProductSelectionOpen(true);
+  };
+
+  const selectProductForStock = (product: Product) => {
+    setSelectedProduct(product);
+    setIsProductSelectionOpen(false);
+    if (stockActionType === 'in') {
+      setIsStockInDialogOpen(true);
+    } else {
+      setIsStockOutDialogOpen(true);
+    }
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -617,168 +700,230 @@ export default function Warehouse() {
           <h1 className="text-3xl font-bold tracking-tight">Warehouse Management</h1>
           <p className="text-muted-foreground">Manage inventory, stock movements, and track warehouse activities</p>
         </div>
-        <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
-          <DialogTrigger asChild>
-            <Button>
-              <Plus className="mr-2 h-4 w-4" />
-              Add Product
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="max-w-2xl">
-            <DialogHeader>
-              <DialogTitle>Add New Product</DialogTitle>
-              <DialogDescription>
-                Create a new product in your inventory system.
-              </DialogDescription>
-            </DialogHeader>
-            <div className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="name">Product Name *</Label>
-                  <Input
-                    id="name"
-                    placeholder="iPhone 15 Pro"
-                    value={newProduct.name}
-                    onChange={(e) => setNewProduct({...newProduct, name: e.target.value})}
-                  />
+        
+        {/* Enhanced Action Buttons */}
+        <div className="flex items-center gap-3">
+          <Button 
+            variant="outline" 
+            className="bg-green-50 hover:bg-green-100 text-green-700 border-green-200"
+            onClick={() => openStockDialog('in')}
+          >
+            <ArrowUp className="mr-2 h-4 w-4" />
+            Stock In
+          </Button>
+          
+          <Button 
+            variant="outline" 
+            className="bg-red-50 hover:bg-red-100 text-red-700 border-red-200"
+            onClick={() => openStockDialog('out')}
+          >
+            <ArrowDown className="mr-2 h-4 w-4" />
+            Stock Out
+          </Button>
+          
+          <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
+            <DialogTrigger asChild>
+              <Button>
+                <Plus className="mr-2 h-4 w-4" />
+                Add Product
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-2xl" onPointerDownOutside={(e) => e.preventDefault()} onEscapeKeyDown={(e) => e.preventDefault()}>
+              <DialogHeader>
+                <DialogTitle>Add New Product</DialogTitle>
+                <DialogDescription>
+                  Create a new product in your inventory system.
+                </DialogDescription>
+              </DialogHeader>
+              <div className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="name">Product Name *</Label>
+                    <Input
+                      id="name"
+                      placeholder="iPhone 15 Pro"
+                      value={newProduct.name}
+                      onChange={(e) => setNewProduct({...newProduct, name: e.target.value})}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="sku">SKU *</Label>
+                    <Input
+                      id="sku"
+                      placeholder="APL-IP15P-128"
+                      value={newProduct.sku}
+                      onChange={(e) => setNewProduct({...newProduct, sku: e.target.value})}
+                    />
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="category">Category *</Label>
+                    <Select 
+                      value={newProduct.category} 
+                      onValueChange={(value) => setNewProduct({...newProduct, category: value})}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select category" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="Smartphones">Smartphones</SelectItem>
+                        <SelectItem value="Laptops">Laptops</SelectItem>
+                        <SelectItem value="Tablets">Tablets</SelectItem>
+                        <SelectItem value="Accessories">Accessories</SelectItem>
+                        <SelectItem value="Footwear">Footwear</SelectItem>
+                        <SelectItem value="Clothing">Clothing</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="brand">Brand</Label>
+                    <Input
+                      id="brand"
+                      placeholder="Apple"
+                      value={newProduct.brand}
+                      onChange={(e) => setNewProduct({...newProduct, brand: e.target.value})}
+                    />
+                  </div>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="sku">SKU *</Label>
-                  <Input
-                    id="sku"
-                    placeholder="APL-IP15P-128"
-                    value={newProduct.sku}
-                    onChange={(e) => setNewProduct({...newProduct, sku: e.target.value})}
+                  <Label htmlFor="description">Description</Label>
+                  <Textarea
+                    id="description"
+                    placeholder="Product description"
+                    value={newProduct.description}
+                    onChange={(e) => setNewProduct({...newProduct, description: e.target.value})}
                   />
+                </div>
+                <div className="grid grid-cols-3 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="quantity">Initial Quantity</Label>
+                    <Input
+                      id="quantity"
+                      type="number"
+                      min="0"
+                      value={newProduct.quantity}
+                      onChange={(e) => setNewProduct({...newProduct, quantity: parseInt(e.target.value) || 0})}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="minStock">Min Stock</Label>
+                    <Input
+                      id="minStock"
+                      type="number"
+                      min="0"
+                      value={newProduct.minStock}
+                      onChange={(e) => setNewProduct({...newProduct, minStock: parseInt(e.target.value) || 0})}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="maxStock">Max Stock</Label>
+                    <Input
+                      id="maxStock"
+                      type="number"
+                      min="0"
+                      value={newProduct.maxStock}
+                      onChange={(e) => setNewProduct({...newProduct, maxStock: parseInt(e.target.value) || 0})}
+                    />
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="costPrice">Cost Price ($)</Label>
+                    <Input
+                      id="costPrice"
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      value={newProduct.costPrice}
+                      onChange={(e) => setNewProduct({...newProduct, costPrice: parseFloat(e.target.value) || 0})}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="sellingPrice">Selling Price ($)</Label>
+                    <Input
+                      id="sellingPrice"
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      value={newProduct.sellingPrice}
+                      onChange={(e) => setNewProduct({...newProduct, sellingPrice: parseFloat(e.target.value) || 0})}
+                    />
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="supplier">Supplier</Label>
+                    <Input
+                      id="supplier"
+                      placeholder="Apple Inc."
+                      value={newProduct.supplier}
+                      onChange={(e) => setNewProduct({...newProduct, supplier: e.target.value})}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="location">Location</Label>
+                    <Input
+                      id="location"
+                      placeholder="A1-B2"
+                      value={newProduct.location}
+                      onChange={(e) => setNewProduct({...newProduct, location: e.target.value})}
+                    />
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <Button className="flex-1" onClick={addProduct}>
+                    Add Product
+                  </Button>
+                  <Button variant="outline" onClick={() => setIsAddDialogOpen(false)}>
+                    Cancel
+                  </Button>
                 </div>
               </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="category">Category *</Label>
-                  <Select 
-                    value={newProduct.category} 
-                    onValueChange={(value) => setNewProduct({...newProduct, category: value})}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select category" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="Smartphones">Smartphones</SelectItem>
-                      <SelectItem value="Laptops">Laptops</SelectItem>
-                      <SelectItem value="Tablets">Tablets</SelectItem>
-                      <SelectItem value="Accessories">Accessories</SelectItem>
-                      <SelectItem value="Footwear">Footwear</SelectItem>
-                      <SelectItem value="Clothing">Clothing</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="brand">Brand</Label>
-                  <Input
-                    id="brand"
-                    placeholder="Apple"
-                    value={newProduct.brand}
-                    onChange={(e) => setNewProduct({...newProduct, brand: e.target.value})}
-                  />
-                </div>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="description">Description</Label>
-                <Textarea
-                  id="description"
-                  placeholder="Product description"
-                  value={newProduct.description}
-                  onChange={(e) => setNewProduct({...newProduct, description: e.target.value})}
-                />
-              </div>
-              <div className="grid grid-cols-3 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="quantity">Initial Quantity</Label>
-                  <Input
-                    id="quantity"
-                    type="number"
-                    min="0"
-                    value={newProduct.quantity}
-                    onChange={(e) => setNewProduct({...newProduct, quantity: parseInt(e.target.value) || 0})}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="minStock">Min Stock</Label>
-                  <Input
-                    id="minStock"
-                    type="number"
-                    min="0"
-                    value={newProduct.minStock}
-                    onChange={(e) => setNewProduct({...newProduct, minStock: parseInt(e.target.value) || 0})}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="maxStock">Max Stock</Label>
-                  <Input
-                    id="maxStock"
-                    type="number"
-                    min="0"
-                    value={newProduct.maxStock}
-                    onChange={(e) => setNewProduct({...newProduct, maxStock: parseInt(e.target.value) || 0})}
-                  />
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="costPrice">Cost Price ($)</Label>
-                  <Input
-                    id="costPrice"
-                    type="number"
-                    min="0"
-                    step="0.01"
-                    value={newProduct.costPrice}
-                    onChange={(e) => setNewProduct({...newProduct, costPrice: parseFloat(e.target.value) || 0})}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="sellingPrice">Selling Price ($)</Label>
-                  <Input
-                    id="sellingPrice"
-                    type="number"
-                    min="0"
-                    step="0.01"
-                    value={newProduct.sellingPrice}
-                    onChange={(e) => setNewProduct({...newProduct, sellingPrice: parseFloat(e.target.value) || 0})}
-                  />
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="supplier">Supplier</Label>
-                  <Input
-                    id="supplier"
-                    placeholder="Apple Inc."
-                    value={newProduct.supplier}
-                    onChange={(e) => setNewProduct({...newProduct, supplier: e.target.value})}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="location">Location</Label>
-                  <Input
-                    id="location"
-                    placeholder="A1-B2"
-                    value={newProduct.location}
-                    onChange={(e) => setNewProduct({...newProduct, location: e.target.value})}
-                  />
-                </div>
-              </div>
-              <div className="flex gap-2">
-                <Button className="flex-1" onClick={addProduct}>
-                  Add Product
-                </Button>
-                <Button variant="outline" onClick={() => setIsAddDialogOpen(false)}>
-                  Cancel
-                </Button>
-              </div>
-            </div>
-          </DialogContent>
-        </Dialog>
+            </DialogContent>
+          </Dialog>
+        </div>
       </div>
+
+      {/* Product Selection Dialog */}
+      <Dialog open={isProductSelectionOpen} onOpenChange={setIsProductSelectionOpen}>
+        <DialogContent className="max-w-md" onPointerDownOutside={(e) => e.preventDefault()} onEscapeKeyDown={(e) => e.preventDefault()}>
+          <DialogHeader>
+            <DialogTitle>Select Product for Stock {stockActionType === 'in' ? 'In' : 'Out'}</DialogTitle>
+            <DialogDescription>Choose a product to {stockActionType === 'in' ? 'add' : 'remove'} stock</DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="relative">
+              <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Search products..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-8"
+              />
+            </div>
+            <div className="max-h-60 overflow-y-auto space-y-2">
+              {filteredProducts
+                .filter(p => stockActionType === 'out' ? p.quantity > 0 : true)
+                .map((product) => (
+                <Button
+                  key={product.id}
+                  variant="outline"
+                  className="w-full justify-start h-auto p-3 text-left"
+                  onClick={() => selectProductForStock(product)}
+                >
+                  <div className="flex-1">
+                    <div className="font-medium">{product.name}</div>
+                    <div className="text-sm text-muted-foreground">
+                      {product.sku} • Current stock: {product.quantity}
+                    </div>
+                  </div>
+                </Button>
+              ))}
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
 
       {/* Summary Cards */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -940,6 +1085,32 @@ export default function Warehouse() {
                             }}
                           >
                             <Eye className="h-4 w-4" />
+                          </Button>
+                          <Button 
+                            variant="outline" 
+                            size="sm"
+                            onClick={() => {
+                              setEditingProduct(product);
+                              setNewProduct({
+                                name: product.name,
+                                category: product.category,
+                                brand: product.brand,
+                                sku: product.sku,
+                                description: product.description,
+                                quantity: product.quantity,
+                                minStock: product.minStock,
+                                maxStock: product.maxStock,
+                                costPrice: product.costPrice,
+                                sellingPrice: product.sellingPrice,
+                                supplier: product.supplier,
+                                location: product.location,
+                                tags: product.tags,
+                                status: product.status
+                              });
+                              setIsEditDialogOpen(true);
+                            }}
+                          >
+                            <Edit className="h-4 w-4" />
                           </Button>
                           <Button 
                             variant="outline" 
@@ -1116,9 +1287,169 @@ export default function Warehouse() {
         </TabsContent>
       </Tabs>
 
+      {/* Edit Product Dialog */}
+      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+        <DialogContent className="max-w-2xl" onPointerDownOutside={(e) => e.preventDefault()} onEscapeKeyDown={(e) => e.preventDefault()}>
+          <DialogHeader>
+            <DialogTitle>Edit Product</DialogTitle>
+            <DialogDescription>
+              Update product information in your inventory system.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="editName">Product Name *</Label>
+                <Input
+                  id="editName"
+                  placeholder="iPhone 15 Pro"
+                  value={newProduct.name}
+                  onChange={(e) => setNewProduct({...newProduct, name: e.target.value})}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="editSku">SKU *</Label>
+                <Input
+                  id="editSku"
+                  placeholder="APL-IP15P-128"
+                  value={newProduct.sku}
+                  onChange={(e) => setNewProduct({...newProduct, sku: e.target.value})}
+                />
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="editCategory">Category *</Label>
+                <Select 
+                  value={newProduct.category} 
+                  onValueChange={(value) => setNewProduct({...newProduct, category: value})}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Smartphones">Smartphones</SelectItem>
+                    <SelectItem value="Laptops">Laptops</SelectItem>
+                    <SelectItem value="Tablets">Tablets</SelectItem>
+                    <SelectItem value="Accessories">Accessories</SelectItem>
+                    <SelectItem value="Footwear">Footwear</SelectItem>
+                    <SelectItem value="Clothing">Clothing</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="editBrand">Brand</Label>
+                <Input
+                  id="editBrand"
+                  placeholder="Apple"
+                  value={newProduct.brand}
+                  onChange={(e) => setNewProduct({...newProduct, brand: e.target.value})}
+                />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="editDescription">Description</Label>
+              <Textarea
+                id="editDescription"
+                placeholder="Product description"
+                value={newProduct.description}
+                onChange={(e) => setNewProduct({...newProduct, description: e.target.value})}
+              />
+            </div>
+            <div className="grid grid-cols-3 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="editQuantity">Quantity</Label>
+                <Input
+                  id="editQuantity"
+                  type="number"
+                  min="0"
+                  value={newProduct.quantity}
+                  onChange={(e) => setNewProduct({...newProduct, quantity: parseInt(e.target.value) || 0})}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="editMinStock">Min Stock</Label>
+                <Input
+                  id="editMinStock"
+                  type="number"
+                  min="0"
+                  value={newProduct.minStock}
+                  onChange={(e) => setNewProduct({...newProduct, minStock: parseInt(e.target.value) || 0})}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="editMaxStock">Max Stock</Label>
+                <Input
+                  id="editMaxStock"
+                  type="number"
+                  min="0"
+                  value={newProduct.maxStock}
+                  onChange={(e) => setNewProduct({...newProduct, maxStock: parseInt(e.target.value) || 0})}
+                />
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="editCostPrice">Cost Price ($)</Label>
+                <Input
+                  id="editCostPrice"
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  value={newProduct.costPrice}
+                  onChange={(e) => setNewProduct({...newProduct, costPrice: parseFloat(e.target.value) || 0})}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="editSellingPrice">Selling Price ($)</Label>
+                <Input
+                  id="editSellingPrice"
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  value={newProduct.sellingPrice}
+                  onChange={(e) => setNewProduct({...newProduct, sellingPrice: parseFloat(e.target.value) || 0})}
+                />
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="editSupplier">Supplier</Label>
+                <Input
+                  id="editSupplier"
+                  placeholder="Apple Inc."
+                  value={newProduct.supplier}
+                  onChange={(e) => setNewProduct({...newProduct, supplier: e.target.value})}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="editLocation">Location</Label>
+                <Input
+                  id="editLocation"
+                  placeholder="A1-B2"
+                  value={newProduct.location}
+                  onChange={(e) => setNewProduct({...newProduct, location: e.target.value})}
+                />
+              </div>
+            </div>
+            <div className="flex gap-2">
+              <Button className="flex-1" onClick={editProduct}>
+                Update Product
+              </Button>
+              <Button variant="outline" onClick={() => {
+                setIsEditDialogOpen(false);
+                setEditingProduct(null);
+              }}>
+                Cancel
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
       {/* Stock In Dialog */}
       <Dialog open={isStockInDialogOpen} onOpenChange={setIsStockInDialogOpen}>
-        <DialogContent className="max-w-md">
+        <DialogContent className="max-w-md" onPointerDownOutside={(e) => e.preventDefault()} onEscapeKeyDown={(e) => e.preventDefault()}>
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <ArrowUp className="h-5 w-5 text-green-600" />
@@ -1193,7 +1524,7 @@ export default function Warehouse() {
 
       {/* Stock Out Dialog */}
       <Dialog open={isStockOutDialogOpen} onOpenChange={setIsStockOutDialogOpen}>
-        <DialogContent className="max-w-md">
+        <DialogContent className="max-w-md" onPointerDownOutside={(e) => e.preventDefault()} onEscapeKeyDown={(e) => e.preventDefault()}>
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <ArrowDown className="h-5 w-5 text-red-600" />
@@ -1273,7 +1604,7 @@ export default function Warehouse() {
 
       {/* View Product Dialog */}
       <Dialog open={isViewDialogOpen} onOpenChange={setIsViewDialogOpen}>
-        <DialogContent className="max-w-2xl">
+        <DialogContent className="max-w-2xl" onPointerDownOutside={(e) => e.preventDefault()} onEscapeKeyDown={(e) => e.preventDefault()}>
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <Package className="h-5 w-5" />
