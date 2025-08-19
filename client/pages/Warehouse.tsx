@@ -1585,6 +1585,7 @@ export default function Warehouse() {
                     <SelectItem value="delete">Deleted</SelectItem>
                     <SelectItem value="stock_in">Stock In</SelectItem>
                     <SelectItem value="stock_out">Stock Out</SelectItem>
+                    <SelectItem value="transfer">Transfers</SelectItem>
                     <SelectItem value="adjustment">Adjustments</SelectItem>
                   </SelectContent>
                 </Select>
@@ -1598,6 +1599,8 @@ export default function Warehouse() {
                     <TableHead>Action</TableHead>
                     <TableHead>Entity</TableHead>
                     <TableHead>Description</TableHead>
+                    <TableHead>Store/Details</TableHead>
+                    <TableHead>Reference</TableHead>
                     <TableHead>Performed By</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -1635,6 +1638,55 @@ export default function Warehouse() {
                       </TableCell>
                       <TableCell>
                         <div className="text-sm">{history.description}</div>
+                        {history.details?.notes && (
+                          <div className="text-xs text-muted-foreground mt-1">
+                            {history.details.notes}
+                          </div>
+                        )}
+                      </TableCell>
+                      <TableCell>
+                        <div className="text-sm">
+                          {/* Show store information for stock movements */}
+                          {(history.action === 'stock_in' || history.action === 'stock_out' || history.action === 'transfer' || history.action === 'adjustment') && (
+                            <div>
+                              {history.details?.storeName && (
+                                <div className="font-medium">{history.details.storeName}</div>
+                              )}
+                              {history.action === 'transfer' && history.details?.fromStore && history.details?.toStore && (
+                                <div className="text-xs text-muted-foreground">
+                                  {history.details.fromStore.name} → {history.details.toStore.name}
+                                </div>
+                              )}
+                              {history.details?.supplier && (
+                                <div className="text-xs text-muted-foreground">
+                                  Supplier: {history.details.supplier}
+                                </div>
+                              )}
+                              {history.details?.customer && (
+                                <div className="text-xs text-muted-foreground">
+                                  Customer: {history.details.customer}
+                                </div>
+                              )}
+                            </div>
+                          )}
+                          {/* Show product details for product operations */}
+                          {history.action === 'create' && history.details && (
+                            <div className="text-xs text-muted-foreground">
+                              Category: {history.details.category}
+                              {history.details.brand && ` | Brand: ${history.details.brand}`}
+                            </div>
+                          )}
+                          {history.action === 'edit' && history.details?.updatedFields && (
+                            <div className="text-xs text-muted-foreground">
+                              Updated fields available
+                            </div>
+                          )}
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="text-sm font-mono">
+                          {history.details?.reference || '—'}
+                        </div>
                       </TableCell>
                       <TableCell>
                         <div className="flex items-center gap-2">
