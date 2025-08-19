@@ -1457,9 +1457,10 @@ export default function Warehouse() {
                     <TableHead>Date & Time</TableHead>
                     <TableHead>Product</TableHead>
                     <TableHead>Type</TableHead>
+                    <TableHead>Store/Location</TableHead>
                     <TableHead>Quantity</TableHead>
-                    <TableHead>Reason</TableHead>
-                    <TableHead>Performed By</TableHead>
+                    <TableHead>Details</TableHead>
+                    <TableHead>Reference</TableHead>
                     <TableHead>Stock Change</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -1483,30 +1484,55 @@ export default function Warehouse() {
                         {getMovementTypeBadge(movement.type)}
                       </TableCell>
                       <TableCell>
+                        <div className="text-sm">
+                          <div className="font-medium">{movement.storeName}</div>
+                          {movement.type === "transfer" && movement.fromStore && movement.toStore && (
+                            <div className="text-xs text-muted-foreground">
+                              {movement.fromStore.name} → {movement.toStore.name}
+                            </div>
+                          )}
+                        </div>
+                      </TableCell>
+                      <TableCell>
                         <div
-                          className={`font-medium ${movement.type === "stock_in" ? "text-green-600" : movement.type === "stock_out" ? "text-red-600" : "text-orange-600"}`}
+                          className={`font-medium ${
+                            movement.type === "stock_in"
+                              ? "text-green-600"
+                              : movement.type === "stock_out"
+                                ? "text-red-600"
+                                : movement.type === "transfer"
+                                  ? "text-blue-600"
+                                  : "text-orange-600"
+                          }`}
                         >
                           {movement.type === "stock_in"
                             ? "+"
                             : movement.type === "stock_out"
                               ? "-"
-                              : ""}
+                              : movement.type === "transfer"
+                                ? "↔"
+                                : "±"}
                           {movement.quantity}
                         </div>
                       </TableCell>
                       <TableCell>
                         <div className="text-sm">{movement.reason}</div>
-                        {movement.notes && (
-                          <div className="text-xs text-muted-foreground">
-                            {movement.notes}
-                          </div>
-                        )}
+                        <div className="text-xs text-muted-foreground">
+                          {movement.supplier && `Supplier: ${movement.supplier}`}
+                          {movement.customer && `Customer: ${movement.customer}`}
+                          {movement.notes && ` | ${movement.notes}`}
+                        </div>
+                        <div className="text-xs text-muted-foreground">
+                          By: {movement.performedBy}
+                        </div>
                       </TableCell>
                       <TableCell>
-                        <div className="text-sm">{movement.performedBy}</div>
+                        <div className="text-sm font-mono">
+                          {movement.reference || "—"}
+                        </div>
                       </TableCell>
                       <TableCell>
-                        <div className="text-sm">
+                        <div className="text-sm font-mono">
                           {movement.previousQuantity} → {movement.newQuantity}
                         </div>
                       </TableCell>
