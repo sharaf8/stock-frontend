@@ -1347,7 +1347,8 @@ export default function Warehouse() {
                     <TableHead>Product</TableHead>
                     <TableHead>SKU</TableHead>
                     <TableHead>Category</TableHead>
-                    <TableHead>Stock</TableHead>
+                    <TableHead>Total Stock</TableHead>
+                    <TableHead>Store Locations</TableHead>
                     <TableHead>Status</TableHead>
                     <TableHead>Value</TableHead>
                     <TableHead>Actions</TableHead>
@@ -1372,6 +1373,25 @@ export default function Warehouse() {
                         <div className="font-medium">{product.quantity}</div>
                         <div className="text-xs text-muted-foreground">
                           Min: {product.minStock} | Max: {product.maxStock}
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="space-y-1">
+                          {product.stores.map((store) => (
+                            <div key={store.storeId} className="flex items-center justify-between text-xs">
+                              <span className="text-muted-foreground truncate max-w-[120px]">
+                                {store.storeName}
+                              </span>
+                              <span className="font-medium ml-2">
+                                {store.quantity}
+                              </span>
+                            </div>
+                          ))}
+                          {product.stores.length === 0 && (
+                            <div className="text-xs text-muted-foreground italic">
+                              No stock locations
+                            </div>
+                          )}
                         </div>
                       </TableCell>
                       <TableCell>{getStatusBadge(product.status)}</TableCell>
