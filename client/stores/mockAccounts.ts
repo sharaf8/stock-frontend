@@ -11,6 +11,8 @@ export interface MockUser {
   title: string;
   phone: string;
   location: string;
+  filialId: string;
+  filialName: string;
   joinDate: string;
   isActive: boolean;
   lastLogin: string;
@@ -29,6 +31,8 @@ export const mockUsers: MockUser[] = [
     title: 'Chief Technology Officer',
     phone: '+1 (555) 123-4567',
     location: 'San Francisco, CA',
+    filialId: 'store1',
+    filialName: 'Main Warehouse',
     joinDate: '2020-01-15',
     isActive: true,
     lastLogin: '2024-12-19T10:30:00Z',
@@ -48,6 +52,8 @@ export const mockUsers: MockUser[] = [
     title: 'Regional Sales Manager',
     phone: '+1 (555) 234-5678',
     location: 'Austin, TX',
+    filialId: 'store2',
+    filialName: 'Downtown Retail Store',
     joinDate: '2021-03-10',
     isActive: true,
     lastLogin: '2024-12-19T08:45:00Z',
@@ -67,6 +73,8 @@ export const mockUsers: MockUser[] = [
     title: 'Senior Account Specialist',
     phone: '+1 (555) 345-6789',
     location: 'Chicago, IL',
+    filialId: 'store2',
+    filialName: 'Downtown Retail Store',
     joinDate: '2022-07-20',
     isActive: true,
     lastLogin: '2024-12-19T09:15:00Z',
@@ -86,6 +94,8 @@ export const mockUsers: MockUser[] = [
     title: 'Financial Analyst',
     phone: '+1 (555) 456-7890',
     location: 'New York, NY',
+    filialId: 'store4',
+    filialName: 'Online Fulfillment Center',
     joinDate: '2023-09-05',
     isActive: true,
     lastLogin: '2024-12-19T07:30:00Z',
@@ -104,6 +114,8 @@ export const mockUsers: MockUser[] = [
     title: 'HR Operations Manager',
     phone: '+1 (555) 567-8901',
     location: 'Seattle, WA',
+    filialId: 'store1',
+    filialName: 'Main Warehouse',
     joinDate: '2020-11-12',
     isActive: true,
     lastLogin: '2024-12-19T11:00:00Z',
@@ -123,6 +135,8 @@ export const mockUsers: MockUser[] = [
     title: 'Operations Director',
     phone: '+1 (555) 678-9012',
     location: 'Denver, CO',
+    filialId: 'store1',
+    filialName: 'Main Warehouse',
     joinDate: '2019-06-18',
     isActive: true,
     lastLogin: '2024-12-19T09:45:00Z',
@@ -142,6 +156,8 @@ export const mockUsers: MockUser[] = [
     title: 'Digital Marketing Specialist',
     phone: '+1 (555) 789-0123',
     location: 'Los Angeles, CA',
+    filialId: 'store3',
+    filialName: 'North Branch',
     joinDate: '2023-02-14',
     isActive: true,
     lastLogin: '2024-12-19T10:15:00Z',
@@ -161,6 +177,8 @@ export const mockUsers: MockUser[] = [
     title: 'QA Coordinator',
     phone: '+1 (555) 890-1234',
     location: 'Portland, OR',
+    filialId: 'store3',
+    filialName: 'North Branch',
     joinDate: '2023-11-08',
     isActive: true,
     lastLogin: '2024-12-19T08:00:00Z',
