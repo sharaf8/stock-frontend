@@ -1,4 +1,20 @@
-import { Employee } from "@/pages/Employees";
+// Import Employee type (assuming it's defined in Employees page)
+interface Employee {
+  id: string;
+  employeeId: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone?: string;
+  department: string;
+  position?: string;
+  role: string;
+  status: 'active' | 'inactive' | 'terminated' | 'on_leave';
+  salary: number;
+  commission: number;
+  hireDate: string;
+  avatar?: string;
+}
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
