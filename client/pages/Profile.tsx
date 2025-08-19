@@ -115,7 +115,7 @@ export default function Profile() {
                   currentAvatar={user.avatar}
                   userName={user.name}
                   onAvatarUpdate={handleAvatarUpdate}
-                  size="xl"
+                  size="lg"
                 />
                 {/* Online status indicator */}
                 <div className="absolute bottom-2 right-2 w-4 h-4 bg-green-500 border-2 border-white rounded-full animate-pulse" />
