@@ -142,6 +142,33 @@ interface WarehouseHistory {
   details?: any;
 }
 
+const mockStores: Store[] = [
+  {
+    id: "store1",
+    name: "Main Warehouse",
+    location: "Central District, Building A",
+    type: "warehouse",
+  },
+  {
+    id: "store2",
+    name: "Downtown Retail Store",
+    location: "Downtown Mall, Unit 15",
+    type: "retail",
+  },
+  {
+    id: "store3",
+    name: "North Branch",
+    location: "North Plaza, Store 22",
+    type: "retail",
+  },
+  {
+    id: "store4",
+    name: "Online Fulfillment Center",
+    location: "Industrial Park, Zone C",
+    type: "online",
+  },
+];
+
 const mockProducts: Product[] = [
   {
     id: "1",
@@ -150,7 +177,12 @@ const mockProducts: Product[] = [
     brand: "Apple",
     sku: "APL-IP15P-128",
     description: "Latest iPhone model with advanced features",
-    quantity: 5,
+    quantity: 23,
+    stores: [
+      { storeId: "store1", storeName: "Main Warehouse", quantity: 15, location: "A1-B2" },
+      { storeId: "store2", storeName: "Downtown Retail Store", quantity: 5, location: "Display-01" },
+      { storeId: "store4", storeName: "Online Fulfillment Center", quantity: 3, location: "E-COM-A12" },
+    ],
     minStock: 10,
     maxStock: 50,
     costPrice: 799,
@@ -158,7 +190,7 @@ const mockProducts: Product[] = [
     supplier: "Apple Inc.",
     location: "A1-B2",
     expiryDate: "",
-    status: "low-stock",
+    status: "in-stock",
     tags: ["premium", "flagship"],
     createdAt: "2024-01-01",
     updatedAt: "2024-01-20",
@@ -170,7 +202,12 @@ const mockProducts: Product[] = [
     brand: "Samsung",
     sku: "SAM-GS24-256",
     description: "High-end Android smartphone",
-    quantity: 15,
+    quantity: 32,
+    stores: [
+      { storeId: "store1", storeName: "Main Warehouse", quantity: 20, location: "A1-B3" },
+      { storeId: "store2", storeName: "Downtown Retail Store", quantity: 8, location: "Display-02" },
+      { storeId: "store3", storeName: "North Branch", quantity: 4, location: "Display-A3" },
+    ],
     minStock: 10,
     maxStock: 40,
     costPrice: 699,
@@ -189,14 +226,17 @@ const mockProducts: Product[] = [
     brand: "Nike",
     sku: "NIK-AM90-42",
     description: "Comfortable running shoes",
-    quantity: 0,
+    quantity: 2,
+    stores: [
+      { storeId: "store3", storeName: "North Branch", quantity: 2, location: "Footwear-B1" },
+    ],
     minStock: 15,
     maxStock: 60,
     costPrice: 80,
     sellingPrice: 120,
     supplier: "Nike Distribution",
     location: "B2-C1",
-    status: "out-of-stock",
+    status: "low-stock",
     tags: ["sport", "casual"],
     createdAt: "2024-01-01",
     updatedAt: "2024-01-15",
@@ -208,7 +248,11 @@ const mockProducts: Product[] = [
     brand: "Apple",
     sku: "APL-MBA-M3-13",
     description: "Lightweight laptop with M3 chip",
-    quantity: 8,
+    quantity: 12,
+    stores: [
+      { storeId: "store1", storeName: "Main Warehouse", quantity: 8, location: "C1-D2" },
+      { storeId: "store4", storeName: "Online Fulfillment Center", quantity: 4, location: "E-COM-L05" },
+    ],
     minStock: 5,
     maxStock: 25,
     costPrice: 1099,
