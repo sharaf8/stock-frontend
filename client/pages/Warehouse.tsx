@@ -1138,22 +1138,7 @@ export default function Warehouse() {
                     }
                   />
                 </div>
-                <div className="grid grid-cols-3 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="quantity">Initial Quantity</Label>
-                    <Input
-                      id="quantity"
-                      type="number"
-                      min="0"
-                      value={newProduct.quantity}
-                      onChange={(e) =>
-                        setNewProduct({
-                          ...newProduct,
-                          quantity: parseInt(e.target.value) || 0,
-                        })
-                      }
-                    />
-                  </div>
+                <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="minStock">Min Stock</Label>
                     <Input
