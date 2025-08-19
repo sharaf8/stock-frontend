@@ -5,7 +5,7 @@ const originalConsoleWarn = console.warn;
 
 export const suppressDefaultPropsWarnings = () => {
   // Only apply in development mode
-  if (process.env.NODE_ENV !== 'development') {
+  if (process.env.NODE_ENV !== "development") {
     return;
   }
 
@@ -14,19 +14,21 @@ export const suppressDefaultPropsWarnings = () => {
 
     // Suppress specific defaultProps warnings from recharts components only
     if (
-      typeof message === 'string' &&
-      message.includes('Support for defaultProps will be removed from function components') &&
+      typeof message === "string" &&
+      message.includes(
+        "Support for defaultProps will be removed from function components",
+      ) &&
       // Check for recharts-specific components
-      (message.includes('XAxis') ||
-       message.includes('YAxis') ||
-       message.includes('CartesianGrid') ||
-       message.includes('Tooltip') ||
-       message.includes('Legend') ||
-       message.includes('Bar') ||
-       message.includes('Line') ||
-       message.includes('Pie') ||
-       message.includes('Cell') ||
-       message.includes('ResponsiveContainer'))
+      (message.includes("XAxis") ||
+        message.includes("YAxis") ||
+        message.includes("CartesianGrid") ||
+        message.includes("Tooltip") ||
+        message.includes("Legend") ||
+        message.includes("Bar") ||
+        message.includes("Line") ||
+        message.includes("Pie") ||
+        message.includes("Cell") ||
+        message.includes("ResponsiveContainer"))
     ) {
       // Suppress only recharts defaultProps warnings
       return;

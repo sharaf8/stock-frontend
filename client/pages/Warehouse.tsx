@@ -179,9 +179,24 @@ const mockProducts: Product[] = [
     description: "Latest iPhone model with advanced features",
     quantity: 23,
     stores: [
-      { storeId: "store1", storeName: "Main Warehouse", quantity: 15, location: "A1-B2" },
-      { storeId: "store2", storeName: "Downtown Retail Store", quantity: 5, location: "Display-01" },
-      { storeId: "store4", storeName: "Online Fulfillment Center", quantity: 3, location: "E-COM-A12" },
+      {
+        storeId: "store1",
+        storeName: "Main Warehouse",
+        quantity: 15,
+        location: "A1-B2",
+      },
+      {
+        storeId: "store2",
+        storeName: "Downtown Retail Store",
+        quantity: 5,
+        location: "Display-01",
+      },
+      {
+        storeId: "store4",
+        storeName: "Online Fulfillment Center",
+        quantity: 3,
+        location: "E-COM-A12",
+      },
     ],
     minStock: 10,
     maxStock: 50,
@@ -204,9 +219,24 @@ const mockProducts: Product[] = [
     description: "High-end Android smartphone",
     quantity: 32,
     stores: [
-      { storeId: "store1", storeName: "Main Warehouse", quantity: 20, location: "A1-B3" },
-      { storeId: "store2", storeName: "Downtown Retail Store", quantity: 8, location: "Display-02" },
-      { storeId: "store3", storeName: "North Branch", quantity: 4, location: "Display-A3" },
+      {
+        storeId: "store1",
+        storeName: "Main Warehouse",
+        quantity: 20,
+        location: "A1-B3",
+      },
+      {
+        storeId: "store2",
+        storeName: "Downtown Retail Store",
+        quantity: 8,
+        location: "Display-02",
+      },
+      {
+        storeId: "store3",
+        storeName: "North Branch",
+        quantity: 4,
+        location: "Display-A3",
+      },
     ],
     minStock: 10,
     maxStock: 40,
@@ -228,7 +258,12 @@ const mockProducts: Product[] = [
     description: "Comfortable running shoes",
     quantity: 2,
     stores: [
-      { storeId: "store3", storeName: "North Branch", quantity: 2, location: "Footwear-B1" },
+      {
+        storeId: "store3",
+        storeName: "North Branch",
+        quantity: 2,
+        location: "Footwear-B1",
+      },
     ],
     minStock: 15,
     maxStock: 60,
@@ -250,8 +285,18 @@ const mockProducts: Product[] = [
     description: "Lightweight laptop with M3 chip",
     quantity: 12,
     stores: [
-      { storeId: "store1", storeName: "Main Warehouse", quantity: 8, location: "C1-D2" },
-      { storeId: "store4", storeName: "Online Fulfillment Center", quantity: 4, location: "E-COM-L05" },
+      {
+        storeId: "store1",
+        storeName: "Main Warehouse",
+        quantity: 8,
+        location: "C1-D2",
+      },
+      {
+        storeId: "store4",
+        storeName: "Online Fulfillment Center",
+        quantity: 4,
+        location: "E-COM-L05",
+      },
     ],
     minStock: 5,
     maxStock: 25,
@@ -328,7 +373,7 @@ const mockWarehouseHistory: WarehouseHistory[] = [
       storeName: "Main Warehouse",
       supplier: "Apple Inc.",
       reference: "PO-2024-001",
-      notes: "Supplier delivery batch #123"
+      notes: "Supplier delivery batch #123",
     },
   },
   {
@@ -343,7 +388,7 @@ const mockWarehouseHistory: WarehouseHistory[] = [
     time: "15:20",
     details: {
       updatedFields: { price: { old: 849, new: 899 } },
-      reference: "UPD-2024-001"
+      reference: "UPD-2024-001",
     },
   },
   {
@@ -362,7 +407,7 @@ const mockWarehouseHistory: WarehouseHistory[] = [
       storeName: "Downtown Retail Store",
       customer: "John Doe",
       reference: "INV-2024-002",
-      notes: "In-store purchase"
+      notes: "In-store purchase",
     },
   },
   {
@@ -378,7 +423,7 @@ const mockWarehouseHistory: WarehouseHistory[] = [
     details: {
       category: "Laptops",
       brand: "Apple",
-      reference: "PROD-2024-004"
+      reference: "PROD-2024-004",
     },
   },
   {
@@ -396,7 +441,7 @@ const mockWarehouseHistory: WarehouseHistory[] = [
       reason: "Damaged items",
       storeName: "North Branch",
       reference: "ADJ-2024-003",
-      notes: "Found 2 damaged pairs during inspection"
+      notes: "Found 2 damaged pairs during inspection",
     },
   },
   {
@@ -416,7 +461,7 @@ const mockWarehouseHistory: WarehouseHistory[] = [
       fromStore: { name: "Main Warehouse", type: "warehouse" },
       toStore: { name: "Downtown Retail Store", type: "retail" },
       reference: "TRF-2024-001",
-      notes: "Transfer for display purposes"
+      notes: "Transfer for display purposes",
     },
   },
 ];
@@ -1431,7 +1476,10 @@ export default function Warehouse() {
                       <TableCell>
                         <div className="space-y-1">
                           {product.stores.map((store) => (
-                            <div key={store.storeId} className="flex items-center justify-between text-xs">
+                            <div
+                              key={store.storeId}
+                              className="flex items-center justify-between text-xs"
+                            >
                               <span className="text-muted-foreground truncate max-w-[120px]">
                                 {store.storeName}
                               </span>
@@ -1558,12 +1606,17 @@ export default function Warehouse() {
                       </TableCell>
                       <TableCell>
                         <div className="text-sm">
-                          <div className="font-medium">{movement.storeName}</div>
-                          {movement.type === "transfer" && movement.fromStore && movement.toStore && (
-                            <div className="text-xs text-muted-foreground">
-                              {movement.fromStore.name} → {movement.toStore.name}
-                            </div>
-                          )}
+                          <div className="font-medium">
+                            {movement.storeName}
+                          </div>
+                          {movement.type === "transfer" &&
+                            movement.fromStore &&
+                            movement.toStore && (
+                              <div className="text-xs text-muted-foreground">
+                                {movement.fromStore.name} →{" "}
+                                {movement.toStore.name}
+                              </div>
+                            )}
                         </div>
                       </TableCell>
                       <TableCell>
@@ -1591,8 +1644,10 @@ export default function Warehouse() {
                       <TableCell>
                         <div className="text-sm">{movement.reason}</div>
                         <div className="text-xs text-muted-foreground">
-                          {movement.supplier && `Supplier: ${movement.supplier}`}
-                          {movement.customer && `Customer: ${movement.customer}`}
+                          {movement.supplier &&
+                            `Supplier: ${movement.supplier}`}
+                          {movement.customer &&
+                            `Customer: ${movement.customer}`}
                           {movement.notes && ` | ${movement.notes}`}
                         </div>
                         <div className="text-xs text-muted-foreground">
@@ -1700,16 +1755,24 @@ export default function Warehouse() {
                       <TableCell>
                         <div className="text-sm">
                           {/* Show store information for stock movements */}
-                          {(history.action === 'stock_in' || history.action === 'stock_out' || history.action === 'transfer' || history.action === 'adjustment') && (
+                          {(history.action === "stock_in" ||
+                            history.action === "stock_out" ||
+                            history.action === "transfer" ||
+                            history.action === "adjustment") && (
                             <div>
                               {history.details?.storeName && (
-                                <div className="font-medium">{history.details.storeName}</div>
-                              )}
-                              {history.action === 'transfer' && history.details?.fromStore && history.details?.toStore && (
-                                <div className="text-xs text-muted-foreground">
-                                  {history.details.fromStore.name} → {history.details.toStore.name}
+                                <div className="font-medium">
+                                  {history.details.storeName}
                                 </div>
                               )}
+                              {history.action === "transfer" &&
+                                history.details?.fromStore &&
+                                history.details?.toStore && (
+                                  <div className="text-xs text-muted-foreground">
+                                    {history.details.fromStore.name} →{" "}
+                                    {history.details.toStore.name}
+                                  </div>
+                                )}
                               {history.details?.supplier && (
                                 <div className="text-xs text-muted-foreground">
                                   Supplier: {history.details.supplier}
@@ -1723,22 +1786,24 @@ export default function Warehouse() {
                             </div>
                           )}
                           {/* Show product details for product operations */}
-                          {history.action === 'create' && history.details && (
+                          {history.action === "create" && history.details && (
                             <div className="text-xs text-muted-foreground">
                               Category: {history.details.category}
-                              {history.details.brand && ` | Brand: ${history.details.brand}`}
+                              {history.details.brand &&
+                                ` | Brand: ${history.details.brand}`}
                             </div>
                           )}
-                          {history.action === 'edit' && history.details?.updatedFields && (
-                            <div className="text-xs text-muted-foreground">
-                              Updated fields available
-                            </div>
-                          )}
+                          {history.action === "edit" &&
+                            history.details?.updatedFields && (
+                              <div className="text-xs text-muted-foreground">
+                                Updated fields available
+                              </div>
+                            )}
                         </div>
                       </TableCell>
                       <TableCell>
                         <div className="text-sm font-mono">
-                          {history.details?.reference || '—'}
+                          {history.details?.reference || "—"}
                         </div>
                       </TableCell>
                       <TableCell>
@@ -2360,12 +2425,22 @@ export default function Warehouse() {
                 <div className="space-y-3">
                   {selectedProduct.stores.length > 0 ? (
                     selectedProduct.stores.map((store) => {
-                      const storeType = mockStores.find(s => s.id === store.storeId)?.type || 'unknown';
-                      const typeColor = storeType === 'warehouse' ? 'text-blue-600' :
-                                      storeType === 'retail' ? 'text-green-600' :
-                                      storeType === 'online' ? 'text-purple-600' : 'text-gray-600';
+                      const storeType =
+                        mockStores.find((s) => s.id === store.storeId)?.type ||
+                        "unknown";
+                      const typeColor =
+                        storeType === "warehouse"
+                          ? "text-blue-600"
+                          : storeType === "retail"
+                            ? "text-green-600"
+                            : storeType === "online"
+                              ? "text-purple-600"
+                              : "text-gray-600";
                       return (
-                        <div key={store.storeId} className="flex items-center justify-between p-3 bg-muted/50 rounded-md">
+                        <div
+                          key={store.storeId}
+                          className="flex items-center justify-between p-3 bg-muted/50 rounded-md"
+                        >
                           <div className="flex-1">
                             <div className="font-medium">{store.storeName}</div>
                             <div className="text-sm text-muted-foreground">
@@ -2376,12 +2451,17 @@ export default function Warehouse() {
                             </div>
                           </div>
                           <div className="text-right">
-                            <div className="text-lg font-bold">{store.quantity}</div>
+                            <div className="text-lg font-bold">
+                              {store.quantity}
+                            </div>
                             <div className="text-xs text-muted-foreground">
-                              {selectedProduct.quantity > 0 ?
-                                ((store.quantity / selectedProduct.quantity) * 100).toFixed(1) + '%' :
-                                '0%'
-                              }
+                              {selectedProduct.quantity > 0
+                                ? (
+                                    (store.quantity /
+                                      selectedProduct.quantity) *
+                                    100
+                                  ).toFixed(1) + "%"
+                                : "0%"}
                             </div>
                           </div>
                         </div>
