@@ -2230,7 +2230,7 @@ export default function Warehouse() {
               <div className="grid grid-cols-3 gap-4 border rounded-lg p-4">
                 <div>
                   <div className="text-sm text-muted-foreground">
-                    Current Stock
+                    Total Stock
                   </div>
                   <div className="text-2xl font-bold">
                     {selectedProduct.quantity}
@@ -2243,6 +2243,50 @@ export default function Warehouse() {
                 <div>
                   <div className="text-sm text-muted-foreground">Max Stock</div>
                   <div className="text-lg">{selectedProduct.maxStock}</div>
+                </div>
+              </div>
+
+              {/* Store Locations Breakdown */}
+              <div className="border rounded-lg p-4">
+                <div className="text-sm text-muted-foreground mb-3 flex items-center gap-2">
+                  <Package2 className="h-4 w-4" />
+                  Stock Distribution Across Stores
+                </div>
+                <div className="space-y-3">
+                  {selectedProduct.stores.length > 0 ? (
+                    selectedProduct.stores.map((store) => {
+                      const storeType = mockStores.find(s => s.id === store.storeId)?.type || 'unknown';
+                      const typeColor = storeType === 'warehouse' ? 'text-blue-600' :
+                                      storeType === 'retail' ? 'text-green-600' :
+                                      storeType === 'online' ? 'text-purple-600' : 'text-gray-600';
+                      return (
+                        <div key={store.storeId} className="flex items-center justify-between p-3 bg-muted/50 rounded-md">
+                          <div className="flex-1">
+                            <div className="font-medium">{store.storeName}</div>
+                            <div className="text-sm text-muted-foreground">
+                              Location: {store.location}
+                            </div>
+                            <div className={`text-xs capitalize ${typeColor}`}>
+                              {storeType}
+                            </div>
+                          </div>
+                          <div className="text-right">
+                            <div className="text-lg font-bold">{store.quantity}</div>
+                            <div className="text-xs text-muted-foreground">
+                              {selectedProduct.quantity > 0 ?
+                                ((store.quantity / selectedProduct.quantity) * 100).toFixed(1) + '%' :
+                                '0%'
+                              }
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })
+                  ) : (
+                    <div className="text-center text-muted-foreground italic py-4">
+                      No stock distribution data available
+                    </div>
+                  )}
                 </div>
               </div>
 
