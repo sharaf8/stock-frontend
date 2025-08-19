@@ -822,7 +822,8 @@ export default function Warehouse() {
       brand: newProduct.brand || "",
       sku: newProduct.sku!,
       description: newProduct.description || "",
-      quantity: newProduct.quantity || 0,
+      quantity: 0,
+      stores: [],
       minStock: newProduct.minStock || 0,
       maxStock: newProduct.maxStock || 0,
       costPrice: newProduct.costPrice || 0,
@@ -831,7 +832,7 @@ export default function Warehouse() {
       location: newProduct.location || "",
       tags: newProduct.tags || [],
       status: calculateStatus(
-        newProduct.quantity || 0,
+        0,
         newProduct.minStock || 0,
       ),
       createdAt: new Date().toISOString().split("T")[0],
