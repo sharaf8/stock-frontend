@@ -302,6 +302,7 @@ export default function Warehouse() {
   const [stockQuantity, setStockQuantity] = useState(0);
   const [stockReason, setStockReason] = useState("");
   const [stockNotes, setStockNotes] = useState("");
+  const [stockLocation, setStockLocation] = useState("");
   const [newProduct, setNewProduct] = useState<Partial<Product>>({
     name: "",
     category: "",
@@ -425,10 +426,10 @@ export default function Warehouse() {
   };
 
   const handleStockIn = () => {
-    if (!selectedProduct || stockQuantity <= 0 || !stockReason.trim()) {
+    if (!selectedProduct || stockQuantity <= 0 || !stockReason.trim() || !stockLocation.trim()) {
       toast({
         title: "Error",
-        description: "Please fill in all required fields",
+        description: "Please fill in all required fields (Quantity, Reason, Location)",
         variant: "destructive",
       });
       return;
@@ -448,7 +449,7 @@ export default function Warehouse() {
     });
 
     setProducts(updatedProducts);
-    addStockMovement(selectedProduct.id, 'stock_in', stockQuantity, stockReason, stockNotes);
+    addStockMovement(selectedProduct.id, 'stock_in', stockQuantity, stockReason, stockNotes + (stockLocation ? ` (Location: ${stockLocation})` : ''));
 
     toast({
       title: "Stock Added",
@@ -458,6 +459,7 @@ export default function Warehouse() {
     setStockQuantity(0);
     setStockReason("");
     setStockNotes("");
+    setStockLocation("");
     setIsStockInDialogOpen(false);
     setSelectedProduct(null);
   };
@@ -701,26 +703,8 @@ export default function Warehouse() {
           <p className="text-muted-foreground">Manage inventory, stock movements, and track warehouse activities</p>
         </div>
         
-        {/* Enhanced Action Buttons */}
+        {/* Action Buttons */}
         <div className="flex items-center gap-3">
-          <Button 
-            variant="outline" 
-            className="bg-green-50 hover:bg-green-100 text-green-700 border-green-200"
-            onClick={() => openStockDialog('in')}
-          >
-            <ArrowUp className="mr-2 h-4 w-4" />
-            Stock In
-          </Button>
-          
-          <Button 
-            variant="outline" 
-            className="bg-red-50 hover:bg-red-100 text-red-700 border-red-200"
-            onClick={() => openStockDialog('out')}
-          >
-            <ArrowDown className="mr-2 h-4 w-4" />
-            Stock Out
-          </Button>
-          
           <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
             <DialogTrigger asChild>
               <Button>
@@ -1471,21 +1455,42 @@ export default function Warehouse() {
                 placeholder="Enter quantity"
               />
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="stockInReason">Reason *</Label>
-              <Select value={stockReason} onValueChange={setStockReason}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select reason" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="New shipment received">New shipment received</SelectItem>
-                  <SelectItem value="Supplier delivery">Supplier delivery</SelectItem>
-                  <SelectItem value="Return from customer">Return from customer</SelectItem>
-                  <SelectItem value="Transfer from another location">Transfer from another location</SelectItem>
-                  <SelectItem value="Production completed">Production completed</SelectItem>
-                  <SelectItem value="Other">Other</SelectItem>
-                </SelectContent>
-              </Select>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="stockInReason">Reason *</Label>
+                <Select value={stockReason} onValueChange={setStockReason}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select reason" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="New shipment received">New shipment received</SelectItem>
+                    <SelectItem value="Supplier delivery">Supplier delivery</SelectItem>
+                    <SelectItem value="Return from customer">Return from customer</SelectItem>
+                    <SelectItem value="Transfer from another location">Transfer from another location</SelectItem>
+                    <SelectItem value="Production completed">Production completed</SelectItem>
+                    <SelectItem value="Other">Other</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="stockInLocation">Location/Magazine *</Label>
+                <Select value={stockLocation} onValueChange={setStockLocation}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select location" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Main Warehouse">Main Warehouse</SelectItem>
+                    <SelectItem value="Magazine A">Magazine A</SelectItem>
+                    <SelectItem value="Magazine B">Magazine B</SelectItem>
+                    <SelectItem value="Magazine C">Magazine C</SelectItem>
+                    <SelectItem value="Storage Room 1">Storage Room 1</SelectItem>
+                    <SelectItem value="Storage Room 2">Storage Room 2</SelectItem>
+                    <SelectItem value="Cold Storage">Cold Storage</SelectItem>
+                    <SelectItem value="Loading Dock">Loading Dock</SelectItem>
+                    <SelectItem value="Other">Other</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
             <div className="space-y-2">
               <Label htmlFor="stockInNotes">Notes (Optional)</Label>
@@ -1513,6 +1518,7 @@ export default function Warehouse() {
                 setStockQuantity(0);
                 setStockReason("");
                 setStockNotes("");
+                setStockLocation("");
                 setSelectedProduct(null);
               }}>
                 Cancel
