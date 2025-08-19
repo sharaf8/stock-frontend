@@ -322,7 +322,14 @@ const mockWarehouseHistory: WarehouseHistory[] = [
     performedBy: "John Smith",
     date: "2024-01-20",
     time: "14:30",
-    details: { quantity: 20, reason: "New shipment received" },
+    details: {
+      quantity: 20,
+      reason: "New shipment received",
+      storeName: "Main Warehouse",
+      supplier: "Apple Inc.",
+      reference: "PO-2024-001",
+      notes: "Supplier delivery batch #123"
+    },
   },
   {
     id: "2",
@@ -334,7 +341,10 @@ const mockWarehouseHistory: WarehouseHistory[] = [
     performedBy: "Admin",
     date: "2024-01-19",
     time: "15:20",
-    details: { field: "price", oldValue: 849, newValue: 899 },
+    details: {
+      updatedFields: { price: { old: 849, new: 899 } },
+      reference: "UPD-2024-001"
+    },
   },
   {
     id: "3",
@@ -342,11 +352,18 @@ const mockWarehouseHistory: WarehouseHistory[] = [
     entityType: "stock",
     entityId: "2",
     entityName: "Samsung Galaxy S24",
-    description: "Removed 5 units - Sale to customer",
+    description: "Removed 3 units - Customer sale",
     performedBy: "Sarah Johnson",
     date: "2024-01-19",
     time: "11:15",
-    details: { quantity: 5, reason: "Sale to customer" },
+    details: {
+      quantity: 3,
+      reason: "Customer sale",
+      storeName: "Downtown Retail Store",
+      customer: "John Doe",
+      reference: "INV-2024-002",
+      notes: "In-store purchase"
+    },
   },
   {
     id: "4",
@@ -358,7 +375,11 @@ const mockWarehouseHistory: WarehouseHistory[] = [
     performedBy: "Admin",
     date: "2024-01-18",
     time: "10:30",
-    details: { category: "Laptops", brand: "Apple" },
+    details: {
+      category: "Laptops",
+      brand: "Apple",
+      reference: "PROD-2024-004"
+    },
   },
   {
     id: "5",
@@ -370,7 +391,33 @@ const mockWarehouseHistory: WarehouseHistory[] = [
     performedBy: "Mike Chen",
     date: "2024-01-18",
     time: "16:45",
-    details: { quantity: -2, reason: "Damaged items" },
+    details: {
+      quantity: -2,
+      reason: "Damaged items",
+      storeName: "North Branch",
+      reference: "ADJ-2024-003",
+      notes: "Found 2 damaged pairs during inspection"
+    },
+  },
+  {
+    id: "6",
+    action: "transfer",
+    entityType: "stock",
+    entityId: "1",
+    entityName: "iPhone 15 Pro",
+    description: "Transferred 2 units between stores",
+    performedBy: "Admin",
+    date: "2024-01-17",
+    time: "09:30",
+    details: {
+      quantity: 2,
+      reason: "Store transfer",
+      storeName: "Main Warehouse",
+      fromStore: { name: "Main Warehouse", type: "warehouse" },
+      toStore: { name: "Downtown Retail Store", type: "retail" },
+      reference: "TRF-2024-001",
+      notes: "Transfer for display purposes"
+    },
   },
 ];
 
@@ -582,7 +629,13 @@ export default function Warehouse() {
         hour: "2-digit",
         minute: "2-digit",
       }),
-      details: { quantity, reason, notes },
+      details: {
+        quantity,
+        reason,
+        notes,
+        storeName: "Main Warehouse", // This would be dynamic based on selected store
+        reference: `${type.toUpperCase()}-${Date.now()}`,
+      },
     };
 
     setWarehouseHistory([historyEntry, ...warehouseHistory]);
