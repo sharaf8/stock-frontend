@@ -2341,7 +2341,7 @@ export default function Warehouse() {
       {/* View Product Dialog */}
       <Dialog open={isViewDialogOpen} onOpenChange={setIsViewDialogOpen}>
         <DialogContent
-          className="max-w-2xl"
+          className="max-w-xl max-h-[85vh] overflow-y-auto"
           onPointerDownOutside={(e) => e.preventDefault()}
           onEscapeKeyDown={(e) => e.preventDefault()}
         >
@@ -2355,51 +2355,51 @@ export default function Warehouse() {
             </DialogDescription>
           </DialogHeader>
           {selectedProduct && (
-            <div className="space-y-6">
-              <div className="grid grid-cols-2 gap-6">
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <div className="text-sm text-muted-foreground">SKU</div>
-                  <div className="font-mono">{selectedProduct.sku}</div>
+                  <div className="text-xs text-muted-foreground">SKU</div>
+                  <div className="font-mono text-sm">{selectedProduct.sku}</div>
                 </div>
                 <div>
-                  <div className="text-sm text-muted-foreground">Category</div>
-                  <div>{selectedProduct.category}</div>
-                </div>
-              </div>
-
-              <div>
-                <div className="text-sm text-muted-foreground">Description</div>
-                <div>
-                  {selectedProduct.description || "No description available"}
+                  <div className="text-xs text-muted-foreground">Category</div>
+                  <div className="text-sm">{selectedProduct.category}</div>
                 </div>
               </div>
 
-              <div className="grid grid-cols-3 gap-4 border rounded-lg p-4">
+              {selectedProduct.description && (
                 <div>
-                  <div className="text-sm text-muted-foreground">
-                    Total Stock
+                  <div className="text-xs text-muted-foreground">Description</div>
+                  <div className="text-sm">
+                    {selectedProduct.description}
                   </div>
-                  <div className="text-2xl font-bold">
+                </div>
+              )}
+
+              <div className="grid grid-cols-3 gap-3 bg-muted/30 rounded-lg p-3">
+                <div className="text-center">
+                  <div className="text-xs text-muted-foreground">Total Stock</div>
+                  <div className="text-xl font-bold text-primary">
                     {selectedProduct.quantity}
                   </div>
                 </div>
-                <div>
-                  <div className="text-sm text-muted-foreground">Min Stock</div>
-                  <div className="text-lg">{selectedProduct.minStock}</div>
+                <div className="text-center">
+                  <div className="text-xs text-muted-foreground">Min Stock</div>
+                  <div className="text-sm font-medium">{selectedProduct.minStock}</div>
                 </div>
-                <div>
-                  <div className="text-sm text-muted-foreground">Max Stock</div>
-                  <div className="text-lg">{selectedProduct.maxStock}</div>
+                <div className="text-center">
+                  <div className="text-xs text-muted-foreground">Max Stock</div>
+                  <div className="text-sm font-medium">{selectedProduct.maxStock}</div>
                 </div>
               </div>
 
               {/* Store Locations Breakdown */}
-              <div className="border rounded-lg p-4">
-                <div className="text-sm text-muted-foreground mb-3 flex items-center gap-2">
-                  <Package2 className="h-4 w-4" />
-                  Stock Distribution Across Stores
+              <div className="bg-muted/30 rounded-lg p-3">
+                <div className="text-xs text-muted-foreground mb-2 flex items-center gap-1">
+                  <Package2 className="h-3 w-3" />
+                  Store Distribution
                 </div>
-                <div className="space-y-3">
+                <div className="space-y-2">
                   {selectedProduct.stores.length > 0 ? (
                     selectedProduct.stores.map((store) => {
                       const storeType =
@@ -2416,29 +2416,20 @@ export default function Warehouse() {
                       return (
                         <div
                           key={store.storeId}
-                          className="flex items-center justify-between p-3 bg-muted/50 rounded-md"
+                          className="flex items-center justify-between py-2 px-2 bg-background/80 rounded-sm"
                         >
-                          <div className="flex-1">
-                            <div className="font-medium">{store.storeName}</div>
-                            <div className="text-sm text-muted-foreground">
-                              Location: {store.location}
-                            </div>
-                            <div className={`text-xs capitalize ${typeColor}`}>
-                              {storeType}
+                          <div className="flex-1 min-w-0">
+                            <div className="text-sm font-medium truncate">{store.storeName}</div>
+                            <div className="text-xs text-muted-foreground truncate">
+                              {store.location}
                             </div>
                           </div>
-                          <div className="text-right">
-                            <div className="text-lg font-bold">
-                              {store.quantity}
+                          <div className="text-right flex items-center gap-2">
+                            <div className={`text-xs px-1 py-0.5 rounded bg-muted/50 ${typeColor}`}>
+                              {storeType}
                             </div>
-                            <div className="text-xs text-muted-foreground">
-                              {selectedProduct.quantity > 0
-                                ? (
-                                    (store.quantity /
-                                      selectedProduct.quantity) *
-                                    100
-                                  ).toFixed(1) + "%"
-                                : "0%"}
+                            <div className="text-sm font-bold min-w-[2rem]">
+                              {store.quantity}
                             </div>
                           </div>
                         </div>
@@ -2452,43 +2443,41 @@ export default function Warehouse() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4 border rounded-lg p-4">
-                <div>
-                  <div className="text-sm text-muted-foreground">
-                    Cost Price
-                  </div>
-                  <div className="text-lg font-semibold">
+              <div className="grid grid-cols-2 gap-3 bg-muted/30 rounded-lg p-3">
+                <div className="text-center">
+                  <div className="text-xs text-muted-foreground">Cost Price</div>
+                  <div className="text-sm font-semibold">
                     ${selectedProduct.costPrice}
                   </div>
                 </div>
-                <div>
-                  <div className="text-sm text-muted-foreground">
-                    Selling Price
-                  </div>
-                  <div className="text-lg font-semibold text-green-600">
+                <div className="text-center">
+                  <div className="text-xs text-muted-foreground">Selling Price</div>
+                  <div className="text-sm font-semibold text-green-600">
                     ${selectedProduct.sellingPrice}
                   </div>
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4 text-sm text-muted-foreground">
-                <div>
-                  <div>Location: {selectedProduct.location || "N/A"}</div>
-                  <div>Created: {selectedProduct.createdAt}</div>
+              <div className="grid grid-cols-2 gap-3 text-xs text-muted-foreground border-t pt-3">
+                <div className="space-y-1">
+                  <div>📍 {selectedProduct.location || "N/A"}</div>
+                  <div>📅 Created: {selectedProduct.createdAt}</div>
                 </div>
-                <div>
-                  <div>Updated: {selectedProduct.updatedAt}</div>
+                <div className="space-y-1">
+                  <div>🔄 Updated: {selectedProduct.updatedAt}</div>
                   <div>
-                    Profit Margin:{" "}
-                    {selectedProduct.sellingPrice > 0
-                      ? (
-                          ((selectedProduct.sellingPrice -
-                            selectedProduct.costPrice) /
-                            selectedProduct.sellingPrice) *
-                          100
-                        ).toFixed(1)
-                      : 0}
-                    %
+                    💰 Profit:{" "}
+                    <span className="font-medium text-green-600">
+                      {selectedProduct.sellingPrice > 0
+                        ? (
+                            ((selectedProduct.sellingPrice -
+                              selectedProduct.costPrice) /
+                              selectedProduct.sellingPrice) *
+                            100
+                          ).toFixed(1)
+                        : 0}
+                      %
+                    </span>
                   </div>
                 </div>
               </div>
