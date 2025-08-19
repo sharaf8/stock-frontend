@@ -1,9 +1,15 @@
 import { useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { 
+import {
   Table,
   TableBody,
   TableCell,
@@ -11,7 +17,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { 
+import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -20,29 +26,35 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import AIAssistant from "@/components/AIAssistant";
-import { 
-  Plus, 
-  Search, 
-  Package, 
-  AlertTriangle, 
-  Edit, 
-  Trash2, 
-  Filter, 
-  Eye, 
-  Barcode, 
-  TrendingUp, 
+import {
+  Plus,
+  Search,
+  Package,
+  AlertTriangle,
+  Edit,
+  Trash2,
+  Filter,
+  Eye,
+  Barcode,
+  TrendingUp,
   TrendingDown,
   ArrowUp,
   ArrowDown,
   History,
   Calendar,
   User,
-  Package2
+  Package2,
 } from "lucide-react";
 
 interface Product {
@@ -60,7 +72,7 @@ interface Product {
   supplier: string;
   location: string;
   expiryDate?: string;
-  status: 'in-stock' | 'low-stock' | 'out-of-stock' | 'discontinued';
+  status: "in-stock" | "low-stock" | "out-of-stock" | "discontinued";
   tags: string[];
   createdAt: string;
   updatedAt: string;
@@ -70,7 +82,7 @@ interface StockMovement {
   id: string;
   productId: string;
   productName: string;
-  type: 'stock_in' | 'stock_out' | 'adjustment';
+  type: "stock_in" | "stock_out" | "adjustment";
   quantity: number;
   reason: string;
   notes?: string;
@@ -83,8 +95,14 @@ interface StockMovement {
 
 interface WarehouseHistory {
   id: string;
-  action: 'create' | 'edit' | 'delete' | 'stock_in' | 'stock_out' | 'adjustment';
-  entityType: 'product' | 'stock';
+  action:
+    | "create"
+    | "edit"
+    | "delete"
+    | "stock_in"
+    | "stock_out"
+    | "adjustment";
+  entityType: "product" | "stock";
   entityId: string;
   entityName: string;
   description: string;
@@ -113,12 +131,12 @@ const mockProducts: Product[] = [
     status: "low-stock",
     tags: ["premium", "flagship"],
     createdAt: "2024-01-01",
-    updatedAt: "2024-01-20"
+    updatedAt: "2024-01-20",
   },
   {
     id: "2",
     name: "Samsung Galaxy S24",
-    category: "Smartphones", 
+    category: "Smartphones",
     brand: "Samsung",
     sku: "SAM-GS24-256",
     description: "High-end Android smartphone",
@@ -132,7 +150,7 @@ const mockProducts: Product[] = [
     status: "in-stock",
     tags: ["android", "flagship"],
     createdAt: "2024-01-01",
-    updatedAt: "2024-01-18"
+    updatedAt: "2024-01-18",
   },
   {
     id: "3",
@@ -151,7 +169,7 @@ const mockProducts: Product[] = [
     status: "out-of-stock",
     tags: ["sport", "casual"],
     createdAt: "2024-01-01",
-    updatedAt: "2024-01-15"
+    updatedAt: "2024-01-15",
   },
   {
     id: "4",
@@ -170,8 +188,8 @@ const mockProducts: Product[] = [
     status: "in-stock",
     tags: ["laptop", "premium"],
     createdAt: "2024-01-01",
-    updatedAt: "2024-01-19"
-  }
+    updatedAt: "2024-01-19",
+  },
 ];
 
 const mockStockMovements: StockMovement[] = [
@@ -187,7 +205,7 @@ const mockStockMovements: StockMovement[] = [
     date: "2024-01-20",
     time: "14:30",
     previousQuantity: 5,
-    newQuantity: 25
+    newQuantity: 25,
   },
   {
     id: "2",
@@ -201,7 +219,7 @@ const mockStockMovements: StockMovement[] = [
     date: "2024-01-19",
     time: "11:15",
     previousQuantity: 20,
-    newQuantity: 15
+    newQuantity: 15,
   },
   {
     id: "3",
@@ -215,8 +233,8 @@ const mockStockMovements: StockMovement[] = [
     date: "2024-01-18",
     time: "16:45",
     previousQuantity: 2,
-    newQuantity: 0
-  }
+    newQuantity: 0,
+  },
 ];
 
 const mockWarehouseHistory: WarehouseHistory[] = [
@@ -230,7 +248,7 @@ const mockWarehouseHistory: WarehouseHistory[] = [
     performedBy: "John Smith",
     date: "2024-01-20",
     time: "14:30",
-    details: { quantity: 20, reason: "New shipment received" }
+    details: { quantity: 20, reason: "New shipment received" },
   },
   {
     id: "2",
@@ -242,7 +260,7 @@ const mockWarehouseHistory: WarehouseHistory[] = [
     performedBy: "Admin",
     date: "2024-01-19",
     time: "15:20",
-    details: { field: "price", oldValue: 849, newValue: 899 }
+    details: { field: "price", oldValue: 849, newValue: 899 },
   },
   {
     id: "3",
@@ -254,7 +272,7 @@ const mockWarehouseHistory: WarehouseHistory[] = [
     performedBy: "Sarah Johnson",
     date: "2024-01-19",
     time: "11:15",
-    details: { quantity: 5, reason: "Sale to customer" }
+    details: { quantity: 5, reason: "Sale to customer" },
   },
   {
     id: "4",
@@ -266,7 +284,7 @@ const mockWarehouseHistory: WarehouseHistory[] = [
     performedBy: "Admin",
     date: "2024-01-18",
     time: "10:30",
-    details: { category: "Laptops", brand: "Apple" }
+    details: { category: "Laptops", brand: "Apple" },
   },
   {
     id: "5",
@@ -278,14 +296,15 @@ const mockWarehouseHistory: WarehouseHistory[] = [
     performedBy: "Mike Chen",
     date: "2024-01-18",
     time: "16:45",
-    details: { quantity: -2, reason: "Damaged items" }
-  }
+    details: { quantity: -2, reason: "Damaged items" },
+  },
 ];
 
 export default function Warehouse() {
   const [products, setProducts] = useState(mockProducts);
   const [stockMovements, setStockMovements] = useState(mockStockMovements);
-  const [warehouseHistory, setWarehouseHistory] = useState(mockWarehouseHistory);
+  const [warehouseHistory, setWarehouseHistory] =
+    useState(mockWarehouseHistory);
   const [searchTerm, setSearchTerm] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [statusFilter, setStatusFilter] = useState("all");
@@ -296,7 +315,7 @@ export default function Warehouse() {
   const [isStockInDialogOpen, setIsStockInDialogOpen] = useState(false);
   const [isStockOutDialogOpen, setIsStockOutDialogOpen] = useState(false);
   const [isProductSelectionOpen, setIsProductSelectionOpen] = useState(false);
-  const [stockActionType, setStockActionType] = useState<'in' | 'out'>('in');
+  const [stockActionType, setStockActionType] = useState<"in" | "out">("in");
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [stockQuantity, setStockQuantity] = useState(0);
@@ -321,34 +340,50 @@ export default function Warehouse() {
     supplier: "",
     location: "",
     tags: [],
-    status: "in-stock"
+    status: "in-stock",
   });
   const { toast } = useToast();
 
-  const filteredProducts = products.filter(product => {
-    const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         product.brand.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         product.sku.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = categoryFilter === "all" || product.category === categoryFilter;
-    const matchesStatus = statusFilter === "all" || product.status === statusFilter;
+  const filteredProducts = products.filter((product) => {
+    const matchesSearch =
+      product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      product.brand.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      product.sku.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategory =
+      categoryFilter === "all" || product.category === categoryFilter;
+    const matchesStatus =
+      statusFilter === "all" || product.status === statusFilter;
     return matchesSearch && matchesCategory && matchesStatus;
   });
 
-  const filteredHistory = warehouseHistory.filter(history => {
-    const matchesFilter = historyFilter === "all" || history.action === historyFilter;
+  const filteredHistory = warehouseHistory.filter((history) => {
+    const matchesFilter =
+      historyFilter === "all" || history.action === historyFilter;
     return matchesFilter;
   });
 
   const getStatusBadge = (status: string) => {
     switch (status) {
-      case 'in-stock':
-        return <Badge variant="default" className="bg-green-100 text-green-800">In Stock</Badge>;
-      case 'low-stock':
-        return <Badge variant="secondary" className="bg-yellow-100 text-yellow-800">Low Stock</Badge>;
-      case 'out-of-stock':
+      case "in-stock":
+        return (
+          <Badge variant="default" className="bg-green-100 text-green-800">
+            In Stock
+          </Badge>
+        );
+      case "low-stock":
+        return (
+          <Badge variant="secondary" className="bg-yellow-100 text-yellow-800">
+            Low Stock
+          </Badge>
+        );
+      case "out-of-stock":
         return <Badge variant="destructive">Out of Stock</Badge>;
-      case 'discontinued':
-        return <Badge variant="outline" className="bg-gray-100 text-gray-800">Discontinued</Badge>;
+      case "discontinued":
+        return (
+          <Badge variant="outline" className="bg-gray-100 text-gray-800">
+            Discontinued
+          </Badge>
+        );
       default:
         return <Badge variant="outline">Unknown</Badge>;
     }
@@ -356,12 +391,24 @@ export default function Warehouse() {
 
   const getMovementTypeBadge = (type: string) => {
     switch (type) {
-      case 'stock_in':
-        return <Badge variant="default" className="bg-green-100 text-green-800">Stock In</Badge>;
-      case 'stock_out':
-        return <Badge variant="secondary" className="bg-blue-100 text-blue-800">Stock Out</Badge>;
-      case 'adjustment':
-        return <Badge variant="outline" className="bg-orange-100 text-orange-800">Adjustment</Badge>;
+      case "stock_in":
+        return (
+          <Badge variant="default" className="bg-green-100 text-green-800">
+            Stock In
+          </Badge>
+        );
+      case "stock_out":
+        return (
+          <Badge variant="secondary" className="bg-blue-100 text-blue-800">
+            Stock Out
+          </Badge>
+        );
+      case "adjustment":
+        return (
+          <Badge variant="outline" className="bg-orange-100 text-orange-800">
+            Adjustment
+          </Badge>
+        );
       default:
         return <Badge variant="outline">Unknown</Badge>;
     }
@@ -369,31 +416,60 @@ export default function Warehouse() {
 
   const getActionBadge = (action: string) => {
     switch (action) {
-      case 'create':
-        return <Badge variant="default" className="bg-green-100 text-green-800">Created</Badge>;
-      case 'edit':
-        return <Badge variant="secondary" className="bg-blue-100 text-blue-800">Edited</Badge>;
-      case 'delete':
+      case "create":
+        return (
+          <Badge variant="default" className="bg-green-100 text-green-800">
+            Created
+          </Badge>
+        );
+      case "edit":
+        return (
+          <Badge variant="secondary" className="bg-blue-100 text-blue-800">
+            Edited
+          </Badge>
+        );
+      case "delete":
         return <Badge variant="destructive">Deleted</Badge>;
-      case 'stock_in':
-        return <Badge variant="default" className="bg-green-100 text-green-800">Stock In</Badge>;
-      case 'stock_out':
-        return <Badge variant="secondary" className="bg-blue-100 text-blue-800">Stock Out</Badge>;
-      case 'adjustment':
-        return <Badge variant="outline" className="bg-orange-100 text-orange-800">Adjustment</Badge>;
+      case "stock_in":
+        return (
+          <Badge variant="default" className="bg-green-100 text-green-800">
+            Stock In
+          </Badge>
+        );
+      case "stock_out":
+        return (
+          <Badge variant="secondary" className="bg-blue-100 text-blue-800">
+            Stock Out
+          </Badge>
+        );
+      case "adjustment":
+        return (
+          <Badge variant="outline" className="bg-orange-100 text-orange-800">
+            Adjustment
+          </Badge>
+        );
       default:
         return <Badge variant="outline">Unknown</Badge>;
     }
   };
 
-  const calculateStatus = (quantity: number, minStock: number): Product['status'] => {
-    if (quantity === 0) return 'out-of-stock';
-    if (quantity <= minStock) return 'low-stock';
-    return 'in-stock';
+  const calculateStatus = (
+    quantity: number,
+    minStock: number,
+  ): Product["status"] => {
+    if (quantity === 0) return "out-of-stock";
+    if (quantity <= minStock) return "low-stock";
+    return "in-stock";
   };
 
-  const addStockMovement = (productId: string, type: 'stock_in' | 'stock_out' | 'adjustment', quantity: number, reason: string, notes?: string) => {
-    const product = products.find(p => p.id === productId);
+  const addStockMovement = (
+    productId: string,
+    type: "stock_in" | "stock_out" | "adjustment",
+    quantity: number,
+    reason: string,
+    notes?: string,
+  ) => {
+    const product = products.find((p) => p.id === productId);
     if (!product) return;
 
     const movement: StockMovement = {
@@ -405,10 +481,16 @@ export default function Warehouse() {
       reason,
       notes,
       performedBy: "Current User",
-      date: new Date().toISOString().split('T')[0],
-      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      date: new Date().toISOString().split("T")[0],
+      time: new Date().toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
       previousQuantity: product.quantity,
-      newQuantity: type === 'stock_out' ? product.quantity - quantity : product.quantity + quantity
+      newQuantity:
+        type === "stock_out"
+          ? product.quantity - quantity
+          : product.quantity + quantity,
     };
 
     setStockMovements([movement, ...stockMovements]);
@@ -419,18 +501,28 @@ export default function Warehouse() {
       entityType: "stock",
       entityId: productId,
       entityName: product.name,
-      description: `${type === 'stock_in' ? 'Added' : type === 'stock_out' ? 'Removed' : 'Adjusted'} ${quantity} units - ${reason}`,
+      description: `${type === "stock_in" ? "Added" : type === "stock_out" ? "Removed" : "Adjusted"} ${quantity} units - ${reason}`,
       performedBy: "Current User",
-      date: new Date().toISOString().split('T')[0],
-      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-      details: { quantity, reason, notes }
+      date: new Date().toISOString().split("T")[0],
+      time: new Date().toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
+      details: { quantity, reason, notes },
     };
 
     setWarehouseHistory([historyEntry, ...warehouseHistory]);
   };
 
   const handleStockIn = () => {
-    if (!selectedProduct || stockQuantity <= 0 || !stockReason.trim() || !stockLocation.trim() || !stockFromType.trim() || !stockFrom.trim()) {
+    if (
+      !selectedProduct ||
+      stockQuantity <= 0 ||
+      !stockReason.trim() ||
+      !stockLocation.trim() ||
+      !stockFromType.trim() ||
+      !stockFrom.trim()
+    ) {
       toast({
         title: "Error",
         description: "Please fill in all required fields",
@@ -439,22 +531,28 @@ export default function Warehouse() {
       return;
     }
 
-    const updatedProducts = products.map(product => {
+    const updatedProducts = products.map((product) => {
       if (product.id === selectedProduct.id) {
         const newQuantity = product.quantity + stockQuantity;
         return {
           ...product,
           quantity: newQuantity,
           status: calculateStatus(newQuantity, product.minStock),
-          updatedAt: new Date().toISOString().split('T')[0]
+          updatedAt: new Date().toISOString().split("T")[0],
         };
       }
       return product;
     });
 
     setProducts(updatedProducts);
-    const detailedNotes = `From: ${stockFrom} (${stockFromType}), Location: ${stockLocation}${stockNotes ? `, Notes: ${stockNotes}` : ''}`;
-    addStockMovement(selectedProduct.id, 'stock_in', stockQuantity, stockReason, detailedNotes);
+    const detailedNotes = `From: ${stockFrom} (${stockFromType}), Location: ${stockLocation}${stockNotes ? `, Notes: ${stockNotes}` : ""}`;
+    addStockMovement(
+      selectedProduct.id,
+      "stock_in",
+      stockQuantity,
+      stockReason,
+      detailedNotes,
+    );
 
     toast({
       title: "Stock Added",
@@ -472,7 +570,14 @@ export default function Warehouse() {
   };
 
   const handleStockOut = () => {
-    if (!selectedProduct || stockQuantity <= 0 || !stockReason.trim() || !stockLocation.trim() || !stockToType.trim() || !stockTo.trim()) {
+    if (
+      !selectedProduct ||
+      stockQuantity <= 0 ||
+      !stockReason.trim() ||
+      !stockLocation.trim() ||
+      !stockToType.trim() ||
+      !stockTo.trim()
+    ) {
       toast({
         title: "Error",
         description: "Please fill in all required fields",
@@ -490,22 +595,28 @@ export default function Warehouse() {
       return;
     }
 
-    const updatedProducts = products.map(product => {
+    const updatedProducts = products.map((product) => {
       if (product.id === selectedProduct.id) {
         const newQuantity = product.quantity - stockQuantity;
         return {
           ...product,
           quantity: newQuantity,
           status: calculateStatus(newQuantity, product.minStock),
-          updatedAt: new Date().toISOString().split('T')[0]
+          updatedAt: new Date().toISOString().split("T")[0],
         };
       }
       return product;
     });
 
     setProducts(updatedProducts);
-    const detailedNotes = `To: ${stockTo} (${stockToType}), Location: ${stockLocation}${stockNotes ? `, Notes: ${stockNotes}` : ''}`;
-    addStockMovement(selectedProduct.id, 'stock_out', stockQuantity, stockReason, detailedNotes);
+    const detailedNotes = `To: ${stockTo} (${stockToType}), Location: ${stockLocation}${stockNotes ? `, Notes: ${stockNotes}` : ""}`;
+    addStockMovement(
+      selectedProduct.id,
+      "stock_out",
+      stockQuantity,
+      stockReason,
+      detailedNotes,
+    );
 
     toast({
       title: "Stock Removed",
@@ -547,9 +658,12 @@ export default function Warehouse() {
       supplier: newProduct.supplier || "",
       location: newProduct.location || "",
       tags: newProduct.tags || [],
-      status: calculateStatus(newProduct.quantity || 0, newProduct.minStock || 0),
-      createdAt: new Date().toISOString().split('T')[0],
-      updatedAt: new Date().toISOString().split('T')[0]
+      status: calculateStatus(
+        newProduct.quantity || 0,
+        newProduct.minStock || 0,
+      ),
+      createdAt: new Date().toISOString().split("T")[0],
+      updatedAt: new Date().toISOString().split("T")[0],
     };
 
     setProducts([...products, product]);
@@ -562,9 +676,16 @@ export default function Warehouse() {
       entityName: product.name,
       description: `Created new product: ${product.name}`,
       performedBy: "Current User",
-      date: new Date().toISOString().split('T')[0],
-      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-      details: { category: product.category, brand: product.brand, sku: product.sku }
+      date: new Date().toISOString().split("T")[0],
+      time: new Date().toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
+      details: {
+        category: product.category,
+        brand: product.brand,
+        sku: product.sku,
+      },
     };
 
     setWarehouseHistory([historyEntry, ...warehouseHistory]);
@@ -583,7 +704,7 @@ export default function Warehouse() {
       supplier: "",
       location: "",
       tags: [],
-      status: "in-stock"
+      status: "in-stock",
     });
     setIsAddDialogOpen(false);
 
@@ -594,7 +715,12 @@ export default function Warehouse() {
   };
 
   const editProduct = () => {
-    if (!editingProduct || !newProduct.name || !newProduct.category || !newProduct.sku) {
+    if (
+      !editingProduct ||
+      !newProduct.name ||
+      !newProduct.category ||
+      !newProduct.sku
+    ) {
       toast({
         title: "Error",
         description: "Please fill in all required fields (Name, Category, SKU)",
@@ -618,11 +744,16 @@ export default function Warehouse() {
       supplier: newProduct.supplier || "",
       location: newProduct.location || "",
       tags: newProduct.tags || [],
-      status: calculateStatus(newProduct.quantity || 0, newProduct.minStock || 0),
-      updatedAt: new Date().toISOString().split('T')[0]
+      status: calculateStatus(
+        newProduct.quantity || 0,
+        newProduct.minStock || 0,
+      ),
+      updatedAt: new Date().toISOString().split("T")[0],
     };
 
-    setProducts(products.map(p => p.id === editingProduct.id ? updatedProduct : p));
+    setProducts(
+      products.map((p) => (p.id === editingProduct.id ? updatedProduct : p)),
+    );
 
     const historyEntry: WarehouseHistory = {
       id: Date.now().toString() + "_history",
@@ -632,9 +763,12 @@ export default function Warehouse() {
       entityName: updatedProduct.name,
       description: `Updated product: ${updatedProduct.name}`,
       performedBy: "Current User",
-      date: new Date().toISOString().split('T')[0],
-      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-      details: { updatedFields: newProduct }
+      date: new Date().toISOString().split("T")[0],
+      time: new Date().toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
+      details: { updatedFields: newProduct },
     };
 
     setWarehouseHistory([historyEntry, ...warehouseHistory]);
@@ -653,7 +787,7 @@ export default function Warehouse() {
       supplier: "",
       location: "",
       tags: [],
-      status: "in-stock"
+      status: "in-stock",
     });
     setEditingProduct(null);
     setIsEditDialogOpen(false);
@@ -665,10 +799,10 @@ export default function Warehouse() {
   };
 
   const deleteProduct = (productId: string) => {
-    const product = products.find(p => p.id === productId);
+    const product = products.find((p) => p.id === productId);
     if (!product) return;
 
-    setProducts(products.filter(p => p.id !== productId));
+    setProducts(products.filter((p) => p.id !== productId));
 
     const historyEntry: WarehouseHistory = {
       id: Date.now().toString() + "_history",
@@ -678,9 +812,12 @@ export default function Warehouse() {
       entityName: product.name,
       description: `Deleted product: ${product.name}`,
       performedBy: "Current User",
-      date: new Date().toISOString().split('T')[0],
-      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-      details: { deletedProduct: product }
+      date: new Date().toISOString().split("T")[0],
+      time: new Date().toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
+      details: { deletedProduct: product },
     };
 
     setWarehouseHistory([historyEntry, ...warehouseHistory]);
@@ -691,7 +828,7 @@ export default function Warehouse() {
     });
   };
 
-  const openStockDialog = (type: 'in' | 'out') => {
+  const openStockDialog = (type: "in" | "out") => {
     setStockActionType(type);
     setIsProductSelectionOpen(true);
   };
@@ -699,7 +836,7 @@ export default function Warehouse() {
   const selectProductForStock = (product: Product) => {
     setSelectedProduct(product);
     setIsProductSelectionOpen(false);
-    if (stockActionType === 'in') {
+    if (stockActionType === "in") {
       setIsStockInDialogOpen(true);
     } else {
       setIsStockOutDialogOpen(true);
@@ -710,16 +847,20 @@ export default function Warehouse() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Warehouse Management</h1>
-          <p className="text-muted-foreground">Manage inventory, stock movements, and track warehouse activities</p>
+          <h1 className="text-3xl font-bold tracking-tight">
+            Warehouse Management
+          </h1>
+          <p className="text-muted-foreground">
+            Manage inventory, stock movements, and track warehouse activities
+          </p>
         </div>
-        
+
         {/* Action Buttons */}
         <div className="flex items-center gap-3">
           <Button
             variant="outline"
             className="bg-green-50 hover:bg-green-100 text-green-700 border-green-200"
-            onClick={() => openStockDialog('in')}
+            onClick={() => openStockDialog("in")}
           >
             <ArrowUp className="mr-2 h-4 w-4" />
             Stock In
@@ -728,7 +869,7 @@ export default function Warehouse() {
           <Button
             variant="outline"
             className="bg-red-50 hover:bg-red-100 text-red-700 border-red-200"
-            onClick={() => openStockDialog('out')}
+            onClick={() => openStockDialog("out")}
           >
             <ArrowDown className="mr-2 h-4 w-4" />
             Stock Out
@@ -741,7 +882,11 @@ export default function Warehouse() {
                 Add Product
               </Button>
             </DialogTrigger>
-            <DialogContent className="max-w-2xl" onPointerDownOutside={(e) => e.preventDefault()} onEscapeKeyDown={(e) => e.preventDefault()}>
+            <DialogContent
+              className="max-w-2xl"
+              onPointerDownOutside={(e) => e.preventDefault()}
+              onEscapeKeyDown={(e) => e.preventDefault()}
+            >
               <DialogHeader>
                 <DialogTitle>Add New Product</DialogTitle>
                 <DialogDescription>
@@ -756,7 +901,9 @@ export default function Warehouse() {
                       id="name"
                       placeholder="iPhone 15 Pro"
                       value={newProduct.name}
-                      onChange={(e) => setNewProduct({...newProduct, name: e.target.value})}
+                      onChange={(e) =>
+                        setNewProduct({ ...newProduct, name: e.target.value })
+                      }
                     />
                   </div>
                   <div className="space-y-2">
@@ -765,16 +912,20 @@ export default function Warehouse() {
                       id="sku"
                       placeholder="APL-IP15P-128"
                       value={newProduct.sku}
-                      onChange={(e) => setNewProduct({...newProduct, sku: e.target.value})}
+                      onChange={(e) =>
+                        setNewProduct({ ...newProduct, sku: e.target.value })
+                      }
                     />
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="category">Category *</Label>
-                    <Select 
-                      value={newProduct.category} 
-                      onValueChange={(value) => setNewProduct({...newProduct, category: value})}
+                    <Select
+                      value={newProduct.category}
+                      onValueChange={(value) =>
+                        setNewProduct({ ...newProduct, category: value })
+                      }
                     >
                       <SelectTrigger>
                         <SelectValue placeholder="Select category" />
@@ -795,7 +946,9 @@ export default function Warehouse() {
                       id="brand"
                       placeholder="Apple"
                       value={newProduct.brand}
-                      onChange={(e) => setNewProduct({...newProduct, brand: e.target.value})}
+                      onChange={(e) =>
+                        setNewProduct({ ...newProduct, brand: e.target.value })
+                      }
                     />
                   </div>
                 </div>
@@ -805,7 +958,12 @@ export default function Warehouse() {
                     id="description"
                     placeholder="Product description"
                     value={newProduct.description}
-                    onChange={(e) => setNewProduct({...newProduct, description: e.target.value})}
+                    onChange={(e) =>
+                      setNewProduct({
+                        ...newProduct,
+                        description: e.target.value,
+                      })
+                    }
                   />
                 </div>
                 <div className="grid grid-cols-3 gap-4">
@@ -816,7 +974,12 @@ export default function Warehouse() {
                       type="number"
                       min="0"
                       value={newProduct.quantity}
-                      onChange={(e) => setNewProduct({...newProduct, quantity: parseInt(e.target.value) || 0})}
+                      onChange={(e) =>
+                        setNewProduct({
+                          ...newProduct,
+                          quantity: parseInt(e.target.value) || 0,
+                        })
+                      }
                     />
                   </div>
                   <div className="space-y-2">
@@ -826,7 +989,12 @@ export default function Warehouse() {
                       type="number"
                       min="0"
                       value={newProduct.minStock}
-                      onChange={(e) => setNewProduct({...newProduct, minStock: parseInt(e.target.value) || 0})}
+                      onChange={(e) =>
+                        setNewProduct({
+                          ...newProduct,
+                          minStock: parseInt(e.target.value) || 0,
+                        })
+                      }
                     />
                   </div>
                   <div className="space-y-2">
@@ -836,7 +1004,12 @@ export default function Warehouse() {
                       type="number"
                       min="0"
                       value={newProduct.maxStock}
-                      onChange={(e) => setNewProduct({...newProduct, maxStock: parseInt(e.target.value) || 0})}
+                      onChange={(e) =>
+                        setNewProduct({
+                          ...newProduct,
+                          maxStock: parseInt(e.target.value) || 0,
+                        })
+                      }
                     />
                   </div>
                 </div>
@@ -849,7 +1022,12 @@ export default function Warehouse() {
                       min="0"
                       step="0.01"
                       value={newProduct.costPrice}
-                      onChange={(e) => setNewProduct({...newProduct, costPrice: parseFloat(e.target.value) || 0})}
+                      onChange={(e) =>
+                        setNewProduct({
+                          ...newProduct,
+                          costPrice: parseFloat(e.target.value) || 0,
+                        })
+                      }
                     />
                   </div>
                   <div className="space-y-2">
@@ -860,7 +1038,12 @@ export default function Warehouse() {
                       min="0"
                       step="0.01"
                       value={newProduct.sellingPrice}
-                      onChange={(e) => setNewProduct({...newProduct, sellingPrice: parseFloat(e.target.value) || 0})}
+                      onChange={(e) =>
+                        setNewProduct({
+                          ...newProduct,
+                          sellingPrice: parseFloat(e.target.value) || 0,
+                        })
+                      }
                     />
                   </div>
                 </div>
@@ -871,7 +1054,12 @@ export default function Warehouse() {
                       id="supplier"
                       placeholder="Apple Inc."
                       value={newProduct.supplier}
-                      onChange={(e) => setNewProduct({...newProduct, supplier: e.target.value})}
+                      onChange={(e) =>
+                        setNewProduct({
+                          ...newProduct,
+                          supplier: e.target.value,
+                        })
+                      }
                     />
                   </div>
                   <div className="space-y-2">
@@ -880,7 +1068,12 @@ export default function Warehouse() {
                       id="location"
                       placeholder="A1-B2"
                       value={newProduct.location}
-                      onChange={(e) => setNewProduct({...newProduct, location: e.target.value})}
+                      onChange={(e) =>
+                        setNewProduct({
+                          ...newProduct,
+                          location: e.target.value,
+                        })
+                      }
                     />
                   </div>
                 </div>
@@ -888,7 +1081,10 @@ export default function Warehouse() {
                   <Button className="flex-1" onClick={addProduct}>
                     Add Product
                   </Button>
-                  <Button variant="outline" onClick={() => setIsAddDialogOpen(false)}>
+                  <Button
+                    variant="outline"
+                    onClick={() => setIsAddDialogOpen(false)}
+                  >
                     Cancel
                   </Button>
                 </div>
@@ -899,11 +1095,23 @@ export default function Warehouse() {
       </div>
 
       {/* Product Selection Dialog */}
-      <Dialog open={isProductSelectionOpen} onOpenChange={setIsProductSelectionOpen}>
-        <DialogContent className="max-w-md" onPointerDownOutside={(e) => e.preventDefault()} onEscapeKeyDown={(e) => e.preventDefault()}>
+      <Dialog
+        open={isProductSelectionOpen}
+        onOpenChange={setIsProductSelectionOpen}
+      >
+        <DialogContent
+          className="max-w-md"
+          onPointerDownOutside={(e) => e.preventDefault()}
+          onEscapeKeyDown={(e) => e.preventDefault()}
+        >
           <DialogHeader>
-            <DialogTitle>Select Product for Stock {stockActionType === 'in' ? 'In' : 'Out'}</DialogTitle>
-            <DialogDescription>Choose a product to {stockActionType === 'in' ? 'add' : 'remove'} stock</DialogDescription>
+            <DialogTitle>
+              Select Product for Stock {stockActionType === "in" ? "In" : "Out"}
+            </DialogTitle>
+            <DialogDescription>
+              Choose a product to {stockActionType === "in" ? "add" : "remove"}{" "}
+              stock
+            </DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
             <div className="relative">
@@ -917,22 +1125,24 @@ export default function Warehouse() {
             </div>
             <div className="max-h-60 overflow-y-auto space-y-2">
               {filteredProducts
-                .filter(p => stockActionType === 'out' ? p.quantity > 0 : true)
+                .filter((p) =>
+                  stockActionType === "out" ? p.quantity > 0 : true,
+                )
                 .map((product) => (
-                <Button
-                  key={product.id}
-                  variant="outline"
-                  className="w-full justify-start h-auto p-3 text-left"
-                  onClick={() => selectProductForStock(product)}
-                >
-                  <div className="flex-1">
-                    <div className="font-medium">{product.name}</div>
-                    <div className="text-sm text-muted-foreground">
-                      {product.sku} • Current stock: {product.quantity}
+                  <Button
+                    key={product.id}
+                    variant="outline"
+                    className="w-full justify-start h-auto p-3 text-left"
+                    onClick={() => selectProductForStock(product)}
+                  >
+                    <div className="flex-1">
+                      <div className="font-medium">{product.name}</div>
+                      <div className="text-sm text-muted-foreground">
+                        {product.sku} • Current stock: {product.quantity}
+                      </div>
                     </div>
-                  </div>
-                </Button>
-              ))}
+                  </Button>
+                ))}
             </div>
           </div>
         </DialogContent>
@@ -942,32 +1152,36 @@ export default function Warehouse() {
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Products</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Total Products
+            </CardTitle>
             <Package className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{products.length}</div>
             <p className="text-xs text-muted-foreground">
-              {products.filter(p => p.status === 'in-stock').length} in stock
+              {products.filter((p) => p.status === "in-stock").length} in stock
             </p>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Low Stock Alerts</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Low Stock Alerts
+            </CardTitle>
             <AlertTriangle className="h-4 w-4 text-yellow-500" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-yellow-600">
-              {products.filter(p => p.status === 'low-stock').length}
+              {products.filter((p) => p.status === "low-stock").length}
             </div>
             <p className="text-xs text-muted-foreground">
               Need immediate attention
             </p>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Out of Stock</CardTitle>
@@ -975,14 +1189,12 @@ export default function Warehouse() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-red-600">
-              {products.filter(p => p.status === 'out-of-stock').length}
+              {products.filter((p) => p.status === "out-of-stock").length}
             </div>
-            <p className="text-xs text-muted-foreground">
-              Require restocking
-            </p>
+            <p className="text-xs text-muted-foreground">Require restocking</p>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Value</CardTitle>
@@ -990,7 +1202,10 @@ export default function Warehouse() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-green-600">
-              ${products.reduce((sum, p) => sum + (p.quantity * p.costPrice), 0).toLocaleString()}
+              $
+              {products
+                .reduce((sum, p) => sum + p.quantity * p.costPrice, 0)
+                .toLocaleString()}
             </div>
             <p className="text-xs text-muted-foreground">
               Current inventory value
@@ -1021,7 +1236,10 @@ export default function Warehouse() {
                     className="pl-8"
                   />
                 </div>
-                <Select value={categoryFilter} onValueChange={setCategoryFilter}>
+                <Select
+                  value={categoryFilter}
+                  onValueChange={setCategoryFilter}
+                >
                   <SelectTrigger className="w-[150px]">
                     <Filter className="mr-2 h-4 w-4" />
                     <SelectValue placeholder="Category" />
@@ -1067,7 +1285,9 @@ export default function Warehouse() {
                       <TableCell>
                         <div>
                           <div className="font-medium">{product.name}</div>
-                          <div className="text-sm text-muted-foreground">{product.brand}</div>
+                          <div className="text-sm text-muted-foreground">
+                            {product.brand}
+                          </div>
                         </div>
                       </TableCell>
                       <TableCell>
@@ -1082,7 +1302,12 @@ export default function Warehouse() {
                       </TableCell>
                       <TableCell>{getStatusBadge(product.status)}</TableCell>
                       <TableCell>
-                        <div className="font-medium">${(product.quantity * product.costPrice).toLocaleString()}</div>
+                        <div className="font-medium">
+                          $
+                          {(
+                            product.quantity * product.costPrice
+                          ).toLocaleString()}
+                        </div>
                         <div className="text-xs text-muted-foreground">
                           @${product.costPrice}
                         </div>
@@ -1118,7 +1343,7 @@ export default function Warehouse() {
                                 supplier: product.supplier,
                                 location: product.location,
                                 tags: product.tags,
-                                status: product.status
+                                status: product.status,
                               });
                               setIsEditDialogOpen(true);
                             }}
@@ -1147,7 +1372,9 @@ export default function Warehouse() {
           <Card>
             <CardHeader>
               <CardTitle>Stock Movements</CardTitle>
-              <CardDescription>Track all stock in, stock out, and adjustment activities</CardDescription>
+              <CardDescription>
+                Track all stock in, stock out, and adjustment activities
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <Table>
@@ -1168,23 +1395,37 @@ export default function Warehouse() {
                       <TableCell>
                         <div>
                           <div className="font-medium">{movement.date}</div>
-                          <div className="text-sm text-muted-foreground">{movement.time}</div>
+                          <div className="text-sm text-muted-foreground">
+                            {movement.time}
+                          </div>
                         </div>
                       </TableCell>
                       <TableCell>
-                        <div className="font-medium">{movement.productName}</div>
+                        <div className="font-medium">
+                          {movement.productName}
+                        </div>
                       </TableCell>
-                      <TableCell>{getMovementTypeBadge(movement.type)}</TableCell>
                       <TableCell>
-                        <div className={`font-medium ${movement.type === 'stock_in' ? 'text-green-600' : movement.type === 'stock_out' ? 'text-red-600' : 'text-orange-600'}`}>
-                          {movement.type === 'stock_in' ? '+' : movement.type === 'stock_out' ? '-' : ''}
+                        {getMovementTypeBadge(movement.type)}
+                      </TableCell>
+                      <TableCell>
+                        <div
+                          className={`font-medium ${movement.type === "stock_in" ? "text-green-600" : movement.type === "stock_out" ? "text-red-600" : "text-orange-600"}`}
+                        >
+                          {movement.type === "stock_in"
+                            ? "+"
+                            : movement.type === "stock_out"
+                              ? "-"
+                              : ""}
                           {movement.quantity}
                         </div>
                       </TableCell>
                       <TableCell>
                         <div className="text-sm">{movement.reason}</div>
                         {movement.notes && (
-                          <div className="text-xs text-muted-foreground">{movement.notes}</div>
+                          <div className="text-xs text-muted-foreground">
+                            {movement.notes}
+                          </div>
                         )}
                       </TableCell>
                       <TableCell>
@@ -1248,17 +1489,27 @@ export default function Warehouse() {
                           <Calendar className="h-4 w-4 text-muted-foreground" />
                           <div>
                             <div className="font-medium">{history.date}</div>
-                            <div className="text-sm text-muted-foreground">{history.time}</div>
+                            <div className="text-sm text-muted-foreground">
+                              {history.time}
+                            </div>
                           </div>
                         </div>
                       </TableCell>
                       <TableCell>{getActionBadge(history.action)}</TableCell>
                       <TableCell>
                         <div className="flex items-center gap-2">
-                          {history.entityType === 'product' ? <Package2 className="h-4 w-4" /> : <Package className="h-4 w-4" />}
+                          {history.entityType === "product" ? (
+                            <Package2 className="h-4 w-4" />
+                          ) : (
+                            <Package className="h-4 w-4" />
+                          )}
                           <div>
-                            <div className="font-medium">{history.entityName}</div>
-                            <div className="text-sm text-muted-foreground capitalize">{history.entityType}</div>
+                            <div className="font-medium">
+                              {history.entityName}
+                            </div>
+                            <div className="text-sm text-muted-foreground capitalize">
+                              {history.entityType}
+                            </div>
                           </div>
                         </div>
                       </TableCell>
@@ -1282,7 +1533,11 @@ export default function Warehouse() {
 
       {/* Edit Product Dialog */}
       <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-        <DialogContent className="max-w-2xl" onPointerDownOutside={(e) => e.preventDefault()} onEscapeKeyDown={(e) => e.preventDefault()}>
+        <DialogContent
+          className="max-w-2xl"
+          onPointerDownOutside={(e) => e.preventDefault()}
+          onEscapeKeyDown={(e) => e.preventDefault()}
+        >
           <DialogHeader>
             <DialogTitle>Edit Product</DialogTitle>
             <DialogDescription>
@@ -1297,7 +1552,9 @@ export default function Warehouse() {
                   id="editName"
                   placeholder="iPhone 15 Pro"
                   value={newProduct.name}
-                  onChange={(e) => setNewProduct({...newProduct, name: e.target.value})}
+                  onChange={(e) =>
+                    setNewProduct({ ...newProduct, name: e.target.value })
+                  }
                 />
               </div>
               <div className="space-y-2">
@@ -1306,16 +1563,20 @@ export default function Warehouse() {
                   id="editSku"
                   placeholder="APL-IP15P-128"
                   value={newProduct.sku}
-                  onChange={(e) => setNewProduct({...newProduct, sku: e.target.value})}
+                  onChange={(e) =>
+                    setNewProduct({ ...newProduct, sku: e.target.value })
+                  }
                 />
               </div>
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="editCategory">Category *</Label>
-                <Select 
-                  value={newProduct.category} 
-                  onValueChange={(value) => setNewProduct({...newProduct, category: value})}
+                <Select
+                  value={newProduct.category}
+                  onValueChange={(value) =>
+                    setNewProduct({ ...newProduct, category: value })
+                  }
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="Select category" />
@@ -1336,7 +1597,9 @@ export default function Warehouse() {
                   id="editBrand"
                   placeholder="Apple"
                   value={newProduct.brand}
-                  onChange={(e) => setNewProduct({...newProduct, brand: e.target.value})}
+                  onChange={(e) =>
+                    setNewProduct({ ...newProduct, brand: e.target.value })
+                  }
                 />
               </div>
             </div>
@@ -1346,7 +1609,9 @@ export default function Warehouse() {
                 id="editDescription"
                 placeholder="Product description"
                 value={newProduct.description}
-                onChange={(e) => setNewProduct({...newProduct, description: e.target.value})}
+                onChange={(e) =>
+                  setNewProduct({ ...newProduct, description: e.target.value })
+                }
               />
             </div>
             <div className="grid grid-cols-3 gap-4">
@@ -1357,7 +1622,12 @@ export default function Warehouse() {
                   type="number"
                   min="0"
                   value={newProduct.quantity}
-                  onChange={(e) => setNewProduct({...newProduct, quantity: parseInt(e.target.value) || 0})}
+                  onChange={(e) =>
+                    setNewProduct({
+                      ...newProduct,
+                      quantity: parseInt(e.target.value) || 0,
+                    })
+                  }
                 />
               </div>
               <div className="space-y-2">
@@ -1367,7 +1637,12 @@ export default function Warehouse() {
                   type="number"
                   min="0"
                   value={newProduct.minStock}
-                  onChange={(e) => setNewProduct({...newProduct, minStock: parseInt(e.target.value) || 0})}
+                  onChange={(e) =>
+                    setNewProduct({
+                      ...newProduct,
+                      minStock: parseInt(e.target.value) || 0,
+                    })
+                  }
                 />
               </div>
               <div className="space-y-2">
@@ -1377,7 +1652,12 @@ export default function Warehouse() {
                   type="number"
                   min="0"
                   value={newProduct.maxStock}
-                  onChange={(e) => setNewProduct({...newProduct, maxStock: parseInt(e.target.value) || 0})}
+                  onChange={(e) =>
+                    setNewProduct({
+                      ...newProduct,
+                      maxStock: parseInt(e.target.value) || 0,
+                    })
+                  }
                 />
               </div>
             </div>
@@ -1390,7 +1670,12 @@ export default function Warehouse() {
                   min="0"
                   step="0.01"
                   value={newProduct.costPrice}
-                  onChange={(e) => setNewProduct({...newProduct, costPrice: parseFloat(e.target.value) || 0})}
+                  onChange={(e) =>
+                    setNewProduct({
+                      ...newProduct,
+                      costPrice: parseFloat(e.target.value) || 0,
+                    })
+                  }
                 />
               </div>
               <div className="space-y-2">
@@ -1401,7 +1686,12 @@ export default function Warehouse() {
                   min="0"
                   step="0.01"
                   value={newProduct.sellingPrice}
-                  onChange={(e) => setNewProduct({...newProduct, sellingPrice: parseFloat(e.target.value) || 0})}
+                  onChange={(e) =>
+                    setNewProduct({
+                      ...newProduct,
+                      sellingPrice: parseFloat(e.target.value) || 0,
+                    })
+                  }
                 />
               </div>
             </div>
@@ -1412,7 +1702,9 @@ export default function Warehouse() {
                   id="editSupplier"
                   placeholder="Apple Inc."
                   value={newProduct.supplier}
-                  onChange={(e) => setNewProduct({...newProduct, supplier: e.target.value})}
+                  onChange={(e) =>
+                    setNewProduct({ ...newProduct, supplier: e.target.value })
+                  }
                 />
               </div>
               <div className="space-y-2">
@@ -1421,7 +1713,9 @@ export default function Warehouse() {
                   id="editLocation"
                   placeholder="A1-B2"
                   value={newProduct.location}
-                  onChange={(e) => setNewProduct({...newProduct, location: e.target.value})}
+                  onChange={(e) =>
+                    setNewProduct({ ...newProduct, location: e.target.value })
+                  }
                 />
               </div>
             </div>
@@ -1429,10 +1723,13 @@ export default function Warehouse() {
               <Button className="flex-1" onClick={editProduct}>
                 Update Product
               </Button>
-              <Button variant="outline" onClick={() => {
-                setIsEditDialogOpen(false);
-                setEditingProduct(null);
-              }}>
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setIsEditDialogOpen(false);
+                  setEditingProduct(null);
+                }}
+              >
                 Cancel
               </Button>
             </div>
@@ -1442,7 +1739,11 @@ export default function Warehouse() {
 
       {/* Stock In Dialog */}
       <Dialog open={isStockInDialogOpen} onOpenChange={setIsStockInDialogOpen}>
-        <DialogContent className="max-w-md" onPointerDownOutside={(e) => e.preventDefault()} onEscapeKeyDown={(e) => e.preventDefault()}>
+        <DialogContent
+          className="max-w-md"
+          onPointerDownOutside={(e) => e.preventDefault()}
+          onEscapeKeyDown={(e) => e.preventDefault()}
+        >
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <ArrowUp className="h-5 w-5 text-green-600" />
@@ -1460,7 +1761,9 @@ export default function Warehouse() {
                 type="number"
                 min="1"
                 value={stockQuantity}
-                onChange={(e) => setStockQuantity(parseInt(e.target.value) || 0)}
+                onChange={(e) =>
+                  setStockQuantity(parseInt(e.target.value) || 0)
+                }
                 placeholder="Enter quantity"
               />
             </div>
@@ -1474,7 +1777,9 @@ export default function Warehouse() {
                   <SelectContent>
                     <SelectItem value="supplier">Supplier</SelectItem>
                     <SelectItem value="other_filial">Other Filial</SelectItem>
-                    <SelectItem value="customer_return">Return from Customer</SelectItem>
+                    <SelectItem value="customer_return">
+                      Return from Customer
+                    </SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -1482,18 +1787,20 @@ export default function Warehouse() {
               {stockFromType && (
                 <div className="space-y-2">
                   <Label htmlFor="stockFrom">
-                    {stockFromType === 'supplier' && 'Supplier Name *'}
-                    {stockFromType === 'other_filial' && 'Filial/Branch Name *'}
-                    {stockFromType === 'customer_return' && 'Customer Name *'}
+                    {stockFromType === "supplier" && "Supplier Name *"}
+                    {stockFromType === "other_filial" && "Filial/Branch Name *"}
+                    {stockFromType === "customer_return" && "Customer Name *"}
                   </Label>
                   <Input
                     id="stockFrom"
                     value={stockFrom}
                     onChange={(e) => setStockFrom(e.target.value)}
                     placeholder={
-                      stockFromType === 'supplier' ? 'e.g., Apple Inc.' :
-                      stockFromType === 'other_filial' ? 'e.g., Branch Office Moscow' :
-                      'e.g., John Doe (баргардондан ��з мизоҷ)'
+                      stockFromType === "supplier"
+                        ? "e.g., Apple Inc."
+                        : stockFromType === "other_filial"
+                          ? "e.g., Branch Office Moscow"
+                          : "e.g., John Doe (баргардондан ��з мизоҷ)"
                     }
                   />
                 </div>
@@ -1515,17 +1822,26 @@ export default function Warehouse() {
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="stockInLocation">Location *</Label>
-                  <Select value={stockLocation} onValueChange={setStockLocation}>
+                  <Select
+                    value={stockLocation}
+                    onValueChange={setStockLocation}
+                  >
                     <SelectTrigger>
                       <SelectValue placeholder="Select location" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="Main Warehouse">Main Warehouse</SelectItem>
+                      <SelectItem value="Main Warehouse">
+                        Main Warehouse
+                      </SelectItem>
                       <SelectItem value="Magazine A">Magazine A</SelectItem>
                       <SelectItem value="Magazine B">Magazine B</SelectItem>
                       <SelectItem value="Magazine C">Magazine C</SelectItem>
-                      <SelectItem value="Storage Room 1">Storage Room 1</SelectItem>
-                      <SelectItem value="Storage Room 2">Storage Room 2</SelectItem>
+                      <SelectItem value="Storage Room 1">
+                        Storage Room 1
+                      </SelectItem>
+                      <SelectItem value="Storage Room 2">
+                        Storage Room 2
+                      </SelectItem>
                       <SelectItem value="Cold Storage">Cold Storage</SelectItem>
                       <SelectItem value="Loading Dock">Loading Dock</SelectItem>
                     </SelectContent>
@@ -1545,8 +1861,18 @@ export default function Warehouse() {
             </div>
             {selectedProduct && (
               <div className="p-3 bg-muted rounded-lg">
-                <div className="text-sm text-muted-foreground">Current Stock: <span className="font-medium">{selectedProduct.quantity}</span></div>
-                <div className="text-sm text-muted-foreground">New Stock: <span className="font-medium">{selectedProduct.quantity + stockQuantity}</span></div>
+                <div className="text-sm text-muted-foreground">
+                  Current Stock:{" "}
+                  <span className="font-medium">
+                    {selectedProduct.quantity}
+                  </span>
+                </div>
+                <div className="text-sm text-muted-foreground">
+                  New Stock:{" "}
+                  <span className="font-medium">
+                    {selectedProduct.quantity + stockQuantity}
+                  </span>
+                </div>
               </div>
             )}
             <div className="flex gap-2">
@@ -1554,16 +1880,19 @@ export default function Warehouse() {
                 <ArrowUp className="mr-2 h-4 w-4" />
                 Add Stock
               </Button>
-              <Button variant="outline" onClick={() => {
-                setIsStockInDialogOpen(false);
-                setStockQuantity(0);
-                setStockReason("");
-                setStockNotes("");
-                setStockLocation("");
-                setStockFrom("");
-                setStockFromType("");
-                setSelectedProduct(null);
-              }}>
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setIsStockInDialogOpen(false);
+                  setStockQuantity(0);
+                  setStockReason("");
+                  setStockNotes("");
+                  setStockLocation("");
+                  setStockFrom("");
+                  setStockFromType("");
+                  setSelectedProduct(null);
+                }}
+              >
                 Cancel
               </Button>
             </div>
@@ -1572,8 +1901,15 @@ export default function Warehouse() {
       </Dialog>
 
       {/* Stock Out Dialog */}
-      <Dialog open={isStockOutDialogOpen} onOpenChange={setIsStockOutDialogOpen}>
-        <DialogContent className="max-w-md" onPointerDownOutside={(e) => e.preventDefault()} onEscapeKeyDown={(e) => e.preventDefault()}>
+      <Dialog
+        open={isStockOutDialogOpen}
+        onOpenChange={setIsStockOutDialogOpen}
+      >
+        <DialogContent
+          className="max-w-md"
+          onPointerDownOutside={(e) => e.preventDefault()}
+          onEscapeKeyDown={(e) => e.preventDefault()}
+        >
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <ArrowDown className="h-5 w-5 text-red-600" />
@@ -1592,7 +1928,9 @@ export default function Warehouse() {
                 min="1"
                 max={selectedProduct?.quantity || 0}
                 value={stockQuantity}
-                onChange={(e) => setStockQuantity(parseInt(e.target.value) || 0)}
+                onChange={(e) =>
+                  setStockQuantity(parseInt(e.target.value) || 0)
+                }
                 placeholder="Enter quantity"
               />
             </div>
@@ -1614,18 +1952,20 @@ export default function Warehouse() {
               {stockToType && (
                 <div className="space-y-2">
                   <Label htmlFor="stockTo">
-                    {stockToType === 'client' && 'Client Name *'}
-                    {stockToType === 'other_filial' && 'Filial/Branch Name *'}
-                    {stockToType === 'discarded' && 'Discard Reason *'}
+                    {stockToType === "client" && "Client Name *"}
+                    {stockToType === "other_filial" && "Filial/Branch Name *"}
+                    {stockToType === "discarded" && "Discard Reason *"}
                   </Label>
                   <Input
                     id="stockTo"
                     value={stockTo}
                     onChange={(e) => setStockTo(e.target.value)}
                     placeholder={
-                      stockToType === 'client' ? 'e.g., ABC Company Ltd.' :
-                      stockToType === 'other_filial' ? 'e.g., Branch Office Dubai' :
-                      'e.g., Damaged, Expired, Lost'
+                      stockToType === "client"
+                        ? "e.g., ABC Company Ltd."
+                        : stockToType === "other_filial"
+                          ? "e.g., Branch Office Dubai"
+                          : "e.g., Damaged, Expired, Lost"
                     }
                   />
                 </div>
@@ -1648,17 +1988,26 @@ export default function Warehouse() {
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="stockOutLocation">Location *</Label>
-                  <Select value={stockLocation} onValueChange={setStockLocation}>
+                  <Select
+                    value={stockLocation}
+                    onValueChange={setStockLocation}
+                  >
                     <SelectTrigger>
                       <SelectValue placeholder="Select location" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="Main Warehouse">Main Warehouse</SelectItem>
+                      <SelectItem value="Main Warehouse">
+                        Main Warehouse
+                      </SelectItem>
                       <SelectItem value="Magazine A">Magazine A</SelectItem>
                       <SelectItem value="Magazine B">Magazine B</SelectItem>
                       <SelectItem value="Magazine C">Magazine C</SelectItem>
-                      <SelectItem value="Storage Room 1">Storage Room 1</SelectItem>
-                      <SelectItem value="Storage Room 2">Storage Room 2</SelectItem>
+                      <SelectItem value="Storage Room 1">
+                        Storage Room 1
+                      </SelectItem>
+                      <SelectItem value="Storage Room 2">
+                        Storage Room 2
+                      </SelectItem>
                       <SelectItem value="Cold Storage">Cold Storage</SelectItem>
                       <SelectItem value="Loading Dock">Loading Dock</SelectItem>
                     </SelectContent>
@@ -1678,10 +2027,22 @@ export default function Warehouse() {
             </div>
             {selectedProduct && (
               <div className="p-3 bg-muted rounded-lg">
-                <div className="text-sm text-muted-foreground">Current Stock: <span className="font-medium">{selectedProduct.quantity}</span></div>
-                <div className="text-sm text-muted-foreground">Remaining Stock: <span className="font-medium">{Math.max(0, selectedProduct.quantity - stockQuantity)}</span></div>
+                <div className="text-sm text-muted-foreground">
+                  Current Stock:{" "}
+                  <span className="font-medium">
+                    {selectedProduct.quantity}
+                  </span>
+                </div>
+                <div className="text-sm text-muted-foreground">
+                  Remaining Stock:{" "}
+                  <span className="font-medium">
+                    {Math.max(0, selectedProduct.quantity - stockQuantity)}
+                  </span>
+                </div>
                 {stockQuantity > selectedProduct.quantity && (
-                  <div className="text-sm text-red-600 mt-1">⚠️ Cannot remove more than available stock</div>
+                  <div className="text-sm text-red-600 mt-1">
+                    ⚠️ Cannot remove more than available stock
+                  </div>
                 )}
               </div>
             )}
@@ -1690,16 +2051,19 @@ export default function Warehouse() {
                 <ArrowDown className="mr-2 h-4 w-4" />
                 Remove Stock
               </Button>
-              <Button variant="outline" onClick={() => {
-                setIsStockOutDialogOpen(false);
-                setStockQuantity(0);
-                setStockReason("");
-                setStockNotes("");
-                setStockLocation("");
-                setStockTo("");
-                setStockToType("");
-                setSelectedProduct(null);
-              }}>
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setIsStockOutDialogOpen(false);
+                  setStockQuantity(0);
+                  setStockReason("");
+                  setStockNotes("");
+                  setStockLocation("");
+                  setStockTo("");
+                  setStockToType("");
+                  setSelectedProduct(null);
+                }}
+              >
                 Cancel
               </Button>
             </div>
@@ -1709,7 +2073,11 @@ export default function Warehouse() {
 
       {/* View Product Dialog */}
       <Dialog open={isViewDialogOpen} onOpenChange={setIsViewDialogOpen}>
-        <DialogContent className="max-w-2xl" onPointerDownOutside={(e) => e.preventDefault()} onEscapeKeyDown={(e) => e.preventDefault()}>
+        <DialogContent
+          className="max-w-2xl"
+          onPointerDownOutside={(e) => e.preventDefault()}
+          onEscapeKeyDown={(e) => e.preventDefault()}
+        >
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <Package className="h-5 w-5" />
@@ -1734,13 +2102,19 @@ export default function Warehouse() {
 
               <div>
                 <div className="text-sm text-muted-foreground">Description</div>
-                <div>{selectedProduct.description || "No description available"}</div>
+                <div>
+                  {selectedProduct.description || "No description available"}
+                </div>
               </div>
 
               <div className="grid grid-cols-3 gap-4 border rounded-lg p-4">
                 <div>
-                  <div className="text-sm text-muted-foreground">Current Stock</div>
-                  <div className="text-2xl font-bold">{selectedProduct.quantity}</div>
+                  <div className="text-sm text-muted-foreground">
+                    Current Stock
+                  </div>
+                  <div className="text-2xl font-bold">
+                    {selectedProduct.quantity}
+                  </div>
                 </div>
                 <div>
                   <div className="text-sm text-muted-foreground">Min Stock</div>
@@ -1754,12 +2128,20 @@ export default function Warehouse() {
 
               <div className="grid grid-cols-2 gap-4 border rounded-lg p-4">
                 <div>
-                  <div className="text-sm text-muted-foreground">Cost Price</div>
-                  <div className="text-lg font-semibold">${selectedProduct.costPrice}</div>
+                  <div className="text-sm text-muted-foreground">
+                    Cost Price
+                  </div>
+                  <div className="text-lg font-semibold">
+                    ${selectedProduct.costPrice}
+                  </div>
                 </div>
                 <div>
-                  <div className="text-sm text-muted-foreground">Selling Price</div>
-                  <div className="text-lg font-semibold text-green-600">${selectedProduct.sellingPrice}</div>
+                  <div className="text-sm text-muted-foreground">
+                    Selling Price
+                  </div>
+                  <div className="text-lg font-semibold text-green-600">
+                    ${selectedProduct.sellingPrice}
+                  </div>
                 </div>
               </div>
 
@@ -1770,7 +2152,18 @@ export default function Warehouse() {
                 </div>
                 <div>
                   <div>Updated: {selectedProduct.updatedAt}</div>
-                  <div>Profit Margin: {selectedProduct.sellingPrice > 0 ? (((selectedProduct.sellingPrice - selectedProduct.costPrice) / selectedProduct.sellingPrice) * 100).toFixed(1) : 0}%</div>
+                  <div>
+                    Profit Margin:{" "}
+                    {selectedProduct.sellingPrice > 0
+                      ? (
+                          ((selectedProduct.sellingPrice -
+                            selectedProduct.costPrice) /
+                            selectedProduct.sellingPrice) *
+                          100
+                        ).toFixed(1)
+                      : 0}
+                    %
+                  </div>
                 </div>
               </div>
             </div>
