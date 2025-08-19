@@ -706,6 +706,9 @@ export default function Warehouse() {
         type === "stock_out"
           ? product.quantity - quantity
           : product.quantity + quantity,
+      storeId: "store1",
+      storeName: "Main Warehouse",
+      reference: `${type.toUpperCase()}-${Date.now()}`,
     };
 
     setStockMovements([movement, ...stockMovements]);
