@@ -66,7 +66,17 @@ import {
   FileSpreadsheet,
   ChevronDown,
   X,
+  Building2,
 } from "lucide-react";
+
+// Mock filials data
+const mockFilials = [
+  { id: "store1", name: "Main Warehouse" },
+  { id: "store2", name: "Downtown Retail Store" },
+  { id: "store3", name: "North Branch" },
+  { id: "store4", name: "Online Fulfillment Center" },
+  { id: "store5", name: "Bukhara Branch" },
+];
 import {
   DropdownMenu,
   DropdownMenuContent,
