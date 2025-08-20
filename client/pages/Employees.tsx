@@ -865,6 +865,8 @@ export default function Employees() {
       skills: employee.skills,
       notes: employee.notes,
       salesTarget: employee.salesTarget,
+      filialId: employee.filialId || "",
+      filialName: employee.filialName || "",
     });
     setCurrentSkill("");
     setIsEditEmployeeOpen(true);
