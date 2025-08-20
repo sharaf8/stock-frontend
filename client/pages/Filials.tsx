@@ -846,6 +846,39 @@ export default function Filials() {
                 </div>
               </div>
 
+              {/* Employees Section */}
+              <div className="bg-muted/30 rounded-lg p-3">
+                <div className="text-xs text-muted-foreground mb-2 flex items-center gap-1">
+                  <User className="h-3 w-3" />
+                  Employees Working Here
+                </div>
+                <div className="space-y-2 max-h-32 overflow-y-auto">
+                  {(() => {
+                    const employees = mockUsers.filter(user => user.filialId === selectedFilial.id);
+                    return employees.length > 0 ? (
+                      employees.map((employee) => (
+                        <div key={employee.id} className="flex items-center justify-between py-1 px-2 bg-background/80 rounded-sm">
+                          <div className="flex-1 min-w-0">
+                            <div className="text-sm font-medium truncate">{employee.name}</div>
+                            <div className="text-xs text-muted-foreground truncate">
+                              {employee.title} • {employee.department}
+                            </div>
+                          </div>
+                          <div className="text-xs px-2 py-1 rounded bg-muted/50">
+                            {employee.role}
+                          </div>
+                        </div>
+                      ))
+                    ) : (
+                      <div className="text-center text-muted-foreground italic py-2">
+                        No employees assigned to this location
+                      </div>
+                    );
+                  })()
+                  }
+                </div>
+              </div>
+
               <div className="grid grid-cols-2 gap-3 text-xs text-muted-foreground border-t pt-3">
                 <div>
                   📅 Created: {selectedFilial.createdAt}
