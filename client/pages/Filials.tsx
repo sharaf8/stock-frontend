@@ -269,7 +269,7 @@ export default function Filials() {
       status: newFilial.status as "active" | "inactive" | "maintenance",
       openingHours: newFilial.openingHours,
       capacity: newFilial.capacity || 0,
-      currentStaff: newFilial.currentStaff || 0,
+      currentStaff: 0,
       createdAt: new Date().toISOString().split("T")[0],
       updatedAt: new Date().toISOString().split("T")[0],
     };
@@ -320,7 +320,7 @@ export default function Filials() {
       status: newFilial.status as "active" | "inactive" | "maintenance",
       openingHours: newFilial.openingHours,
       capacity: newFilial.capacity || 0,
-      currentStaff: newFilial.currentStaff || 0,
+      currentStaff: editingFilial.currentStaff,
       updatedAt: new Date().toISOString().split("T")[0],
     };
 
