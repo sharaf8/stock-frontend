@@ -958,13 +958,96 @@ export default function Filials() {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="editManager">Manager *</Label>
+                <Label htmlFor="editCountry">Country</Label>
                 <Input
-                  id="editManager"
-                  placeholder="John Smith"
-                  value={newFilial.manager}
+                  id="editCountry"
+                  placeholder="Uzbekistan"
+                  value={newFilial.country}
                   onChange={(e) =>
-                    setNewFilial({ ...newFilial, manager: e.target.value })
+                    setNewFilial({ ...newFilial, country: e.target.value })
+                  }
+                />
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="editPhone">Phone</Label>
+                <Input
+                  id="editPhone"
+                  placeholder="+998 71 123 4567"
+                  value={newFilial.phone}
+                  onChange={(e) =>
+                    setNewFilial({ ...newFilial, phone: e.target.value })
+                  }
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="editEmail">Email</Label>
+                <Input
+                  id="editEmail"
+                  type="email"
+                  placeholder="store@company.uz"
+                  value={newFilial.email}
+                  onChange={(e) =>
+                    setNewFilial({ ...newFilial, email: e.target.value })
+                  }
+                />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="editManager">Manager *</Label>
+              <Input
+                id="editManager"
+                placeholder="John Smith"
+                value={newFilial.manager}
+                onChange={(e) =>
+                  setNewFilial({ ...newFilial, manager: e.target.value })
+                }
+              />
+            </div>
+            <div className="grid grid-cols-3 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="editStatus">Status</Label>
+                <Select
+                  value={newFilial.status}
+                  onValueChange={(value) =>
+                    setNewFilial({ ...newFilial, status: value as "active" | "inactive" | "maintenance" })
+                  }
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="active">Active</SelectItem>
+                    <SelectItem value="inactive">Inactive</SelectItem>
+                    <SelectItem value="maintenance">Maintenance</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="editCapacity">Capacity</Label>
+                <Input
+                  id="editCapacity"
+                  type="number"
+                  min="0"
+                  placeholder="500"
+                  value={newFilial.capacity}
+                  onChange={(e) =>
+                    setNewFilial({
+                      ...newFilial,
+                      capacity: parseInt(e.target.value) || 0,
+                    })
+                  }
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="editOpeningHours">Opening Hours</Label>
+                <Input
+                  id="editOpeningHours"
+                  placeholder="09:00 - 18:00"
+                  value={newFilial.openingHours}
+                  onChange={(e) =>
+                    setNewFilial({ ...newFilial, openingHours: e.target.value })
                   }
                 />
               </div>
