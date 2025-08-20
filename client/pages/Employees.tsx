@@ -756,6 +756,8 @@ export default function Employees() {
       department: newEmployee.department!,
       position: newEmployee.position || "",
       role: newEmployee.role || "worker",
+      filialId: newEmployee.filialId!,
+      filialName: newEmployee.filialName!,
       salary: newEmployee.salary || 0,
       commission: newEmployee.commission || 0,
       status: "active",
