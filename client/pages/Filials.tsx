@@ -809,7 +809,7 @@ export default function Filials() {
                 <div className="text-center">
                   <div className="text-xs text-muted-foreground">Current Staff</div>
                   <div className="text-xl font-bold text-primary">
-                    {selectedFilial.currentStaff}
+                    {mockUsers.filter(user => user.filialId === selectedFilial.id).length}
                   </div>
                 </div>
                 <div className="text-center">
