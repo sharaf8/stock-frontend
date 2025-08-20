@@ -50,6 +50,7 @@ import {
   Mail,
   User,
   Calendar,
+  Package,
 } from "lucide-react";
 
 interface Filial {
@@ -872,6 +873,86 @@ export default function Filials() {
                     ) : (
                       <div className="text-center text-muted-foreground italic py-2">
                         No employees assigned to this location
+                      </div>
+                    );
+                  })()
+                  }
+                </div>
+              </div>
+
+              {/* Products Section */}
+              <div className="bg-muted/30 rounded-lg p-3">
+                <div className="text-xs text-muted-foreground mb-2 flex items-center gap-1">
+                  <Package className="h-3 w-3" />
+                  Product Inventory
+                </div>
+                <div className="space-y-2 max-h-40 overflow-y-auto">
+                  {(() => {
+                    // Mock products data - in real app this would come from props or context
+                    const mockProducts = [
+                      {
+                        id: "1",
+                        name: "iPhone 15 Pro",
+                        sku: "APL-IP15P-128",
+                        stores: [
+                          { storeId: "store1", storeName: "Main Warehouse", quantity: 15, location: "A1-B2" },
+                          { storeId: "store2", storeName: "Downtown Retail Store", quantity: 5, location: "Display-01" },
+                          { storeId: "store4", storeName: "Online Fulfillment Center", quantity: 3, location: "E-COM-A12" },
+                        ]
+                      },
+                      {
+                        id: "2",
+                        name: "Samsung Galaxy S24",
+                        sku: "SAM-GS24-256",
+                        stores: [
+                          { storeId: "store1", storeName: "Main Warehouse", quantity: 20, location: "A1-B3" },
+                          { storeId: "store2", storeName: "Downtown Retail Store", quantity: 8, location: "Display-02" },
+                          { storeId: "store3", storeName: "North Branch", quantity: 4, location: "Display-A3" },
+                        ]
+                      },
+                      {
+                        id: "3",
+                        name: "Nike Air Max",
+                        sku: "NIK-AM90-42",
+                        stores: [
+                          { storeId: "store3", storeName: "North Branch", quantity: 2, location: "Footwear-B1" },
+                        ]
+                      },
+                      {
+                        id: "4",
+                        name: "MacBook Air M3",
+                        sku: "APL-MBA-M3-13",
+                        stores: [
+                          { storeId: "store1", storeName: "Main Warehouse", quantity: 8, location: "C1-D2" },
+                          { storeId: "store4", storeName: "Online Fulfillment Center", quantity: 4, location: "E-COM-L05" },
+                        ]
+                      },
+                    ];
+
+                    const productsInThisFilial = mockProducts
+                      .map(product => {
+                        const storeData = product.stores.find(store => store.storeId === selectedFilial.id);
+                        return storeData ? { ...product, storeQuantity: storeData.quantity, storeLocation: storeData.location } : null;
+                      })
+                      .filter(Boolean);
+
+                    return productsInThisFilial.length > 0 ? (
+                      productsInThisFilial.map((product) => (
+                        <div key={product.id} className="flex items-center justify-between py-1 px-2 bg-background/80 rounded-sm">
+                          <div className="flex-1 min-w-0">
+                            <div className="text-sm font-medium truncate">{product.name}</div>
+                            <div className="text-xs text-muted-foreground truncate">
+                              {product.sku} • {product.storeLocation}
+                            </div>
+                          </div>
+                          <div className="text-xs px-2 py-1 rounded bg-muted/50 font-medium">
+                            {product.storeQuantity}
+                          </div>
+                        </div>
+                      ))
+                    ) : (
+                      <div className="text-center text-muted-foreground italic py-2">
+                        No products stored at this location
                       </div>
                     );
                   })()
