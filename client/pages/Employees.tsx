@@ -307,6 +307,8 @@ export default function Employees() {
     skills: [],
     notes: "",
     salesTarget: 0,
+    filialId: "",
+    filialName: "",
   });
 
   const [newAttendance, setNewAttendance] = useState<Partial<AttendanceEntry>>({
