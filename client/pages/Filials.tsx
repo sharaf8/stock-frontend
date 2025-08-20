@@ -696,7 +696,7 @@ export default function Filials() {
                   </TableCell>
                   <TableCell>
                     <div className="text-sm">
-                      <span className="font-medium">{filial.currentStaff}</span>
+                      <span className="font-medium">{mockUsers.filter(user => user.filialId === filial.id).length}</span>
                       {filial.capacity > 0 && (
                         <span className="text-muted-foreground">
                           /{filial.capacity}
