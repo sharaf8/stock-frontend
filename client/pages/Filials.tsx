@@ -181,7 +181,6 @@ export default function Filials() {
     status: "active",
     openingHours: "",
     capacity: 0,
-    currentStaff: 0,
   });
   const { toast } = useToast();
 
@@ -289,7 +288,6 @@ export default function Filials() {
       status: "active",
       openingHours: "",
       capacity: 0,
-      currentStaff: 0,
     });
     setIsAddDialogOpen(false);
 
@@ -339,7 +337,6 @@ export default function Filials() {
       status: "active",
       openingHours: "",
       capacity: 0,
-      currentStaff: 0,
     });
     setEditingFilial(null);
     setIsEditDialogOpen(false);
