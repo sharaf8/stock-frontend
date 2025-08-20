@@ -489,7 +489,7 @@ export default function Filials() {
                   }
                 />
               </div>
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="status">Status</Label>
                   <Select
@@ -520,22 +520,6 @@ export default function Filials() {
                       setNewFilial({
                         ...newFilial,
                         capacity: parseInt(e.target.value) || 0,
-                      })
-                    }
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="currentStaff">Current Staff</Label>
-                  <Input
-                    id="currentStaff"
-                    type="number"
-                    min="0"
-                    placeholder="5"
-                    value={newFilial.currentStaff}
-                    onChange={(e) =>
-                      setNewFilial({
-                        ...newFilial,
-                        currentStaff: parseInt(e.target.value) || 0,
                       })
                     }
                   />
