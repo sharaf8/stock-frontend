@@ -617,6 +617,8 @@ export default function Employees() {
       skills: [],
       notes: "",
       salesTarget: 0,
+      filialId: "",
+      filialName: "",
     });
     setCurrentSkill("");
   };
