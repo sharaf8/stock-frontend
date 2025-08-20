@@ -1662,6 +1662,34 @@ ${data.timeEntries
                     />
                   </div>
                 </div>
+                <div className="space-y-2">
+                  <Label htmlFor="filial" className="flex items-center gap-2">
+                    <Building2 className="h-4 w-4" />
+                    Work Location (Filial) *
+                  </Label>
+                  <Select
+                    value={newEmployee.filialId}
+                    onValueChange={(value) => {
+                      const selectedFilial = mockFilials.find(f => f.id === value);
+                      setNewEmployee({
+                        ...newEmployee,
+                        filialId: value,
+                        filialName: selectedFilial?.name || ""
+                      });
+                    }}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select work location" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {mockFilials.map(filial => (
+                        <SelectItem key={filial.id} value={filial.id}>
+                          {filial.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="role">Role</Label>
