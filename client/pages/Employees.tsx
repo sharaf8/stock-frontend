@@ -1676,11 +1676,13 @@ ${data.timeEntries
                   <Select
                     value={newEmployee.filialId}
                     onValueChange={(value) => {
-                      const selectedFilial = mockFilials.find(f => f.id === value);
+                      const selectedFilial = mockFilials.find(
+                        (f) => f.id === value,
+                      );
                       setNewEmployee({
                         ...newEmployee,
                         filialId: value,
-                        filialName: selectedFilial?.name || ""
+                        filialName: selectedFilial?.name || "",
                       });
                     }}
                   >
@@ -1688,7 +1690,7 @@ ${data.timeEntries
                       <SelectValue placeholder="Select work location" />
                     </SelectTrigger>
                     <SelectContent>
-                      {mockFilials.map(filial => (
+                      {mockFilials.map((filial) => (
                         <SelectItem key={filial.id} value={filial.id}>
                           {filial.name}
                         </SelectItem>

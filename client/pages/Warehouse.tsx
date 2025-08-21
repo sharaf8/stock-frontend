@@ -889,10 +889,7 @@ export default function Warehouse() {
       supplier: newProduct.supplier || "",
       location: newProduct.location || "",
       tags: newProduct.tags || [],
-      status: calculateStatus(
-        0,
-        newProduct.minStock || 0,
-      ),
+      status: calculateStatus(0, newProduct.minStock || 0),
       createdAt: new Date().toISOString().split("T")[0],
       updatedAt: new Date().toISOString().split("T")[0],
     };
@@ -2398,27 +2395,33 @@ export default function Warehouse() {
 
               {selectedProduct.description && (
                 <div>
-                  <div className="text-xs text-muted-foreground">Description</div>
-                  <div className="text-sm">
-                    {selectedProduct.description}
+                  <div className="text-xs text-muted-foreground">
+                    Description
                   </div>
+                  <div className="text-sm">{selectedProduct.description}</div>
                 </div>
               )}
 
               <div className="grid grid-cols-3 gap-3 bg-muted/30 rounded-lg p-3">
                 <div className="text-center">
-                  <div className="text-xs text-muted-foreground">Total Stock</div>
+                  <div className="text-xs text-muted-foreground">
+                    Total Stock
+                  </div>
                   <div className="text-xl font-bold text-primary">
                     {selectedProduct.quantity}
                   </div>
                 </div>
                 <div className="text-center">
                   <div className="text-xs text-muted-foreground">Min Stock</div>
-                  <div className="text-sm font-medium">{selectedProduct.minStock}</div>
+                  <div className="text-sm font-medium">
+                    {selectedProduct.minStock}
+                  </div>
                 </div>
                 <div className="text-center">
                   <div className="text-xs text-muted-foreground">Max Stock</div>
-                  <div className="text-sm font-medium">{selectedProduct.maxStock}</div>
+                  <div className="text-sm font-medium">
+                    {selectedProduct.maxStock}
+                  </div>
                 </div>
               </div>
 
@@ -2448,13 +2451,17 @@ export default function Warehouse() {
                           className="flex items-center justify-between py-2 px-2 bg-background/80 rounded-sm"
                         >
                           <div className="flex-1 min-w-0">
-                            <div className="text-sm font-medium truncate">{store.storeName}</div>
+                            <div className="text-sm font-medium truncate">
+                              {store.storeName}
+                            </div>
                             <div className="text-xs text-muted-foreground truncate">
                               {store.location}
                             </div>
                           </div>
                           <div className="text-right flex items-center gap-2">
-                            <div className={`text-xs px-1 py-0.5 rounded bg-muted/50 ${typeColor}`}>
+                            <div
+                              className={`text-xs px-1 py-0.5 rounded bg-muted/50 ${typeColor}`}
+                            >
                               {storeType}
                             </div>
                             <div className="text-sm font-bold min-w-[2rem]">
@@ -2474,13 +2481,17 @@ export default function Warehouse() {
 
               <div className="grid grid-cols-2 gap-3 bg-muted/30 rounded-lg p-3">
                 <div className="text-center">
-                  <div className="text-xs text-muted-foreground">Cost Price</div>
+                  <div className="text-xs text-muted-foreground">
+                    Cost Price
+                  </div>
                   <div className="text-sm font-semibold">
                     ${selectedProduct.costPrice}
                   </div>
                 </div>
                 <div className="text-center">
-                  <div className="text-xs text-muted-foreground">Selling Price</div>
+                  <div className="text-xs text-muted-foreground">
+                    Selling Price
+                  </div>
                   <div className="text-sm font-semibold text-green-600">
                     ${selectedProduct.sellingPrice}
                   </div>
