@@ -876,9 +876,9 @@ export default function Filials() {
                         name: "iPhone 15 Pro",
                         sku: "APL-IP15P-128",
                         stores: [
-                          { storeId: "store1", storeName: "Main Warehouse", quantity: 15, location: "A1-B2" },
-                          { storeId: "store2", storeName: "Downtown Retail Store", quantity: 5, location: "Display-01" },
-                          { storeId: "store4", storeName: "Online Fulfillment Center", quantity: 3, location: "E-COM-A12" },
+                          { storeId: "1", storeName: "Main Warehouse", quantity: 15, location: "A1-B2" },
+                          { storeId: "2", storeName: "Downtown Retail Store", quantity: 5, location: "Display-01" },
+                          { storeId: "4", storeName: "Online Fulfillment Center", quantity: 3, location: "E-COM-A12" },
                         ]
                       },
                       {
@@ -886,9 +886,9 @@ export default function Filials() {
                         name: "Samsung Galaxy S24",
                         sku: "SAM-GS24-256",
                         stores: [
-                          { storeId: "store1", storeName: "Main Warehouse", quantity: 20, location: "A1-B3" },
-                          { storeId: "store2", storeName: "Downtown Retail Store", quantity: 8, location: "Display-02" },
-                          { storeId: "store3", storeName: "North Branch", quantity: 4, location: "Display-A3" },
+                          { storeId: "1", storeName: "Main Warehouse", quantity: 20, location: "A1-B3" },
+                          { storeId: "2", storeName: "Downtown Retail Store", quantity: 8, location: "Display-02" },
+                          { storeId: "3", storeName: "North Branch", quantity: 4, location: "Display-A3" },
                         ]
                       },
                       {
@@ -896,7 +896,8 @@ export default function Filials() {
                         name: "Nike Air Max",
                         sku: "NIK-AM90-42",
                         stores: [
-                          { storeId: "store3", storeName: "North Branch", quantity: 2, location: "Footwear-B1" },
+                          { storeId: "3", storeName: "North Branch", quantity: 2, location: "Footwear-B1" },
+                          { storeId: "5", storeName: "Bukhara Branch", quantity: 3, location: "Shoes-A1" },
                         ]
                       },
                       {
@@ -904,8 +905,25 @@ export default function Filials() {
                         name: "MacBook Air M3",
                         sku: "APL-MBA-M3-13",
                         stores: [
-                          { storeId: "store1", storeName: "Main Warehouse", quantity: 8, location: "C1-D2" },
-                          { storeId: "store4", storeName: "Online Fulfillment Center", quantity: 4, location: "E-COM-L05" },
+                          { storeId: "1", storeName: "Main Warehouse", quantity: 8, location: "C1-D2" },
+                          { storeId: "4", storeName: "Online Fulfillment Center", quantity: 4, location: "E-COM-L05" },
+                        ]
+                      },
+                      {
+                        id: "5",
+                        name: "Dell XPS 13",
+                        sku: "DELL-XPS13-512",
+                        stores: [
+                          { storeId: "2", storeName: "Downtown Retail Store", quantity: 6, location: "Tech-B2" },
+                          { storeId: "3", storeName: "North Branch", quantity: 3, location: "Laptops-C1" },
+                        ]
+                      },
+                      {
+                        id: "6",
+                        name: "Adidas Ultraboost",
+                        sku: "ADS-UB22-43",
+                        stores: [
+                          { storeId: "5", storeName: "Bukhara Branch", quantity: 5, location: "Sports-A2" },
                         ]
                       },
                     ];
